@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5d9b1265-5dfe-490c-981a-21235011ec2a" name="Default" comment="" />
+    <list default="true" id="5d9b1265-5dfe-490c-981a-21235011ec2a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/hello-2/app.js" afterPath="$PROJECT_DIR$/output/hello-2/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="makomi.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/index.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370812591780" ignored="false" />
@@ -15,6 +19,9 @@
     <file path="/output-base.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651114520" ignored="false" />
     <file path="/list.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370812698497" ignored="false" />
     <file path="/package.json" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370813784134" ignored="false" />
+    <file path="/Dummy.txt" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370814911764" ignored="false" />
+    <file path="/README" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370815064682" ignored="false" />
+    <file path="/router.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370818565337" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,10 +97,19 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/index.ejs">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="7" column="26" selection-start="168" selection-end="168" vertical-scroll-proportion="0.14644352">
+                <state line="7" column="26" selection-start="168" selection-end="168" vertical-scroll-proportion="-4.375">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="router.js" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="6" column="45" selection-start="172" selection-end="172" vertical-scroll-proportion="0.12145749">
                   <folding />
                 </state>
               </provider>
@@ -115,16 +131,16 @@
           <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-world/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="35" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+                <state line="5" column="21" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="14" column="42" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0">
+                <state line="6" column="0" selection-start="188" selection-end="188" vertical-scroll-proportion="0.12145749">
                   <folding />
                 </state>
               </provider>
@@ -133,7 +149,16 @@
           <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/routes/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="60" selection-start="65" selection-end="123" vertical-scroll-proportion="0.0">
+                <state line="5" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="README" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/README">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="1" column="80" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -142,7 +167,7 @@
           <file leaf-file-name="user.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/routes/user.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="24" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
+                <state line="5" column="0" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -151,16 +176,16 @@
           <file leaf-file-name="list.ejs" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/views/users/list.ejs">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="14" column="89" selection-start="263" selection-end="263" vertical-scroll-proportion="-8.75">
+                <state line="14" column="7" selection-start="263" selection-end="263" vertical-scroll-proportion="-8.75">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="11" column="15" selection-start="211" selection-end="211" vertical-scroll-proportion="0.23012552">
+                <state line="13" column="1" selection-start="218" selection-end="218" vertical-scroll-proportion="-8.125">
                   <folding />
                 </state>
               </provider>
@@ -175,29 +200,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="core.css" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/public/stylesheets/core.css">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="9" column="0" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <marker date="1370653801000" expanded="true" signature="28:101" placeholder="{...}" />
-                    <marker date="1370653801000" expanded="true" signature="246:285" placeholder="{...}" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="context.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/routes/context.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="19" selection-start="79" selection-end="96" vertical-scroll-proportion="0.0">
-                  <folding>
-                    <element signature="n#!!doc" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-second>
     </splitter>
@@ -207,11 +209,17 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/views/context.ejs" />
-        <option value="$PROJECT_DIR$/views/toolbox-base.ejs.html" />
         <option value="$PROJECT_DIR$/views/toolbox-base.ejs" />
         <option value="$PROJECT_DIR$/views/output-base.ejs" />
         <option value="$PROJECT_DIR$/app.js" />
@@ -220,12 +228,14 @@
         <option value="$PROJECT_DIR$/output/hello-world/package.json.js" />
         <option value="$PROJECT_DIR$/output/hello-world/package.json" />
         <option value="$PROJECT_DIR$/output/hello-world/app.js" />
-        <option value="$PROJECT_DIR$/output/hello-2/app.js" />
-        <option value="$PROJECT_DIR$/output/hello-2/routes/index.js" />
         <option value="$PROJECT_DIR$/output/hello-2/views/index.ejs" />
-        <option value="$PROJECT_DIR$/output/hello-2/routes/user.js" />
         <option value="$PROJECT_DIR$/output/hello-2/views/users/list.ejs" />
         <option value="$PROJECT_DIR$/output/hello-2/package.json" />
+        <option value="$PROJECT_DIR$/output/hello-2/README" />
+        <option value="$PROJECT_DIR$/output/hello-2/routes/user.js" />
+        <option value="$PROJECT_DIR$/output/hello-2/routes/index.js" />
+        <option value="$PROJECT_DIR$/output/hello-2/app.js" />
+        <option value="$PROJECT_DIR$/output/hello-2/router.js" />
       </list>
     </option>
   </component>
@@ -235,14 +245,14 @@
     <option name="width" value="1900" />
     <option name="height" value="1108" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
@@ -447,9 +457,13 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="recentsLimit" value="5" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -518,12 +532,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="10" y="22" width="1900" height="1108" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20138519" sideWeight="0.8016194" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20138519" sideWeight="0.8016194" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -599,22 +613,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="11" selection-start="111" selection-end="111" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/toolbox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="2" selection-start="126" selection-end="126" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/output.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="25" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0">
@@ -637,22 +635,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="9" column="0" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1370653801000" expanded="true" signature="28:101" placeholder="{...}" />
-            <marker date="1370653801000" expanded="true" signature="246:285" placeholder="{...}" />
+            <marker date="1370653801000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1370653801000" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/core.styl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="14" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/output/hello-world/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="35" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+        <state line="5" column="21" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -664,30 +655,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="42" selection-start="282" selection-end="282" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/style.styl">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="16" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="60" selection-start="65" selection-end="123" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="24" selection-start="90" selection-end="90" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -701,21 +671,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/index.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="26" selection-start="168" selection-end="168" vertical-scroll-proportion="0.14644352">
+        <state line="7" column="26" selection-start="168" selection-end="168" vertical-scroll-proportion="-4.375">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/output/hello-2/views/users/list.ejs">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="89" selection-start="263" selection-end="263" vertical-scroll-proportion="-8.75">
+        <state line="14" column="7" selection-start="263" selection-end="263" vertical-scroll-proportion="-8.75">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/output/hello-2/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="15" selection-start="211" selection-end="211" vertical-scroll-proportion="0.23012552">
+        <state line="13" column="1" selection-start="218" selection-end="218" vertical-scroll-proportion="-8.125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="80" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/core.styl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="14" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="188" selection-end="188" vertical-scroll-proportion="0.12145749">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="45" selection-start="172" selection-end="172" vertical-scroll-proportion="0.12145749">
           <folding />
         </state>
       </provider>

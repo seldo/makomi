@@ -1,11 +1,9 @@
-
 /**
- * Module dependencies.
+ * This is the core of the app. You define app-level configuration here,
+ * e.g. which libraries you're using, your server and clustering config.
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
 
@@ -26,12 +24,13 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+// TODO: should makomi get its own env or use dev?
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+// define routes
+require('./router.js')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
