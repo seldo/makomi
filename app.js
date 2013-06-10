@@ -4,10 +4,6 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , context = require('./routes/context')
-  , output = require('./routes/output')
-  , toolbox = require('./routes/toolbox')
   , http = require('http')
   , path = require('path');
 
@@ -30,11 +26,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// TODO: put these into a router like we did with hello-2
-app.get('/:project', routes.index);
-app.get('/:project/context', context.dom);
-app.get('/:project/output',  output.base);
-app.get('/:project/toolbox', toolbox.base)
+// globals to capture loaded configuration and state
+// FIXME: this seems like a dumb/unsafe way to do this
+var config;
+var appState;
+
+// define routes in their own file because that seems better
+require('./router.js')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

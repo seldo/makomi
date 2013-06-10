@@ -3,20 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="5d9b1265-5dfe-490c-981a-21235011ec2a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/hello-2/app.js" afterPath="$PROJECT_DIR$/output/hello-2/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/makomi-express/index.js" afterPath="$PROJECT_DIR$/node_modules/makomi-express/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/output.js" afterPath="$PROJECT_DIR$/routes/output.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/hello-2/router.js" afterPath="$PROJECT_DIR$/output/hello-2/router.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="makomi.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/index.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370822819212" ignored="false" />
+    <file path="/index.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370828585073" ignored="false" />
     <file path="/core.styl" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370653800209" ignored="false" />
-    <file path="/app.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651141020" ignored="false" />
+    <file path="/app.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370827787155" ignored="false" />
     <file path="/context.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370650917653" ignored="false" />
-    <file path="/output.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370822512837" ignored="false" />
+    <file path="/output.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370829782492" ignored="false" />
     <file path="/toolbox.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370650969429" ignored="false" />
     <file path="/context.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651068171" ignored="false" />
     <file path="/toolbox-base.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651102478" ignored="false" />
@@ -25,9 +24,9 @@
     <file path="/package.json" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370813784134" ignored="false" />
     <file path="/Dummy.txt" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370814911764" ignored="false" />
     <file path="/README" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370821705187" ignored="false" />
-    <file path="/router.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370818565337" ignored="false" />
+    <file path="/router.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370829817422" ignored="false" />
     <file path="/makomi.json" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370821687707" ignored="false" />
-    <file path="/index.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370822910476" ignored="false" />
+    <file path="/index.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370829370563" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,10 +48,10 @@
     <splitter split-orientation="horizontal" split-proportion="0.46497664">
       <split-first>
         <leaf>
-          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/views/index.ejs">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="40" selection-start="141" selection-end="141" vertical-scroll-proportion="0.097508125">
+                <state line="10" column="0" selection-start="368" selection-end="368" vertical-scroll-proportion="-6.25">
                   <folding />
                 </state>
               </provider>
@@ -61,7 +60,7 @@
           <file leaf-file-name="router.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="2" column="56" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0">
+                <state line="6" column="0" selection-start="110" selection-end="142" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -70,7 +69,7 @@
           <file leaf-file-name="makomi.json" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/makomi.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="0" selection-start="239" selection-end="239" vertical-scroll-proportion="-3.125">
+                <state line="6" column="1" selection-start="246" selection-end="246" vertical-scroll-proportion="-3.75">
                   <folding />
                 </state>
               </provider>
@@ -79,7 +78,7 @@
           <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/node_modules/makomi-express/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="23" column="10" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0">
+                <state line="9" column="16" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -94,10 +93,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="output.js" pinned="false" current="false" current-in-tab="false">
+          <file leaf-file-name="output.js" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/routes/output.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="8" column="2" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0">
+                <state line="14" column="0" selection-start="345" selection-end="345" vertical-scroll-proportion="0.21875">
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                   </folding>
@@ -109,28 +108,10 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/output/hello-world/package.json">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="21" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="31" column="60" selection-start="972" selection-end="972" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/output/hello-2/routes/index.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
+                <state line="33" column="0" selection-start="912" selection-end="1002" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -175,7 +156,16 @@
           <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="34" column="38" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0">
+                <state line="6" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="router.js" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/router.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="3" column="16" selection-start="84" selection-end="84" vertical-scroll-proportion="0.048025616">
                   <folding />
                 </state>
               </provider>
@@ -192,10 +182,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/routes/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="0" selection-start="63" selection-end="63" vertical-scroll-proportion="0.09605123">
+                <state line="17" column="55" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="routes.json.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/routes.json.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="1" column="0" selection-start="2" selection-end="2" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -221,9 +222,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/output/hello-2/views/users/list.ejs" />
-        <option value="$PROJECT_DIR$/output/hello-2/package.json" />
-        <option value="$PROJECT_DIR$/output/hello-2/README" />
         <option value="$PROJECT_DIR$/output/hello-2/routes/user.js" />
         <option value="$PROJECT_DIR$/output/hello-2/routes/index.js" />
         <option value="$PROJECT_DIR$/output/hello-2/app.js" />
@@ -233,10 +231,13 @@
         <option value="$PROJECT_DIR$/output/hello-2/node_modules/makomi-express/index.js" />
         <option value="$PROJECT_DIR$/output/hello-2/.makomi/makomi.json" />
         <option value="$PROJECT_DIR$/output/hello-2/.makomi/README" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/node_modules/makomi-express/index.js" />
+        <option value="$PROJECT_DIR$/output/hello-2/.makomi/routes.json.js" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/routes/output.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/router.js" />
       </list>
     </option>
   </component>
@@ -245,6 +246,28 @@
     <option name="y" value="22" />
     <option name="width" value="1900" />
     <option name="height" value="1108" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Control flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>CoffeeScript</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -504,7 +527,7 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
+    <property name="options.lastSelected" value="preferences.sourceCode.General" />
     <property name="recentsLimit" value="5" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="options.searchVisible" value="true" />
@@ -662,88 +685,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.25">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/README">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="66" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/makomi.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="239" selection-end="239" vertical-scroll-proportion="-3.125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/views/users/list.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="7" selection-start="263" selection-end="263" vertical-scroll-proportion="-8.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/makomi-express/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="10" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="56" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/output.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="2" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/dom.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="12" selection-start="12" selection-end="12" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/toolbox-base.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="16" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/output-base.ejs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="15" selection-start="15" selection-end="15" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="40" selection-start="141" selection-end="141" vertical-scroll-proportion="0.097508125">
           <folding />
         </state>
       </provider>
@@ -764,16 +708,97 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="38" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0">
+        <state line="17" column="55" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-world/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="21" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
+    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/routes.json.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="63" selection-end="63" vertical-scroll-proportion="0.09605123">
+        <state line="1" column="0" selection-start="2" selection-end="2" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="0" selection-start="912" selection-end="1002" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="368" selection-end="368" vertical-scroll-proportion="-6.25">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="110" selection-end="142" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/makomi.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="1" selection-start="246" selection-end="246" vertical-scroll-proportion="-3.75">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/makomi-express/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="16" selection-start="241" selection-end="241" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="66" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/output.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="0" selection-start="345" selection-end="345" vertical-scroll-proportion="0.21875">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="67" selection-end="67" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="16" selection-start="84" selection-end="84" vertical-scroll-proportion="0.048025616">
           <folding />
         </state>
       </provider>
