@@ -30,10 +30,11 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
-app.get('/context', context.dom);
-app.get('/output',  output.base);
-app.get('/toolbox', toolbox.base)
+// TODO: put these into a router like we did with hello-2
+app.get('/:project', routes.index);
+app.get('/:project/context', context.dom);
+app.get('/:project/output',  output.base);
+app.get('/:project/toolbox', toolbox.base)
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

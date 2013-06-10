@@ -2,17 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d9b1265-5dfe-490c-981a-21235011ec2a" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/hello-2/app.js" afterPath="$PROJECT_DIR$/output/hello-2/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/index.ejs" afterPath="$PROJECT_DIR$/views/index.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/output.js" afterPath="$PROJECT_DIR$/routes/output.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output/hello-2/router.js" afterPath="$PROJECT_DIR$/output/hello-2/router.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="makomi.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/index.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370812591780" ignored="false" />
+    <file path="/index.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370822819212" ignored="false" />
     <file path="/core.styl" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370653800209" ignored="false" />
     <file path="/app.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651141020" ignored="false" />
     <file path="/context.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370650917653" ignored="false" />
-    <file path="/output.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370650958251" ignored="false" />
+    <file path="/output.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370822512837" ignored="false" />
     <file path="/toolbox.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370650969429" ignored="false" />
     <file path="/context.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651068171" ignored="false" />
     <file path="/toolbox-base.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370651102478" ignored="false" />
@@ -20,8 +24,10 @@
     <file path="/list.ejs" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370812698497" ignored="false" />
     <file path="/package.json" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370813784134" ignored="false" />
     <file path="/Dummy.txt" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370814911764" ignored="false" />
-    <file path="/README" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370815064682" ignored="false" />
+    <file path="/README" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370821705187" ignored="false" />
     <file path="/router.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370818565337" ignored="false" />
+    <file path="/makomi.json" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370821687707" ignored="false" />
+    <file path="/index.js" changelist="5d9b1265-5dfe-490c-981a-21235011ec2a" time="1370822910476" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,74 +49,58 @@
     <splitter split-orientation="horizontal" split-proportion="0.46497664">
       <split-first>
         <leaf>
-          <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/package.json">
+          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/views/index.ejs">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="10" column="17" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.25">
+                <state line="6" column="40" selection-start="141" selection-end="141" vertical-scroll-proportion="0.097508125">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app.js">
+          <file leaf-file-name="router.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="7" column="11" selection-start="111" selection-end="111" vertical-scroll-proportion="0.0">
+                <state line="2" column="56" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="makomi.json" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/makomi.json">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="5" column="0" selection-start="239" selection-end="239" vertical-scroll-proportion="-3.125">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
           <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/routes/index.js">
+            <entry file="file://$PROJECT_DIR$/node_modules/makomi-express/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+                <state line="23" column="10" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dom.ejs" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/views/dom.ejs">
+          <file leaf-file-name="README" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/README">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="12" selection-start="12" selection-end="12" vertical-scroll-proportion="-0.0">
+                <state line="2" column="66" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="toolbox-base.ejs" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/views/toolbox-base.ejs">
+          <file leaf-file-name="output.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/routes/output.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="16" selection-start="16" selection-end="16" vertical-scroll-proportion="-0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="output-base.ejs" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/views/output-base.ejs">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="15" selection-start="15" selection-end="15" vertical-scroll-proportion="-0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/views/index.ejs">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="7" column="26" selection-start="168" selection-end="168" vertical-scroll-proportion="-4.375">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="router.js" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="45" selection-start="172" selection-end="172" vertical-scroll-proportion="0.12145749">
-                  <folding />
+                <state line="8" column="2" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0">
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -119,15 +109,6 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="core.styl" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/public/stylesheets/core.styl">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="8" column="14" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-world/package.json">
               <provider selected="true" editor-type-id="text-editor">
@@ -137,10 +118,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="6" column="0" selection-start="188" selection-end="188" vertical-scroll-proportion="0.12145749">
+                <state line="31" column="60" selection-start="972" selection-end="972" vertical-scroll-proportion="0.0">
                   <folding />
                 </state>
               </provider>
@@ -182,19 +163,39 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/output/hello-2/package.json">
+          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/output/hello-2/views/index.ejs">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="13" column="1" selection-start="218" selection-end="218" vertical-scroll-proportion="-8.125">
+                <state line="0" column="0" selection-start="0" selection-end="219" vertical-scroll-proportion="-0.0">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="index.ejs" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/output/hello-2/views/index.ejs">
+          <file leaf-file-name="app.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="0" column="0" selection-start="0" selection-end="219" vertical-scroll-proportion="-0.0">
+                <state line="34" column="38" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0">
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="context.js" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/routes/context.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="5" column="18" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.js" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/routes/index.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="6" column="0" selection-start="63" selection-end="63" vertical-scroll-proportion="0.09605123">
                   <folding />
                 </state>
               </provider>
@@ -220,15 +221,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/views/toolbox-base.ejs" />
-        <option value="$PROJECT_DIR$/views/output-base.ejs" />
-        <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/views/index.ejs" />
-        <option value="$PROJECT_DIR$/public/stylesheets/core.styl" />
-        <option value="$PROJECT_DIR$/output/hello-world/package.json.js" />
-        <option value="$PROJECT_DIR$/output/hello-world/package.json" />
-        <option value="$PROJECT_DIR$/output/hello-world/app.js" />
-        <option value="$PROJECT_DIR$/output/hello-2/views/index.ejs" />
         <option value="$PROJECT_DIR$/output/hello-2/views/users/list.ejs" />
         <option value="$PROJECT_DIR$/output/hello-2/package.json" />
         <option value="$PROJECT_DIR$/output/hello-2/README" />
@@ -236,6 +228,15 @@
         <option value="$PROJECT_DIR$/output/hello-2/routes/index.js" />
         <option value="$PROJECT_DIR$/output/hello-2/app.js" />
         <option value="$PROJECT_DIR$/output/hello-2/router.js" />
+        <option value="$PROJECT_DIR$/output/hello-2/.makomi" />
+        <option value="$PROJECT_DIR$/output/hello-2/makomi.json" />
+        <option value="$PROJECT_DIR$/output/hello-2/node_modules/makomi-express/index.js" />
+        <option value="$PROJECT_DIR$/output/hello-2/.makomi/makomi.json" />
+        <option value="$PROJECT_DIR$/output/hello-2/.makomi/README" />
+        <option value="$PROJECT_DIR$/routes/output.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/views/index.ejs" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
       </list>
     </option>
   </component>
@@ -315,38 +316,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="routes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="makomi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="makomi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stylesheets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="makomi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="makomi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -452,6 +421,82 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="output" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hello-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="output" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hello-2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="makomi-express" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -469,6 +514,10 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/routes" />
       <recent name="$PROJECT_DIR$/public/stylesheets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/node_modules" />
+      <recent name="$PROJECT_DIR$/output/hello-2/.makomi" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.app.js">
@@ -541,7 +590,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19838056" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19838056" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -613,65 +662,23 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/routes/output.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="25" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/context.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="19" selection-start="79" selection-end="96" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/core.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="0" selection-start="167" selection-end="167" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1370653801000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1370653801000" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-world/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="21" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
+        <state line="10" column="17" selection-start="187" selection-end="187" vertical-scroll-proportion="-6.25">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-world/app.js">
+    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/README">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="32" selection-start="182" selection-end="182" vertical-scroll-proportion="0.0">
+        <state line="2" column="66" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.styl">
+    <entry file="file://$PROJECT_DIR$/output/hello-2/.makomi/makomi.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="16" selection-start="98" selection-end="98" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="219" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="26" selection-start="168" selection-end="168" vertical-scroll-proportion="-4.375">
+        <state line="5" column="0" selection-start="239" selection-end="239" vertical-scroll-proportion="-3.125">
           <folding />
         </state>
       </provider>
@@ -683,20 +690,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="1" selection-start="218" selection-end="218" vertical-scroll-proportion="-8.125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/README">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="80" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/output/hello-2/routes/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="0" selection-start="31" selection-end="31" vertical-scroll-proportion="0.0">
@@ -704,10 +697,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/routes/index.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/makomi-express/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="27" selection-end="27" vertical-scroll-proportion="0.0">
+        <state line="23" column="10" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="56" selection-start="104" selection-end="104" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/output.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="2" selection-start="149" selection-end="149" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/dom.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="12" selection-start="12" selection-end="12" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/toolbox-base.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="16" selection-start="16" selection-end="16" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/output-base.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="15" selection-start="15" selection-end="15" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="40" selection-start="141" selection-end="141" vertical-scroll-proportion="0.097508125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/context.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="18" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -718,16 +764,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/app.js">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="188" selection-end="188" vertical-scroll-proportion="0.12145749">
+        <state line="34" column="38" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/output/hello-2/router.js">
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="45" selection-start="172" selection-end="172" vertical-scroll-proportion="0.12145749">
+        <state line="6" column="0" selection-start="63" selection-end="63" vertical-scroll-proportion="0.09605123">
           <folding />
         </state>
       </provider>

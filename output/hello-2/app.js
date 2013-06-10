@@ -29,7 +29,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// define routes
+// define routes in their own file because that seems better
 require('./router.js')(app);
 
 http.createServer(app).listen(app.get('port'), function(){

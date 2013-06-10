@@ -1,0 +1,5 @@
+.makomi contains the "meta-source": descriptions of the UI, the logic,
+etc. that are independent of the engines used. It is the source of
+truth about what the app should do. Outside of .makomi the generator
+can edit any and all files; if you edit the generated files we do not
+guarantee that every engine will respect/remember those edits.
