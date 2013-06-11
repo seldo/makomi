@@ -16,13 +16,6 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-/*
-app.use(express.cookieParser('s3kr1t'));
-app.use(express.cookieSession({
-    key: 'cs',
-    secret: 's3kr1t'
-}));
-*/
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -39,17 +32,11 @@ var config = {
 RedSess.createClient();
 app.use(function(req,res,next) {
     var session = new RedSess(req, res, {
-        cookieName: "ljv"
+        cookieName: "s"
     })
-    req.session = session
-    res.session = session
+    req.session = res.session = session
 
     console.log("Session connected")
-    /*
-    session.get('config',function(er,config){
-        console.log(config);
-    })
-    */
     next();
 });
 
