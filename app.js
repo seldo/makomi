@@ -5,7 +5,10 @@
 
 var express = require('express')
   , http = require('http')
-  , path = require('path');
+  , path = require('path')
+  , RedSess = require('redsess')
+  , Cookies = require('cookies')
+  , Keygrip = require('keygrip');
 
 var app = express();
 
@@ -13,11 +16,47 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+/*
+app.use(express.cookieParser('s3kr1t'));
+app.use(express.cookieSession({
+    key: 'cs',
+    secret: 's3kr1t'
+}));
+*/
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
+
+// app-wide config loaded once per thread
+// TODO: get this from a file or something
+var config = {
+    // TODO: use these
+    keys: ['some secret keys here']
+}
+
+// session management "middleware"
+RedSess.createClient();
+app.use(function(req,res,next) {
+    var session = new RedSess(req, res, {
+        cookieName: "ljv"
+    })
+    req.session = session
+    res.session = session
+
+    console.log("Session connected")
+    /*
+    session.get('config',function(er,config){
+        console.log(config);
+    })
+    */
+    next();
+});
+
+// define routes in their own file because that seems better
 app.use(app.router);
+require('./router.js')(app);
+
 app.use(require('stylus').middleware(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -26,13 +65,6 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// globals to capture loaded configuration and state
-// FIXME: this seems like a dumb/unsafe way to do this
-var config;
-var appState;
-
-// define routes in their own file because that seems better
-require('./router.js')(app);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

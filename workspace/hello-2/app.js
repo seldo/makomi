@@ -7,7 +7,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
-var app = express();
+var app = module.exports = express();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 9000);
@@ -32,6 +32,10 @@ app.configure('development', function(){
 // define routes in their own file because that seems better
 require('./router.js')(app);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+// create a server, unless you shouldn't
+if(!module.parent) {
+    console.log("Creating the server")
+    http.createServer(app).listen(app.get('port'), function(){
+      console.log("Express server listening on port " + app.get('port'));
+    });
+}
