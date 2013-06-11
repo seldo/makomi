@@ -1,3 +1,8 @@
 {
-
+    "/": {
+        "view": "index.ejs"
+    },
+    "/users": {
+        "view": "users/list.ejs"
+    }
 }

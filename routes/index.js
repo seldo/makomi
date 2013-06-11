@@ -11,10 +11,11 @@ exports.index = function(req, res){
   // TODO: this should probably happen when you select/load a project, not just by URL maybe?
   // TODO: should read <project>/.makomi/makomi.json, hard-coding for now
   var config = {
-      "project": "hello-2"
+      "project": "hello-2",
+      "sessionTest": "test-" + Math.random(), // changes every time we reload the project
   };
   config.engines = {
-      "generator": "makomi-express-" + Math.random(),  // module to use to create this project (TODO)
+      "generator": "makomi-express",  // module to use to create this project (TODO)
       "renderer": "makomi-express"    // module to use to render views
   }
   // TODO: workspace dir should be configurable

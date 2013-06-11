@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div class="col1">
+        Column 1:
+        <child yieldpoint="col1"></child>
+    </div>
+    <div class="col2">
+        Column 2:
+        <child yieldpoint="col2"></child>
+    </div>
+    <div class="col3">
+        Column 3:
+        <child yieldpoint="col3"></child>
+    </div>
+    <child src="footer.ejs"></child>
+  </body>
+</html>
