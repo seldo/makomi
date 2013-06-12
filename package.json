@@ -13,6 +13,7 @@
     "emcee": "*",
     "cookies": "*",
     "redsess": "*",
-    "keygrip": "*"
+    "keygrip": "*",
+    "mocha": "*"
   }
 }
