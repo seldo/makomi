@@ -1,9 +1,9 @@
 module.exports = function(app){
 
-  var routes = require('./routes')
-    , context = require('./routes/context')
-    , output = require('./routes/output')
-    , toolbox = require('./routes/toolbox')
+  var index = require('./controllers/index')
+    , context = require('./controllers/context')
+    , output = require('./controllers/output')
+    , toolbox = require('./controllers/toolbox')
 
     app.get('/sessionwrite',function(req, res){
 
@@ -23,7 +23,7 @@ module.exports = function(app){
         });
     });
 
-  app.get('/:project', routes.index);
+  app.get('/:project', index.index);
   app.get('/:project/context', context.dom);
   app.get('/:project/output',  output.base);
   app.get('/:project/toolbox', toolbox.base);
