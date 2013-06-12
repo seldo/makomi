@@ -1,0 +1,11 @@
+{
+    "name": "makomi-express",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+    },
+    "dependencies": {
+        "mocha": "*",
+        "tape": "*"
+    }
+}

@@ -4,9 +4,9 @@
  */
 
 module.exports = function(app){
-  var routes = require('./routes')
-      , user = require('./routes/user');
+  var index = require('./controllers/index')
+    , user = require('./controllers/user');
 
-  app.get('/', routes.index);
+  app.get('/', index.index);
   app.get('/users', user.list);
 }

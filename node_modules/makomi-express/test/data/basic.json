@@ -1,0 +1,8 @@
+{
+    "/": {
+        "controller": "index"
+    },
+    "/users": {
+        "controller": "users/list"
+    }
+}
