@@ -1,7 +1,0 @@
-{
-    "project": "hello-world",           // name of this project
-    "engines": {
-        "generator": "makomi-express",  // module to use to create this project (TODO)
-        "renderer": "makomi-express"    // module to use to render views
-    }
-}
