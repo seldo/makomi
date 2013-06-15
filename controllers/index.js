@@ -1,3 +1,5 @@
+var fs = require('fs')
+
 /*
  * Load the project configuration, render the UI.
  */
@@ -18,8 +20,8 @@ exports.index = function(req, res){
       "generator": "makomi-express",  // module to use to create this project (TODO)
       "renderer": "makomi-express"    // module to use to render views
   }
-  // TODO: workspace dir should be configurable
-  config.location = "../../workspace/" + config.project + "/"
+  // FIXME: working directory should be configurable
+  config.location = process.cwd() + "/workspace/" + config.project + "/"
 
   // give it to everybody else
   req.session.set('config',config,function(){

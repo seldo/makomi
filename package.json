@@ -9,7 +9,6 @@
     "express": "3.2.6",
     "ejs": "*",
     "stylus": "*",
-    "express-mock-request": "*",
     "emcee": "*",
     "cookies": "*",
     "redsess": "*",

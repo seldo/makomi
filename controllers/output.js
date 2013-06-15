@@ -22,15 +22,23 @@ exports.base = function (req, res) {
 
     console.log(renderer);
 
-    var rendered = renderer.render(appLocation, route, method, params, data, function (response) {
-      // TODO: send status code and headers correctly too
-      console.log(response.statusCode, 200);
-      console.log(response.headers['content-type'], "text/html");
+    var rendered = renderer.render(
+      appLocation,
+      route,
+      method,
+      params,
+      data,
+      function (response) {
+        // TODO: send status code and headers correctly too
+        console.log(response.statusCode, 200);
+        console.log(response.headers['content-type'], "text/html");
 
-      // TODO: we should probably parse this and insert it rather than relying on browsers
-      var modifiedBody = response.body +
-        '<script src="/javascripts/editor.js"></script>';
-      res.send(modifiedBody)
-    })
+        // TODO: we should probably parse this and insert it
+        // rather than generating crappy HTML.
+        var modifiedBody = response.body +
+          '<script src="/javascripts/editor.js"></script>';
+        res.send(modifiedBody)
+      }
+    )
   });
 };
