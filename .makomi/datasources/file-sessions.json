@@ -1,0 +1,11 @@
+{
+  "source": "makomi-datasource-sessions-file",
+  "params": {
+    "cachedir": "/tmp",
+    "cookiename": "sess",
+    "secret": {
+      "type": "configdata",
+      "source": "session.secret"
+    }
+  }
+}

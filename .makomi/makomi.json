@@ -1,0 +1,17 @@
+{
+  "name": "makomi",
+  "initializer": "makomi-express-rendr",
+  "generators": {
+    "router": "makomi-express-rendr",
+    "controllers": "makomi-express-rendr",
+    "views": "makomi-express-rendr"
+  },
+  "renderer": "makomi-express-rendr",
+  "middleware": [
+    "favicon",
+    "logger",
+    "bodyParser",
+    "methodOverride",
+    ""
+  ]
+}

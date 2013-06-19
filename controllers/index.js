@@ -14,7 +14,7 @@ exports.index = function(req, res){
   // TODO: should read <project>/.makomi/makomi.json, hard-coding for now
   var config = {
       "project": "hello-2",
-      "sessionTest": "test-" + Math.random(), // changes every time we reload the project
+      "sessionTest": "test-" + Math.random() // changes every time we reload the project
   };
   config.engines = {
       "generator": "makomi-express",  // module to use to create this project (TODO)
