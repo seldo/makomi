@@ -1,0 +1,21 @@
+{
+  "description": "Newsfeed partial",
+  "models": {
+    "recent_news": {
+      "model": "recent_news",
+      "bindings": {
+        "page": {
+          "type": "param",
+          "name": "page",
+          "default": 1
+        }
+      }
+    }
+  },
+  "layout": {
+    "source": "more_news",
+    "context": {
+      "page": "param:page"
+    }
+  }
+}

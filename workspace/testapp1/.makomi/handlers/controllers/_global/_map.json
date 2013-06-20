@@ -1,0 +1,9 @@
+{
+  "window": {
+    "load": {
+      "before": [],
+      "execute": ["initialize.js"],
+      "after": []
+    }
+  }
+}

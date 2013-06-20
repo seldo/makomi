@@ -20,7 +20,15 @@ app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
 // FIXME: configs should be loaded from outside the app, never checked in
-var config = {
+config = {
+  directories: {
+    workspace: __dirname + '/workspace/',
+    makomi: '.makomi/'
+  },
+  files: {
+    makomi: 'makomi.json',
+    routes: 'routes.json'
+  },
   sessions: {
     key: 'mks',
     secret: 'some secret key here'

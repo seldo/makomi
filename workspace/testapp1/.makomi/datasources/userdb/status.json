@@ -1,0 +1,18 @@
+{
+  "fields": {
+    "id": {
+      "type": "integer",
+      "default": "_uniqueint"
+    },
+    "user-id": {
+      "type": "integer"
+    },
+    "status": {
+      "type": "text"
+    },
+    "created": {
+      "type": "datetime",
+      "default": "_currenttime"
+    }
+  }
+}

@@ -10,11 +10,11 @@ exports.base = function (req, res) {
   var data = JSON.parse(req.query.data);
 
   // do stuff in our session
-  var config = req.session.config
+  var projectConfig = req.session.config
   console.log("Config is ");
-  console.log(config);
-  var renderer = require(config.engines.renderer);
-  var appLocation = config.location;
+  console.log(projectConfig);
+  var renderer = require(projectConfig.renderer);
+  var appLocation = projectConfig.location;
 
   console.log("Rendering engine is " + renderer.name)
   console.log("Rendering route " + route + " method " + method + " data " + data);

@@ -1,0 +1,6 @@
+{
+  "source": "makomi-datasource-rss",
+  "params": {
+    "cache": 600
+  }
+}

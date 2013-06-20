@@ -1,5 +1,5 @@
 {
-  "project": "hello-2",
+  "name": "test-app-1",
   "generators": {
     "router": "makomi-express",
     "controllers": "makomi-express",

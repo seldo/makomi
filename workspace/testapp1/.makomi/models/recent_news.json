@@ -1,0 +1,7 @@
+{
+  "datasource": "rssreader",
+  "params": {
+    "href": "http://feeds.bbci.co.uk/news/rss.xml",
+    "items": 10
+  }
+}

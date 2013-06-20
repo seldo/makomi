@@ -1,0 +1,17 @@
+{
+  "source": "makomi-datasource-mysql",
+  "params": {
+    "host": {
+      "type": "configdata",
+      "source": "userdb.host"
+    },
+    "username": {
+      "type": "configdata",
+      "source": "userdb.username"
+    },
+    "password": {
+      "type": "configdata",
+      "source": "userdb.password"
+    }
+  }
+}

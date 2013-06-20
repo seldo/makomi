@@ -1,0 +1,21 @@
+{
+  "#link-recent-news-more": {
+    "click": {
+      "prevent-default": "true",
+      "before": [
+        {
+          "action": "replace",
+          "target": "#stub-news-more",
+          "source": "data:#stub-news-more:data-source",
+          "failure": [
+            {
+              "action": "alert",
+              "value": "Fuck!",
+              "_comment": "Instead: define an error state and switch to it"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

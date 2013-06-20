@@ -1,0 +1,10 @@
+{
+  "datasource": "userdb",
+  "params": {
+    "query": "SELECT * FROM status ORDER BY created DESC limit :limit",
+    "bindings": {
+      "limit": 10
+    }
+  },
+  "load": "lazy"
+}

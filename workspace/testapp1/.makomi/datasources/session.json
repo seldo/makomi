@@ -1,0 +1,12 @@
+{
+  "source": "makomi-datasource-sessions-memcache",
+  "params": {
+    "host": "localhost",
+    "port": 11211,
+    "cookiename": "sess",
+    "secret": {
+      "type": "configdata",
+      "source": "session.secret"
+    }
+  }
+}

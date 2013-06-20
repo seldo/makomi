@@ -1,0 +1,37 @@
+{
+  "#btn-user-info-more": {
+    "hover": {
+        "_all_": {
+          "_comment": "This is obviously better done in CSS, just demonstrating syntax",
+          "before": {
+            "action": "state-change",
+            "target": "__self",
+            "to-state": "highlighted"
+          }
+        }
+    },
+    "click": {
+      "default": {
+        "before": [
+          {
+            "action": "state-change",
+            "target": "makomi-view:user/info",
+            "to-state": "expanded"
+          }
+        ],
+        "execute": [],
+        "after": [],
+        "_comment": {"'execute' and 'after' won't be included if there's nothing in them"}
+      },
+      "expanded": {
+        "before": [
+          {
+            "action": "state-change",
+            "target": "makomi-view:user/info",
+            "to-state": "default"
+          }
+        ]
+      }
+    }
+  }
+}

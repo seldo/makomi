@@ -1,0 +1,30 @@
+{
+  "/": {
+    "controller": "index",
+    "action": "index"
+  },
+  "/users": {
+    "controller": "users",
+    "action": "list"
+  },
+  "/users/:page": {
+    "controller": "users",
+    "action": "list"
+  },
+  "/user/profile": {
+    "controller": "users",
+    "action": "self"
+  },
+  "/user/:id": {
+    "controller": "users",
+    "action": "show"
+  },
+  "/more-news": {
+    "controller": "news",
+    "action": "more"
+  },
+  "/more-news/page/:page": {
+    "controller": "news",
+    "action": "more"
+  }
+}

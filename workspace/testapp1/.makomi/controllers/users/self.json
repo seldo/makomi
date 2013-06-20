@@ -1,0 +1,47 @@
+{
+  "description": "User's own profile",
+  "models": {
+    "session_data": {
+      "model": "session_data"
+    },
+    "current_user": {
+      "model": "user/single",
+      "requires": ["session_data"],
+      "bindings": {
+        "id": {
+          "type":"dataref",
+          "value": "session_data.user_id"
+        }
+      }
+    }
+  },
+  "layout": {
+    "source": "layouts/default",
+    "context": {},
+    "templates": {
+      "col1": {
+        "source": "nav",
+        "context": {
+          "page": "userinfo"
+        }
+      },
+      "col2": {
+        "source": "user/single",
+        "context": {
+          "user": {
+            "type": "model",
+            "source": "current_user"
+          }
+        }
+      }
+    },
+    "replace": {
+      "head>title": {
+        "source": "user/profiletitle",
+        "context": {
+          "name": "dataref:current_user.name"
+        }
+      }
+    }
+  }
+}

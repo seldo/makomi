@@ -1,0 +1,15 @@
+{
+  "datasource": "userdb",
+  "params": {
+    "query": "SELECT * FROM users ORDER BY name ASC LIMIT :pagination",
+    "bindings": {
+      "pagination": "_magic_pagination_"
+    },
+    "_magic_pagination": {
+      "page": {
+        "type": "context",
+        "name": "page"
+      }
+    }
+  }
+}

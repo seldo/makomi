@@ -1,0 +1,49 @@
+{
+  "#createstatus": {
+    "submit": {
+      "_comment": "Submit is attached to forms, so special handling happens",
+      "before": [
+        {
+          "action": "validate-and-submit",
+          "fieldmap": {
+            "status": "userdb/status/status"
+          },
+          "failure": [
+            {
+              "action": "state-change",
+              "target": "view:status/post",
+              "to-state": "error"
+            }
+          ],
+          "success": [
+            {
+              "action": "create-record",
+              "target": "datasource:userdb/fields",
+              "fields": {
+                "id": null,
+                "user-id": "context:current_user_id",
+                "status": "field:status",
+                "created": null
+              }
+            },
+            {
+              "action": "plugin:twitter:tweet",
+              "_comment": "all fields & context are passed to the plugin",
+              "text": "field:status"
+            },
+            {
+              "action": "send-email",
+              "_comment": "In reality this would be awful",
+              "from": "statuses@example.com",
+              "to": "lookupuseremail@example.com",
+              "subject": "Somebody posted a new status!",
+              "body": "view:emails/newstatus"
+            }
+          ]
+        }
+      ],
+      "execute": [],
+      "after": []
+    }
+  }
+}

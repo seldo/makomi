@@ -1,0 +1,64 @@
+{
+  "description": "User list",
+  "models": {
+    "session_data": {
+      "model": "session_data"
+    },
+    "current_user": {
+      "model": "user/single",
+      "requires": ["session_data"],
+      "bindings": {
+        "id": {
+          "type": "dataref",
+          "source": "session_data.user_id"
+        }
+      }
+    },
+    "all_users": {
+      "model": "user/list",
+      "bindings": {
+        "page": {
+          "type": "param",
+          "default": 1
+        }
+      }
+    }
+  },
+  "layout": {
+    "source": "layouts/default",
+    "context": {
+      "title": "List of users"
+    },
+    "templates": {
+      "userprofile": {
+        "source": "user/info",
+        "context": {
+          "user": {
+            "type": "model",
+            "source": "current_user"
+          }
+        },
+        "todo": "find a way to share these between views by building into layout"
+      },
+      "col1": {
+        "source": "nav",
+        "context": {
+          "page": "users"
+        }
+      },
+      "col2": {
+        "source": "user/list",
+        "context": {
+          "users": {
+            "type": "model",
+            "source": "all_users"
+          },
+          "page": {
+            "type": "param",
+            "name": "page"
+          }
+        }
+      }
+    }
+  }
+}

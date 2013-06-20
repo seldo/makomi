@@ -1,0 +1,79 @@
+{
+  "description": "Front page",
+  "models": {
+    "session_data": {
+      "model": "session_data"
+    },
+    "current_user": {
+      "model": "user/single",
+      "requires": ["session_data"],
+      "bindings": {
+        "id": {
+          "type": "dataref",
+          "source": "session_data.user_id"
+        }
+      }
+    },
+    "recent_statuses": {
+      "model": "status/list",
+      "bindings": {
+        "limit": 20
+      }
+    },
+    "recent_news": {
+      "model": "recent_news"
+    }
+  },
+  "layout": {
+    "source": "layouts/default",
+    "context": {
+      "title": "Generated Hello, World app"
+    },
+    "templates": {
+      "userprofile": {
+        "source": "user/info",
+        "context": {
+          "user": {
+            "type": "model",
+            "source": "current_user"
+          }
+        }
+      },
+      "col1": {
+        "source": "nav",
+        "context": {
+          "page": "front"
+        },
+        "templates": {
+          "news-box": {
+            "_comment": "do we allow sub-templates? or use inclusion?",
+            "source": "recent_news",
+            "context": {
+              "recent_news": {
+                "type": "model",
+                "source": "recent_news"
+              }
+            }
+          }
+        }
+      },
+      "col2": {
+        "source": "status/newsfeed",
+        "context": {
+          "current_user_id": {
+            "type": "value",
+            "source": "current_user.user_id"
+          },
+          "recent_statuses": {
+            "type": "model",
+            "source": "recent_statuses"
+          }
+        }
+      },
+      "col3": {
+        "source": "welcome",
+        "context": {}
+      }
+    }
+  }
+}
