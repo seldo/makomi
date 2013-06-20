@@ -10,35 +10,34 @@ exports.base = function (req, res) {
   var data = JSON.parse(req.query.data);
 
   // do stuff in our session
-  // FIXME: is there a nicer way to lay this out than inside a callback block?
-  req.session.get('config', function (er, config) {
-    console.log("Config is ");
-    console.log(config);
-    var renderer = require(config.engines.renderer);
-    var appLocation = config.location;
+  var config = req.session.config
+  console.log("Config is ");
+  console.log(config);
+  var renderer = require(config.engines.renderer);
+  var appLocation = config.location;
 
-    console.log("Rendering engine is " + renderer.name)
-    console.log("Rendering route " + route + " method " + method + " data " + data);
+  console.log("Rendering engine is " + renderer.name)
+  console.log("Rendering route " + route + " method " + method + " data " + data);
 
-    console.log(renderer);
+  console.log(renderer);
 
-    var rendered = renderer.render(
-      appLocation,
-      route,
-      method,
-      params,
-      data,
-      function (response) {
-        // TODO: send status code and headers correctly too
-        console.log(response.statusCode, 200);
-        console.log(response.headers['content-type'], "text/html");
+  var rendered = renderer.render(
+    appLocation,
+    route,
+    method,
+    params,
+    data,
+    function (response) {
+      // TODO: send status code and headers correctly too
+      console.log(response.statusCode, 200);
+      console.log(response.headers['content-type'], "text/html");
 
-        // TODO: we should probably parse this and insert it
-        // rather than generating crappy HTML.
-        var modifiedBody = response.body +
-          '<script src="/javascripts/editor.js"></script>';
-        res.send(modifiedBody)
-      }
-    )
-  });
+      // TODO: we should probably parse this and insert it
+      // rather than generating crappy HTML.
+      var modifiedBody = response.body +
+        '<script src="/javascripts/editor.js"></script>';
+      res.send(modifiedBody)
+    }
+  )
+
 };

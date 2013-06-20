@@ -2,19 +2,15 @@
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , RedSess = require('redsess')
-  , Cookies = require('cookies')
-  , Keygrip = require('keygrip');
+var express = require('express'),
+    http = require('http'),
+    path = require('path'),
+    Cookies = require('cookies');
 
 var app = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-//app.register('.hbs', require('handlebars'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
 app.use(express.favicon());
@@ -23,23 +19,20 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
-// TODO: get this from a file or something
+// FIXME: configs should be loaded from outside the app, never checked in
 var config = {
-    // TODO: use these
-    keys: ['some secret keys here']
+  sessions: {
+    key: 'mks',
+    secret: 'some secret key here'
+  }
 }
 
-// session management "middleware"
-RedSess.createClient();
-app.use(function(req,res,next) {
-    var session = new RedSess(req, res, {
-        cookieName: "s"
-    })
-    req.session = res.session = session
-
-    console.log("Session connected")
-    next();
-});
+// sessions
+app.use(express.cookieParser());
+app.use(express.cookieParser(config.sessions.secret));
+app.use(express.cookieSession({
+  secret: config.sessions.secret
+}));
 
 // define routes in their own file because that seems better
 app.use(app.router);

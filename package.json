@@ -11,8 +11,6 @@
     "stylus": "*",
     "emcee": "*",
     "cookies": "*",
-    "redsess": "*",
-    "keygrip": "*",
     "mocha": "*"
   }
 }

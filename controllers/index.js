@@ -24,11 +24,7 @@ exports.index = function(req, res){
   config.location = process.cwd() + "/workspace/" + config.project + "/"
 
   // give it to everybody else
-  req.session.set('config',config,function(){
-      console.log("We set the session data")
-      console.log(config);
-      // now render the UI
-      res.render('index', { title: 'Express', project: project });
-  });
+  req.session['config'] = config
+  res.render('index', { title: 'Express', project: project });
 
 };
