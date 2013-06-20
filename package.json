@@ -11,6 +11,9 @@
     "stylus": "*",
     "emcee": "*",
     "cookies": "*",
+    "async": "*"
+  },
+  "devDependencies": {
     "mocha": "*"
   }
 }

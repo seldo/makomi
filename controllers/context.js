@@ -19,14 +19,12 @@ exports.dom = function(req, res) {
     var layout = {
       source: "layouts/default",
       context: {
-        "title": "I am the DOM"
+        "title": "Context pane",
+        "routes": routes
       },
       templates: {
         "body": {
-          source: "context/dom",
-          context: {
-            "where": "the DOM"
-          }
+          source: "context/routes"
         }
       }
     }

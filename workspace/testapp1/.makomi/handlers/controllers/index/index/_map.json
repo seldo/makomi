@@ -1,7 +1,0 @@
-{
-  "window": {
-    "load": [
-      "homepageinit.js"
-    ]
-  }
-}

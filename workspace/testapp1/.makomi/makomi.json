@@ -1,9 +1,0 @@
-{
-  "name": "test-app-1",
-  "generators": {
-    "router": "makomi-express",
-    "controllers": "makomi-express",
-    "views": "makomi-express"
-  },
-  "renderer": "makomi-express"
-}

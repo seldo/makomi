@@ -1,9 +1,0 @@
-{
-  "datasource": "userdb",
-  "params": {
-    "query": "SELECT * FROM user WHERE id = :id",
-    "bindings": {
-      "id": null
-    }
-  }
-}
