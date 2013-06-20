@@ -20,7 +20,7 @@ app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
 // FIXME: configs should be loaded from outside the app, never checked in
-config = {
+appConfig = {
   directories: {
     workspace: __dirname + '/workspace/',
     makomi: '.makomi/'
@@ -37,9 +37,9 @@ config = {
 
 // sessions
 app.use(express.cookieParser());
-app.use(express.cookieParser(config.sessions.secret));
+app.use(express.cookieParser(appConfig.sessions.secret));
 app.use(express.cookieSession({
-  secret: config.sessions.secret
+  secret: appConfig.sessions.secret
 }));
 
 // define routes in their own file because that seems better
