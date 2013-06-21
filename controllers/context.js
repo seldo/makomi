@@ -24,7 +24,10 @@ exports.dom = function(req, res) {
       },
       templates: {
         "body": {
-          source: "context/routes"
+          source: "context/routes",
+          context: {
+            "where": "the DOM"
+          }
         }
       }
     }

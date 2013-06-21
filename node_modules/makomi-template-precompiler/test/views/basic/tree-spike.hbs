@@ -1,0 +1,12 @@
+<ul>
+  {{#each children}}
+    <li>
+      <b>{{this.name}}</b>
+      {{#if this.children}}
+        <div>{{&Recurse this}}</div>
+      {{else}}
+        I'm a leaf!
+      {{/if}}
+    </li>
+  {{/each}}
+</ul>
