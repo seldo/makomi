@@ -4,17 +4,12 @@
 
 var mkUtil = require('makomi-source-util'),
     hb = require('handlebars'),
-    mkPre = require('makomi-template-precompiler');
+    mkRun = require('makomi-express-runtime');
 
 exports.dom = function(req, res) {
 
   mkUtil.init(appConfig,req.session.project)
   mkUtil.getRoutes(function(routes) {
-
-    var renderFragment = function(source,context) {
-      var template = hb.compile(source);
-      return template(context)
-    }
 
     var layout = {
       source: "layouts/default",
@@ -32,7 +27,7 @@ exports.dom = function(req, res) {
       }
     }
 
-    mkPre.compile(layout,renderFragment,function(renderedView) {
+    mkRun.compile(layout,function(renderedView) {
       res.send(renderedView)
     });
 
