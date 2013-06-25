@@ -7,7 +7,10 @@ exports.base = function (req, res) {
   var route = req.query.route;
   var method = req.query.method;
   var params = req.query.params;
-  var data = JSON.parse(req.query.data);
+  var data = {}
+  if (req.query.data) {
+    data = JSON.parse(req.query.data);
+  }
 
   // do stuff in our session
   var projectConfig = req.session.config
@@ -35,7 +38,10 @@ exports.base = function (req, res) {
       // TODO: we should probably parse this and insert it
       // rather than generating crappy HTML.
       var modifiedBody = response.body +
+        '<script src="/javascripts/jquery-1.10.1.min.js"></script>' +
+        '<script src="/socket.io/socket.io.js"></script>' +
         '<script src="/javascripts/editor.js"></script>';
+
       res.send(modifiedBody)
     }
   )

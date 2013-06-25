@@ -4,8 +4,10 @@
  */
 var express = require('express'),
     http = require('http'),
+    io = require('socket.io'),
     path = require('path'),
-    Cookies = require('cookies');
+    Cookies = require('cookies'),
+    socketController = require('./controllers/sockets');
 
 var app = express();
 
@@ -54,7 +56,13 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+// start the server
+var server = http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server with Socket.io listening on port ' + app.get('port'));
 });
+
+// tell Socket.io to listen to the server, too.
+// If you don't do it this way, socket takes over all HTTP requests.
+// It is not at all obvious to me why this works.
+var socketServer = io.listen(server)
+socketController.start(socketServer)

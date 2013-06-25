@@ -5,13 +5,15 @@
 var MC = require('emcee'),
     hb = require('handlebars'),
     mkRun = require('makomi-express-runtime'),
-    modelRoutes = require(process.cwd() + '/models/makomi-routes');
+    modelRoutes = require('../models/makomi-routes');
 
 exports.dom = function(req, res) {
 
   var m = new MC();
   m.load('makomi-routes', req, appConfig)
   m.end(function(er,models) {
+
+    console.log(models['makomi-routes'])
 
     var layout = {
       source: "layouts/default",
