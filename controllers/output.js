@@ -40,6 +40,7 @@ exports.base = function (req, res) {
       var modifiedBody = response.body +
         '<script src="/javascripts/jquery-1.10.1.min.js"></script>' +
         '<script src="/socket.io/socket.io.js"></script>' +
+        '<script src="/socket.io/socket.io-sessions.js"></script>' +
         '<script src="/javascripts/editor.js"></script>';
 
       res.send(modifiedBody)

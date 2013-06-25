@@ -12,7 +12,9 @@
     "emcee": "*",
     "cookies": "*",
     "async": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "connect": "*",
+    "socket.io-sessions": "*"
   },
   "devDependencies": {
     "mocha": "*"

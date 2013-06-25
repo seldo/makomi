@@ -8,9 +8,10 @@
 <button id="create-route">Create new route</button>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io-sessions.js"></script>
 <script src="/javascripts/jquery-1.10.1.min.js"></script>
 <script>
-  var socket = io.connect('http://local.dev');
+  var socket = io.connectWithSession('http://local.dev');
   $('#routes a').click(function(e) {
       e.preventDefault();
       socket.emit('routechange-in',

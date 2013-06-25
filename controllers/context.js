@@ -9,6 +9,9 @@ var MC = require('emcee'),
 
 exports.dom = function(req, res) {
 
+  var session = req.session;
+  console.log(session);
+
   var m = new MC();
   m.load('makomi-routes', req, appConfig)
   m.end(function(er,models) {

@@ -4,7 +4,9 @@
  */
 var express = require('express'),
     http = require('http'),
+    connect = require('connect'),
     io = require('socket.io'),
+    sio = require('socket.io-sessions'),
     path = require('path'),
     Cookies = require('cookies'),
     socketController = require('./controllers/sockets');
@@ -38,10 +40,12 @@ appConfig = {
 }
 
 // sessions
+var MemoryStore = require('connect/lib/middleware/session/memory');
+var sessionStore = new MemoryStore;
 app.use(express.cookieParser());
-app.use(express.cookieParser(appConfig.sessions.secret));
-app.use(express.cookieSession({
-  secret: appConfig.sessions.secret
+app.use(express.session({
+  secret: appConfig.sessions.secret,
+  store: sessionStore
 }));
 
 // define routes in their own file because that seems better
@@ -65,4 +69,11 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 // If you don't do it this way, socket takes over all HTTP requests.
 // It is not at all obvious to me why this works.
 var socketServer = io.listen(server)
+
+// set up the socket listeners, with session support
+var sessionSocketServer = sio.enable({
+  socket: socketServer,         // Socket.IO listener
+  store:  sessionStore,                // Your session store
+  parser: connect.cookieParser()  // Cookie parser
+});
 socketController.start(socketServer)

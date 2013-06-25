@@ -1,15 +1,15 @@
-var io = require('socket.io');
-
 exports.start = function(socketServer) {
-  socketServer.sockets.on('connection', function (socket) {
-    socket.on('routechange-in', function (data) {
+  socketServer.on('sconnection', function (client,session) {
+
+    client.on('routechange-in', function (data) {
       console.log("Route selected: " + data.route);
       socketServer.sockets.emit('routechange-out', {
-        route: data.route
+        route: data.route,
+        project: session.config.project
       })
     });
 
-    socket.on('disconnect', function () {
+    client.on('disconnect', function () {
       socketServer.sockets.emit('user disconnected');
     });
   });
