@@ -12,18 +12,15 @@ exports.base = function (req, res) {
     data = JSON.parse(req.query.data);
   }
 
-  // do stuff in our session
+  // get rendering parameters from the config
   var projectConfig = req.session.config
-  console.log("Config is ");
-  console.log(projectConfig);
   var renderer = require(projectConfig.renderer);
   var appLocation = projectConfig.location;
 
-  console.log("Rendering engine is " + renderer.name)
   console.log("Rendering route " + route + " method " + method + " data " + data);
 
-  console.log(renderer);
-
+  // call the rendering engine's render method
+  // insert the editor JS into the output
   var rendered = renderer.render(
     appLocation,
     route,

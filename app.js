@@ -9,7 +9,8 @@ var express = require('express'),
     sio = require('socket.io-sessions'),
     path = require('path'),
     Cookies = require('cookies'),
-    socketController = require('./controllers/sockets');
+    socketController = require('./controllers/sockets'),
+    mkEx = require('makomi-express-runtime');
 
 var app = express();
 
@@ -23,57 +24,51 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
-// FIXME: configs should be loaded from outside the app, never checked in
-appConfig = {
-  directories: {
-    workspace: __dirname + '/workspace/',
-    makomi: '.makomi/'
-  },
-  files: {
-    makomi: 'makomi.json',
-    routes: 'routes.json'
-  },
-  sessions: {
-    key: 'mks',
-    secret: 'some secret key here'
+var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
+appConfig = {} // this is available globally once loaded
+mkEx.util.loadConfig(appConfigFile,function(config) {
+
+  appConfig = config;
+
+  // sessions
+  var MemoryStore = require('connect/lib/middleware/session/memory');
+  var sessionStore = new MemoryStore;
+  app.use(express.cookieParser());
+  // FIXME: is this actually sufficient to set a secret?
+  // Does it also need to be passed to the cookieParser?
+  app.use(express.session({
+    secret: appConfig.sessions.secret,
+    store: sessionStore
+  }));
+
+  // define routes in their own file because that seems better
+  app.use(app.router);
+  require('./router.js')(app);
+
+  app.use(require('stylus').middleware(__dirname + '/public'));
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  // development only
+  if ('development' == app.get('env')) {
+    app.use(express.errorHandler());
   }
-}
 
-// sessions
-var MemoryStore = require('connect/lib/middleware/session/memory');
-var sessionStore = new MemoryStore;
-app.use(express.cookieParser());
-app.use(express.session({
-  secret: appConfig.sessions.secret,
-  store: sessionStore
-}));
+  // start the server
+  var server = http.createServer(app).listen(app.get('port'), function(){
+    console.log('Express server with Socket.io listening on port ' + app.get('port'));
+  });
 
-// define routes in their own file because that seems better
-app.use(app.router);
-require('./router.js')(app);
+  // tell Socket.io to listen to the server, too.
+  // If you don't do it this way, socket takes over all HTTP requests.
+  // It is not at all obvious to me why this works.
+  var socketServer = io.listen(server,{log: false})
 
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
+  // set up the socket listeners, with session support
+  var sessionSocketServer = sio.enable({
+    socket: socketServer,         // Socket.IO listener
+    store:  sessionStore,                // Your session store
+    parser: connect.cookieParser()  // Cookie parser
+  });
+  socketController.start(socketServer)
 
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
-
-// start the server
-var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server with Socket.io listening on port ' + app.get('port'));
-});
-
-// tell Socket.io to listen to the server, too.
-// If you don't do it this way, socket takes over all HTTP requests.
-// It is not at all obvious to me why this works.
-var socketServer = io.listen(server)
-
-// set up the socket listeners, with session support
-var sessionSocketServer = sio.enable({
-  socket: socketServer,         // Socket.IO listener
-  store:  sessionStore,                // Your session store
-  parser: connect.cookieParser()  // Cookie parser
-});
-socketController.start(socketServer)
+})
