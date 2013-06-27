@@ -5,7 +5,7 @@ exports.start = function(socketServer) {
       console.log("Route selected: " + data.route);
       socketServer.sockets.emit('routechange-out', {
         route: data.route,
-        project: session.config.project
+        project: session['project']
       })
     });
 
