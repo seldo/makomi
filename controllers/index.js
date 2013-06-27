@@ -7,14 +7,13 @@ exports.index = function (req, res) {
 
   var project = req.params.project
 
-  // load project config, make it available to the rest of the app before rendering UI
-  mkUtil.init(appConfig,project)
-  mkUtil.getConfig(function(projectConfig) {
+  // load app definition, make it available to the rest of the app before rendering UI
+  mkUtil.loadDefinition(appConfig.workspace+project,function(appDefinition) {
     // give it to everybody else
-    req.session['config'] = projectConfig
+    req.session['definition'] = appDefinition
     req.session['project'] = project
     res.render('index', {
-      title: projectConfig.project + " | Makomi",
+      title: appDefinition.project + " | Makomi",
       project: project });
   });
 

@@ -13,9 +13,9 @@ exports.base = function (req, res) {
   }
 
   // get rendering parameters from the config
-  var projectConfig = req.session.config
+  var projectConfig = req.session['definition']
   var renderer = require(projectConfig.renderer);
-  var appLocation = projectConfig.location;
+  var appLocation = appConfig.workspace+req.session['project']+'/'
 
   console.log("Rendering route " + route + " method " + method + " data " + data);
 
