@@ -2,7 +2,7 @@
  * Rendering of the current view, plus our code to allow manipulation.
  */
 
-exports.base = function (req, res) {
+module.exports = function (req, res) {
 
   var route = req.query.route;
   var method = req.query.method;

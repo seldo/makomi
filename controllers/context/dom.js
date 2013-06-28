@@ -5,9 +5,9 @@
 var MC = require('emcee'),
     hb = require('handlebars'),
     mkRun = require('makomi-express-runtime'),
-    modelRoutes = require('../models/makomi-routes');
+    modelRoutes = require('../../models/makomi-routes');
 
-exports.dom = function(req, res) {
+module.exports = function(req, res) {
 
   var session = req.session;
   console.log(session);

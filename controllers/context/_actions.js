@@ -1,0 +1,1 @@
+exports.dom = require('./dom')

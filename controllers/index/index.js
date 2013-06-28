@@ -3,7 +3,7 @@ var mkUtil = require('makomi-source-util');
 /*
  * Load the project configuration, render the UI.
  */
-exports.index = function (req, res) {
+module.exports = function (req, res) {
 
   var project = req.params.project
 
