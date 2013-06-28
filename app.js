@@ -9,7 +9,6 @@ var express = require('express'),
     sio = require('socket.io-sessions'),
     path = require('path'),
     Cookies = require('cookies'),
-    socketController = require('./controllers/sockets'),
     mkEx = require('makomi-express-runtime');
 
 var app = express();
@@ -69,6 +68,6 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
     store:  sessionStore,                // Your session store
     parser: connect.cookieParser()  // Cookie parser
   });
-  socketController.start(socketServer)
+  mkEx.misc.socketController.start(socketServer)
 
 })
