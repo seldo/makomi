@@ -3,9 +3,8 @@
  */
 
 var MC = require('emcee'),
-    hb = require('handlebars'),
     mkRun = require('makomi-express-runtime'),
-    modelRoutes = require('../../models/makomi-routes');
+    routesModel = require('../../models/makomi-routes');
 
 module.exports = function(req, res) {
 
