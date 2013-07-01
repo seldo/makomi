@@ -4,9 +4,7 @@ var MC = require('emcee'),
 // define the makomi-routes model for MC
 MC.model('makomi-routes', function (req, appConfig, cb) {
 
-  var routesPath = appConfig.workspace+req.session['project']
-
-  mkUtil.loadRoutes(routesPath,function(routes) {
+  mkUtil.loadRoutes(req.session['sourceDir'],function(routes) {
     // TODO: should pass any errors as first arg
     cb(null,routes)
   });
