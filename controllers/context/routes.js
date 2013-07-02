@@ -1,28 +1,28 @@
 /*
- * The meta-structure of the templates for the current route
- * (not an actual DOM view)
+ * What am I looking at right now?
  */
 
 var MC = require('emcee'),
-  mkRun = require('makomi-express-runtime'),
-  routesModel = require('../../models/makomi-routes'),
-  sessionsModel = require('../../models/sessions');
+    mkRun = require('makomi-express-runtime'),
+    routesModel = require('../../models/makomi-routes'),
+    sessionsModel = require('../../models/sessions');
 
 module.exports = function(req, res) {
 
   var m = new MC();
+  m.load('makomi-routes', req, appConfig)
   m.load('sessions', req, appConfig)
   m.end(function(er,models) {
 
     var layout = {
       source: "layouts/default",
       context: {
-        "title": "DOM tab",
-        "project": models['sessions'].project
+        "title": "Routes tab",
+        "routes": models['makomi-routes']
       },
       templates: {
         "body": {
-          source: "context/dom",
+          source: "context/routes",
           context: {
             "where": "the DOM"
           }
