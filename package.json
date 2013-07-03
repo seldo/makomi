@@ -14,7 +14,8 @@
     "async": "*",
     "socket.io": "*",
     "connect": "*",
-    "socket.io-sessions": "*"
+    "socket.io-sessions": "*",
+    "fs-extra": "*"
   },
   "devDependencies": {
     "mocha": "*"

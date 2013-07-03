@@ -25,6 +25,7 @@ app.use(express.methodOverride());
 // app-wide config loaded once per thread
 var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
 appConfig = {} // this is available globally once loaded
+socketServer = null; // and so is this
 mkEx.util.loadConfig(appConfigFile,function(config) {
 
   appConfig = config;
@@ -60,7 +61,7 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
   // tell Socket.io to listen to the server, too.
   // If you don't do it this way, socket takes over all HTTP requests.
   // It is not at all obvious to me why this works.
-  var socketServer = io.listen(server,{log: false})
+  socketServer = io.listen(server,{log: false})
 
   // set up the socket listeners, with session support
   var sessionSocketServer = sio.enable({

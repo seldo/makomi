@@ -1,4 +1,5 @@
-var mkUtil = require('makomi-source-util');
+var mkUtil = require('makomi-source-util'),
+  fs = require('fs-extra');
 
 /*
  * Load the project configuration, render the UI.
@@ -9,6 +10,7 @@ module.exports = function (req, res) {
 
   // load app definition, make it available to the rest of the app before rendering UI
   var sourceDir = appConfig.workspace+project+'/.makomi/';
+  var scratchDir = appConfig.scratchpad + project
   mkUtil.loadDefinition(sourceDir,function(appDefinition) {
     // give it to everybody else
     req.session['definition'] = appDefinition
@@ -18,5 +20,27 @@ module.exports = function (req, res) {
       title: appDefinition.project + " | Makomi",
       project: project });
   });
+
+  // separately, ID-ify the source code and generate the working copy of the app
+  // yeah, we're loading the definition twice here. Suck it.
+  mkUtil.loadDefinition(sourceDir,function(appDefinition) {
+    fs.mkdirs(scratchDir,function() {
+      mkUtil.generateWorkingCopy(appDefinition,sourceDir,scratchDir, function(sourceMap) {
+
+        socketServer.on('sconnection', function (client,session) {
+
+          // when the connection is detected, send the sourcemap
+          // FIXME: if the connection isn't from the DOM pane, it could miss this message
+          console.log("Sourcemap ready to go")
+          socketServer.sockets.emit('sourcemap-ready', {
+            "sourceMap": sourceMap
+          })
+
+        })
+
+      })
+    })
+  })
+
 
 };
