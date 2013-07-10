@@ -1,0 +1,18 @@
+{
+  "description": "User list",
+  "models": {},
+  "layout": {
+    "source": "layout",
+    "context": {
+      "title": "(Fake) List of users"
+    },
+    "templates": {
+      "col2": {
+        "source": "users/list",
+        "context": {
+          "users": []
+        }
+      }
+    }
+  }
+}

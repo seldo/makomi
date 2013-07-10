@@ -22,7 +22,7 @@ module.exports = function (req, res) {
   });
 
   // separately, ID-ify the source code and generate the working copy of the app
-  // yeah, we're loading the definition twice here. Suck it.
+  // yeah, we're loading the definition twice, here and above. Suck it.
   mkUtil.loadDefinition(sourceDir,function(appDefinition) {
     fs.mkdirs(scratchDir,function() {
       mkUtil.generateWorkingCopy(appDefinition,sourceDir,scratchDir, function(fileMap,idMap) {

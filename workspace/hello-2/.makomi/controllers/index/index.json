@@ -1,0 +1,20 @@
+{
+  "description": "Front page",
+  "models": {},
+  "layout": {
+    "source": "layout",
+    "context": {
+      "title": "Slightly more complicated than Hello, World"
+    },
+    "templates": {
+      "col2": {
+        "source": "index",
+        "context": {}
+      },
+      "col3": {
+        "source": "welcome",
+        "context": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+<makomi-each var="users">
+  <li>
+    <h4><makomi-var name="this.name"></makomi-var></h4>
+    <p><makomi-var name="this.description"></makomi-var></p>
+  </li>
+  <makomi-each-first></makomi-each-first>
+  <makomi-each-last></makomi-each-last>
+  <makomi-each-empty>
+    <p class="empty">No users found.</p>
+  </makomi-each-empty>
+</makomi-each>

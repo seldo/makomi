@@ -1,8 +1,10 @@
 {
-    "/": {
-        "view": "index.ejs"
-    },
-    "/users": {
-        "view": "users/list.ejs"
-    }
+  "/": {
+    "controller": "index",
+    "action": "index"
+  },
+  "/users": {
+    "controller": "users",
+    "action": "list"
+  }
 }
