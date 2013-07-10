@@ -1,5 +1,6 @@
 {
   "name": "hello-2",
+  "project": "hello-2",
   "version": "0.0.1",
   "generators": {
     "base": "makomi-express",

@@ -16,6 +16,8 @@ module.exports = function (req, res) {
     req.session['definition'] = appDefinition
     req.session['project'] = project
     req.session['sourceDir'] = sourceDir
+    // FIXME: this concatenation is repeated in makomi-source-util
+    req.session['applocation'] = scratchDir + 'app/'
     res.render('index', {
       title: appDefinition.project + " | Makomi",
       project: project });

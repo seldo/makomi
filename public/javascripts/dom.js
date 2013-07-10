@@ -9,6 +9,6 @@ socket.on('connect',function() {
 });
 */
 socket.on('sourcemap-ready',function(data) {
-  console.log("Sourcemap delivered: ")
-  console.log(data.sourceMap)
+  console.log("Source maps delivered: ")
+  console.log(data)
 })

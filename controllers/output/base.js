@@ -15,13 +15,16 @@ module.exports = function (req, res) {
   // get rendering parameters from the config
   var projectConfig = req.session['definition']
   var renderer = require(projectConfig.renderer);
-  var appLocation = appConfig.workspace+req.session['project']+'/'
+  var sourceDir = req.session['sourceDir']
+  var appLocation = req.session['applocation']
 
   console.log("Rendering route " + route + " method " + method + " data " + data);
+  console.log("App location is " + appLocation)
 
   // call the rendering engine's render method
   // insert the editor JS into the output
   var rendered = renderer.render(
+    sourceDir,
     appLocation,
     route,
     method,
