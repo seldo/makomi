@@ -13,9 +13,6 @@ module.exports = function(req, res) {
   m.load('sessions', req, appConfig)
   m.end(function(er,models) {
 
-    console.log("Index session project is ")
-    console.log(models['sessions'].project)
-
     var layout = {
       source: "layouts/default",
       context: {

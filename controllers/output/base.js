@@ -19,7 +19,6 @@ module.exports = function (req, res) {
   var appLocation = req.session['applocation']
 
   console.log("Rendering route " + route + " method " + method + " data " + data);
-  console.log("App location is " + appLocation)
 
   // call the rendering engine's render method
   // insert the editor JS into the output

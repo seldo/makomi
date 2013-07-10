@@ -7,6 +7,10 @@
       "title": "Slightly more complicated than Hello, World"
     },
     "templates": {
+      "col1": {
+        "source": "welcome",
+        "context": {}
+      },
       "col2": {
         "source": "index",
         "context": {}
