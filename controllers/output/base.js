@@ -30,9 +30,18 @@ module.exports = function (req, res) {
     params,
     data,
     function (response) {
+
+      // give the controller to the app
+      socketServer.on('sconnection', function (client,session) {
+        console.log("Controller sent")
+        socketServer.sockets.emit('controller-ready', {
+          controller: response.controller
+        })
+      })
+
       // TODO: send status code and headers correctly too
-      console.log(response.statusCode, 200);
-      console.log(response.headers['content-type'], "text/html");
+      // response.statusCode, 200
+      // response.headers['content-type'], "text/html"
 
       // TODO: we should probably parse this and insert it
       // rather than generating crappy HTML.
@@ -43,6 +52,7 @@ module.exports = function (req, res) {
         '<script src="/javascripts/editor.js"></script>';
 
       res.send(modifiedBody)
+
     }
   )
 

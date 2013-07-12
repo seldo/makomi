@@ -3,13 +3,14 @@
  * Module dependencies.
  */
 var express = require('express'),
-    http = require('http'),
-    connect = require('connect'),
-    io = require('socket.io'),
-    sio = require('socket.io-sessions'),
-    path = require('path'),
-    Cookies = require('cookies'),
-    mkEx = require('makomi-express-runtime');
+  http = require('http'),
+  connect = require('connect'),
+  io = require('socket.io'),
+  sio = require('socket.io-sessions'),
+  path = require('path'),
+  Cookies = require('cookies'),
+  mkEx = require('makomi-express-runtime'),
+  MemoryStore = require('connect/lib/middleware/session/memory');
 
 var app = express();
 
@@ -24,16 +25,21 @@ app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
 var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
-appConfig = {} // this is available globally once loaded
-socketServer = null; // and so is this
+// these are app-wide data structures
+appConfig = {}
+socketServer = null
+fileMap = null
+idMap = null
+
 mkEx.util.loadConfig(appConfigFile,function(config) {
 
   appConfig = config;
 
-  // sessions
-  var MemoryStore = require('connect/lib/middleware/session/memory');
-  var sessionStore = new MemoryStore;
   app.use(express.cookieParser());
+
+  // session store
+  var sessionStore = new MemoryStore;
+
   // FIXME: is this actually sufficient to set a secret?
   // Does it also need to be passed to the cookieParser?
   app.use(express.session({

@@ -10,10 +10,31 @@ var MC = require('emcee'),
 
 module.exports = function(req, res) {
 
+  var route = req.query.route;
+  var method = req.query.method;
+  var params = req.query.params;
+
   var m = new MC();
   m.load('sessions', req, appConfig)
   m.end(function(er,models) {
 
+    // if the app's not generated yet, wait until it is
+    if(!fileMap || !idMap) {
+      var layout = {
+        source: "layouts/default",
+        templates: {
+          "body": {
+            "source": "try-again"
+          }
+        }
+      }
+      mkRun.compile(layout,function(renderedView) {
+        res.send(renderedView)
+      });
+      return;
+    }
+
+    //
     var layout = {
       source: "layouts/default",
       context: {

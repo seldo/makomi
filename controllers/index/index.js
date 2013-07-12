@@ -27,20 +27,10 @@ module.exports = function (req, res) {
   // yeah, we're loading the definition twice, here and above. Suck it.
   mkUtil.loadDefinition(sourceDir,function(appDefinition) {
     fs.mkdirs(scratchDir,function() {
-      mkUtil.generateWorkingCopy(appDefinition,sourceDir,scratchDir, function(fileMap,idMap) {
-
-        socketServer.on('sconnection', function (client,session) {
-
-          // when the connection is detected, send the sourcemap
-          // FIXME: if the connection isn't from the DOM pane, it could miss this message
-          console.log("Sourcemaps ready to go")
-          socketServer.sockets.emit('sourcemap-ready', {
-            "fileMap": fileMap,
-            "idMap": idMap
-          })
-
-        })
-
+      mkUtil.generateWorkingCopy(appDefinition,sourceDir,scratchDir, function(newFileMap,newIdMap) {
+        // pass the data to the app in general
+        fileMap = newFileMap
+        idMap = newIdMap
       })
     })
   })
