@@ -45,6 +45,7 @@ module.exports = function(req, res) {
       mkSrc.loadController(sourceDir,controllerName,actionName,function(controller) {
 
         console.log("Loaded controller for DOM mapping")
+        console.log(controller)
 
         createDomTree(controller.layout,fileMap,idMap,function(domTree) {
 
@@ -61,7 +62,13 @@ module.exports = function(req, res) {
                 "project": models['sessions'].project
               },
               templates: {
-                "body": domTreeLayout
+                "body": {
+                  source: "context/dom",
+                  context: {},
+                  templates: {
+                    "tree": domTreeLayout
+                  }
+                }
               }
             }
 
@@ -84,10 +91,10 @@ module.exports = function(req, res) {
 /**
  * Read DOM tree and convert into our layout on a per-type basis
  */
-var convertDomTreeToLayout = function(domTree,cb) {
+var convertDomTreeToLayout = function(domTree,cb,indexRef) {
 
-  console.log("Converting dom tree")
-  console.log(domTree)
+  //console.log("Converting dom tree")
+  //console.log(domTree)
 
   var layout = {
     source: "context/dom/list",
@@ -100,10 +107,10 @@ var convertDomTreeToLayout = function(domTree,cb) {
   var complete = function() {
     count--
     if(count == 0) {
-      console.log("Converted dom tree")
-      console.log(layout)
+      //console.log("Converted dom tree")
+      //console.log(layout)
       layout.templates.items = items;
-      cb(layout)
+      cb(layout,indexRef)
     }
   }
 
@@ -111,16 +118,21 @@ var convertDomTreeToLayout = function(domTree,cb) {
     var item = {
       source: "context/dom/item",
       context: {
-        name: element.name
+        tagname: element.name
       },
       templates: {}
     }
+    if (element.attribs && element.attribs.name) {
+      console.log("I swear to god the element has a name and it is ")
+      console.log(element)
+      item.context.name = ' (' + element.attribs.name + ')'
+    }
     if (element.children && element.children.length > 0) {
-      convertDomTreeToLayout(element.children,function(childTree) {
+      convertDomTreeToLayout(element.children,function(childTree,returnedIndex) {
         item.templates.children = childTree
-        items[index] = item
+        items[returnedIndex] = item
         complete()
-      })
+      },index)
     } else {
       items[index] = item
       complete()
@@ -137,10 +149,8 @@ var convertDomTreeToLayout = function(domTree,cb) {
  * @param cb
  */
 var createDomTree = function(layout,fileMap,idMap,cb) {
-  console.log("Creating DOM tree for layout ")
-  console.log(util.inspect(layout,{depth:null}))
-  //console.log("file map")
-  //console.log(util.inspect(fileMap,{depth:null}))
+  //console.log("Creating DOM tree for layout ")
+  //console.log(util.inspect(layout,{depth:null}))
 
   // get the structure of the template
   var sourceKey = '/' + layout.source+'.html'
