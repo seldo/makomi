@@ -13,6 +13,10 @@ module.exports = function(req, res) {
   m.load('sessions', req, appConfig)
   m.end(function(er,models) {
 
+    console.log("Rendering context index")
+    console.log("Sessions says ")
+    console.log(models['sessions'])
+
     var layout = {
       source: "layouts/default",
       context: {
