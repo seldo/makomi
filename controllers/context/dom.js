@@ -54,6 +54,9 @@ module.exports = function(req, res) {
 
           convertDomTreeToLayout(domTree,function(domTreeLayout) {
 
+            console.log("Got domTree layout")
+            console.log(util.inspect(domTreeLayout,{depth:null}));
+
             // this is the layout of the actual DOM pane itself
             var layout = {
               source: "layouts/default",
@@ -110,7 +113,11 @@ var convertDomTreeToLayout = function(domTree,cb,indexRef) {
     if(count == 0) {
       //console.log("Converted dom tree")
       //console.log(layout)
-      layout.templates.items = items;
+      if (items.length > 0) {
+        layout.templates.items = items;
+        console.log("items are ")
+        console.log(items)
+      }
       cb(layout,indexRef)
     }
   }
@@ -118,12 +125,7 @@ var convertDomTreeToLayout = function(domTree,cb,indexRef) {
   domTree.forEach(function(element,index) {
     switch(element.type) {
       case 'text':
-        items[index] = {
-          source: "context/dom/textnode",
-          context: {
-            value: element.raw
-          }
-        }
+        // ignore text nodes(?)
         complete()
         break;
       case 'tag':

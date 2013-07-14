@@ -16,6 +16,7 @@ module.exports = function (req, res) {
     // give it to everybody else
     req.session['definition'] = appDefinition
     req.session['project'] = project
+    req.session['scratchDir'] = scratchDir
     req.session['sourceDir'] = sourceDir
     // FIXME: this concatenation is repeated in makomi-source-util
     req.session['applocation'] = scratchDir + 'app/'
@@ -24,19 +25,6 @@ module.exports = function (req, res) {
       project: project });
   });
 
-  // separately, ID-ify the source code and generate the working copy of the app
-  // yeah, we're loading the definition twice, here and above. Suck it.
-  mkUtil.loadDefinition(sourceDir,function(appDefinition) {
-    fs.mkdirs(scratchDir,function() {
-      mkUtil.generateWorkingCopy(appDefinition,sourceDir,scratchDir, function(newFileMap,newIdMap) {
-        // pass the data to the app in general
-        fileMap = newFileMap
-        console.log("Working copy generated")
-        console.log(util.inspect(newFileMap,{depth:3}))
-        idMap = newIdMap
-      })
-    })
-  })
 
 
 };
