@@ -1,5 +1,6 @@
 var mkUtil = require('makomi-source-util'),
-  fs = require('fs-extra');
+  fs = require('fs-extra'),
+  util = require('util');
 
 /*
  * Load the project configuration, render the UI.
@@ -30,6 +31,8 @@ module.exports = function (req, res) {
       mkUtil.generateWorkingCopy(appDefinition,sourceDir,scratchDir, function(newFileMap,newIdMap) {
         // pass the data to the app in general
         fileMap = newFileMap
+        console.log("Working copy generated")
+        console.log(util.inspect(newFileMap,{depth:3}))
         idMap = newIdMap
       })
     })

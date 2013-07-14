@@ -18,3 +18,12 @@ $('html').on('mouseover',function(e) {
   }
   $(e.target).bind('mouseout',outHandler)
 })
+
+// emit a message when we click an element
+$('html').on('click',function(e) {
+  e.preventDefault();
+  socket.emit('element-selected-in',{
+    "makomi-id": e.target.attributes['makomi-id'].value
+  })
+  console.log("Emitting " + e.target.attributes['makomi-id'].value)
+})

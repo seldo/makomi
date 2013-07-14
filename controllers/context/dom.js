@@ -44,13 +44,13 @@ module.exports = function(req, res) {
       var actionName = routes[route].action
       mkSrc.loadController(sourceDir,controllerName,actionName,function(controller) {
 
-        console.log("Loaded controller for DOM mapping")
-        console.log(controller)
+        //console.log("Loaded controller for DOM mapping")
+        //console.log(controller)
 
         createDomTree(controller.layout,fileMap,idMap,function(domTree) {
 
-          console.log("Got DOM tree top-level:")
-          console.log(util.inspect(domTree,{depth:null}))
+          //console.log("Got DOM tree top-level:")
+          //console.log(util.inspect(domTree,{depth:null}))
 
           convertDomTreeToLayout(domTree,function(domTreeLayout) {
 
@@ -139,6 +139,9 @@ var convertDomTreeToLayout = function(domTree,cb,indexRef) {
         // the parentheses here are confusing model with view; bad Laurie!
         if (element.attribs && element.attribs.name) {
           item.context.name = ' (' + element.attribs.name + ')'
+        }
+        if (element.attribs && element.attribs['makomi-id']) {
+          item.context['makomi-id'] = element.attribs['makomi-id']
         }
         if (element.children && element.children.length > 0) {
           convertDomTreeToLayout(element.children,function(childTree,returnedIndex) {
