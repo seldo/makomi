@@ -1,0 +1,21 @@
+ul {
+  margin-left: 10px;
+  padding-left: 0px;
+}
+ul li {
+  list-style-type: none;
+  margin: 5px;
+}
+ul li .leaf {
+  display: inline;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 2px 4px;
+}
+ul li .name {
+
+}
+ul li .textnode {
+  color: #999;
+  font-size: 75%;
+}

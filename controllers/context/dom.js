@@ -59,7 +59,8 @@ module.exports = function(req, res) {
               source: "layouts/default",
               context: {
                 "title": controller.description,
-                "project": models['sessions'].project
+                "project": models['sessions'].project,
+                "styles": "<link rel='stylesheet' href='/stylesheets/context/dom.css' />"
               },
               templates: {
                 "body": {
@@ -115,27 +116,41 @@ var convertDomTreeToLayout = function(domTree,cb,indexRef) {
   }
 
   domTree.forEach(function(element,index) {
-    var item = {
-      source: "context/dom/item",
-      context: {
-        tagname: element.name
-      },
-      templates: {}
-    }
-    if (element.attribs && element.attribs.name) {
-      console.log("I swear to god the element has a name and it is ")
-      console.log(element)
-      item.context.name = ' (' + element.attribs.name + ')'
-    }
-    if (element.children && element.children.length > 0) {
-      convertDomTreeToLayout(element.children,function(childTree,returnedIndex) {
-        item.templates.children = childTree
-        items[returnedIndex] = item
+    switch(element.type) {
+      case 'text':
+        items[index] = {
+          source: "context/dom/textnode",
+          context: {
+            value: element.raw
+          }
+        }
         complete()
-      },index)
-    } else {
-      items[index] = item
-      complete()
+        break;
+      case 'tag':
+      default:
+        var item = {
+          source: "context/dom/item",
+          context: {
+            tagname: element.name,
+            type: element.type
+          },
+          templates: {}
+        }
+        // the parentheses here are confusing model with view; bad Laurie!
+        if (element.attribs && element.attribs.name) {
+          item.context.name = ' (' + element.attribs.name + ')'
+        }
+        if (element.children && element.children.length > 0) {
+          convertDomTreeToLayout(element.children,function(childTree,returnedIndex) {
+            item.templates.children = childTree
+            items[returnedIndex] = item
+            complete()
+          },index)
+        } else {
+          items[index] = item
+          complete()
+        }
+        break;
     }
   })
 }
@@ -174,6 +189,8 @@ var expandVars = function(fileMap,idMap,domTree,templates,cb) {
 
   //console.log("Expanding vars for ")
   //console.log(util.inspect(domTree,{depth:null}))
+
+  if (!templates) templates = {} // tolerate
 
   var expanded = []
 
