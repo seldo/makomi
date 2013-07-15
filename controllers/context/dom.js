@@ -54,8 +54,8 @@ module.exports = function(req, res) {
 
           convertDomTreeToLayout(domTree,function(domTreeLayout) {
 
-            console.log("Got domTree layout")
-            console.log(util.inspect(domTreeLayout,{depth:null}));
+            //console.log("Got domTree layout")
+            //console.log(util.inspect(domTreeLayout,{depth:null}));
 
             // this is the layout of the actual DOM pane itself
             var layout = {
@@ -115,8 +115,6 @@ var convertDomTreeToLayout = function(domTree,cb,indexRef) {
       //console.log(layout)
       if (items.length > 0) {
         layout.templates.items = items;
-        console.log("items are ")
-        console.log(items)
       }
       cb(layout,indexRef)
     }

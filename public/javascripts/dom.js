@@ -1,9 +1,17 @@
-console.log("I'm in the DOM pane");
+/**
+ * Connect websockets and listen for events
+ * @type {*}
+ */
 var socket = io.connectWithSession('http://local.dev');
 socket.on('routechange-out',function(data) {
   console.log("DOM saw route change: " + data.route)
   location.href = '/' + data.project + '/context/dom?route=' + data.route
 })
+
+/**
+ * Reflect changes to editor in our view
+ */
+
 var selectedId = null
 var lastBorder = null
 // when a new element is selected, unselect the previous one and select a new one

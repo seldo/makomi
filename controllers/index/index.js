@@ -33,7 +33,7 @@ module.exports = function (req, res) {
         // pass the data to the app in general
         fileMap = newFileMap
         idMap = newIdMap
-      })
+      },true) // means dev-mode
     })
   })
 
