@@ -11,7 +11,7 @@ socket.on('routechange-out',function(data) {
 $('html').on('mouseover',function(e) {
   e.preventDefault();
   var oldStyle = $(e.target).css('border');
-  $(e.target).css('border','1px solid red');
+  $(e.target).css('border','1px solid blue');
   var outHandler = function(e2) {
     $(e.target).css('border',oldStyle)
     $(this).unbind(event)
@@ -19,11 +19,57 @@ $('html').on('mouseover',function(e) {
   $(e.target).bind('mouseout',outHandler)
 })
 
-// emit a message when we click an element
+// click to select an element.
+var lastSelected = null
 $('html').on('click',function(e) {
   e.preventDefault();
+  var el = e.target
+  // stop any in-progress changes on other elements
+  if (el != lastSelected) {
+    endInProgress();
+  }
+  // emit a message so the other panes know what we did
   socket.emit('element-selected-in',{
-    "makomi-id": e.target.attributes['makomi-id'].value
+    "makomi-id": el.attributes['makomi-id'].value
   })
-  console.log("Emitting " + e.target.attributes['makomi-id'].value)
+  console.log("Emitting " + el.attributes['makomi-id'].value)
+  lastSelected = el
 })
+
+// tracker of currently ongoing events.
+// tools add callbacks to this array that safely end they do.
+var inProgress = []
+// if we select an element, we cancel anything in-progress on other elements
+var endInProgress = function() {
+  var f = inProgress.pop()
+  while(f) {
+    f()
+    f = inProgress.pop()
+  }
+}
+
+// double-click to edit. Action taken depends on node type. Only not yet.
+var editableElement = null
+$('html').on('dblclick',function(e) {
+  e.preventDefault(); // whatever that is
+  var el = e.target;
+  console.log("Editing " + el)
+  // TODO: if the element doesn't have text, don't let us edit
+  el.contentEditable = true;
+  editableElement = el
+  // how to cancel this
+  inProgress.push(function() {
+    if (editableElement && editableElement.contentEditable) {
+      editableElement.contentEditable = false
+      editableElement = null
+    }
+  })
+})
+
+
+// the escape key will also end anything in progress
+$('html').keyup(function(e) {
+  if (e.keyCode == 27) { // esc
+    endInProgress();
+  }
+});

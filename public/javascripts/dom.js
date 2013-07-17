@@ -31,7 +31,7 @@ var unSelect = function(mkId) {
 var select = function(mkId) {
   var el = findByMkId(mkId)
   lastBorder = $(el).css('border')
-  $(el).css('border','1px solid red')
+  $(el).css('border','1px solid blue')
   selectedId = mkId
 }
 var findByMkId = function(mkId) {

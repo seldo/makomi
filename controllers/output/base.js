@@ -42,6 +42,11 @@ module.exports = function (req, res) {
 
   console.log("Rendering route " + route + " method " + method + " data " + data);
 
+  // chrome caches this shit and that's annoying
+  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.header("Pragma", "no-cache");
+  res.header("Expires", 0);
+
   // call the rendering engine's render method
   // insert the editor JS into the output
   var rendered = renderer.render(

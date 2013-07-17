@@ -18,6 +18,7 @@
     "async": "*",
     "socket.io": "*",
     "connect": "*",
-    "socket.io-sessions": "*"
+    "socket.io-sessions": "*",
+    "makomi-express-runtime": "*"
   }
 }
