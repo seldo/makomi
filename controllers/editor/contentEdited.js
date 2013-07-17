@@ -23,12 +23,20 @@ module.exports = function(session,data) {
   }
 
   mkSrc.findElementAndApply(domTree,mkId,changeContent,function(newDom){
-    console.log("In-memory representation correct. Save to disk!")
-    console.log(util.inspect(newDom,{depth:null}))
-    mkSrc.toHtml(newDom,function(er,html) {
-      console.log("It will look like:")
-      console.log(html)
-      console.log(util.inspect(session,{depth:null}))
+    mkSrc.removeIds(newDom,function(strippedDom) {
+      console.log("In-memory representation correct. Save to disk!")
+      console.log(util.inspect(strippedDom,{depth:null}))
+      var writePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,mkId)
+      mkSrc.writeHtml(writePath,strippedDom,function(html) {
+        console.log("Wrote to " + writePath + ": " + html)
+      })
+      /*
+       mkSrc.toHtml(newDom,function(er,html) {
+       console.log("It will look like:")
+       console.log(html)
+       console.log(util.inspect(session,{depth:null}))
+       })
+       */
     })
   })
 }
