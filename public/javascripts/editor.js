@@ -53,15 +53,23 @@ var editableElement = null
 $('html').on('dblclick',function(e) {
   e.preventDefault(); // whatever that is
   var el = e.target;
-  console.log("Editing " + el)
+  console.log("Editing " + el.tagName)
   // TODO: if the element doesn't have text, don't let us edit
   el.contentEditable = true;
   editableElement = el
-  // how to cancel this
+  // how to end editing
   inProgress.push(function() {
     if (editableElement && editableElement.contentEditable) {
       editableElement.contentEditable = false
       editableElement = null
+      // emit a message so the other panes know what we did
+      socket.emit('controller-action-in',{
+        "controller": "editor",
+        "action": "contentEdited",
+        "makomi-id": el.attributes['makomi-id'].value,
+        "tagName": el.tagName,
+        "content": el.innerHTML
+      })
     }
   })
 })
