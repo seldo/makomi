@@ -9,7 +9,8 @@ var MC = require('emcee'),
   routesModel = require('../../models/makomi-routes'),
   sessionsModel = require('../../models/sessions'),
   util = require('util'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  core = require('../../core.js');
 
 module.exports = function(req, res) {
 
@@ -23,6 +24,7 @@ module.exports = function(req, res) {
 
     // if the app's not generated yet, wait until it is
     if(sourceDirty) {
+      core.generateApp();
       var layout = {
         source: "layouts/default",
         templates: {

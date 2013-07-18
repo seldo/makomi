@@ -1,7 +1,8 @@
 var mkUtil = require('makomi-source-util'),
   mkRun = require('makomi-express-runtime'),
   fs = require('fs-extra'),
-  util = require('util');
+  util = require('util'),
+  core = require('../../core.js');
 
 /*
  * Rendering of the current view, plus our code to allow manipulation.
@@ -19,6 +20,7 @@ module.exports = function (req, res) {
 
   // if the app's not generated yet, wait until it is
   if(sourceDirty) {
+    core.generateApp();
     console.log("Output not ready; try again")
     var layout = {
       source: "layouts/default",

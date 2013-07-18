@@ -25,10 +25,13 @@ app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
 var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
-// these are app-wide data structures
+// these are app-wide data structures. Shut up, I know.
 appConfig = {}
+sourceDir = null
+scratchDir = null
 socketServer = null
 sourceDirty = true
+generating = false
 fileMap = null
 idMap = null
 

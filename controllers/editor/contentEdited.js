@@ -1,5 +1,6 @@
 var mkSrc = require('makomi-source-util'),
-  util = require('util')
+  util = require('util'),
+  core = require('../../core.js')
 
 /**
  * An element has been edited. Find the element in the source, set
@@ -34,6 +35,7 @@ module.exports = function(session,data) {
       var writePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,mkId)
       mkSrc.writeHtml(writePath,strippedDom,function(html) {
         sourceDirty = true
+        core.generateApp(); // trigger regeneration
         console.log("Wrote to " + writePath + ": " + html)
       })
     })
