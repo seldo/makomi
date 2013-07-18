@@ -61,15 +61,17 @@ $('html').on('dblclick',function(e) {
   inProgress.push(function() {
     if (editableElement && editableElement.contentEditable) {
       editableElement.contentEditable = false
-      editableElement = null
       // emit a message so the other panes know what we did
+      // ATM we use the first child of the element, assumed to be a text node
+      // that's probably not a very smart idea
       socket.emit('controller-action-in',{
         "controller": "editor",
         "action": "contentEdited",
-        "makomi-id": el.attributes['makomi-id'].value,
-        "tagName": el.tagName,
-        "content": el.innerHTML
+        "makomi-id": editableElement.attributes['makomi-id'].value,
+        "tagName": editableElement.tagName,
+        "content": editableElement.childNodes[0].nodeValue
       })
+      editableElement = null
     }
   })
 })
