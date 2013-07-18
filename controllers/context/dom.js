@@ -8,7 +8,8 @@ var MC = require('emcee'),
   mkSrc = require('makomi-source-util'),
   routesModel = require('../../models/makomi-routes'),
   sessionsModel = require('../../models/sessions'),
-  util = require('util');
+  util = require('util'),
+  _ = require('underscore');
 
 module.exports = function(req, res) {
 
@@ -159,6 +160,23 @@ var convertDomTreeToLayout = function(domTree,cb,indexRef) {
 }
 
 /**
+ * A VERY DANGEROUS deep-clone that will really break shit if you use it
+ * on an object with methods and stuff. Really only use if you are POSITIVE
+ * that every leaf of your object is a string.
+ * @param x
+ * @returns {*}
+ */
+function clone(x) {
+  var copy = _.clone(x);
+  if (_.isObject(copy)) {
+    _.each(copy,function(element,index) {
+      copy[index] = clone(element)
+    })
+  }
+  return copy
+}
+
+/**
  * Convert a template into the equivalent DOM tree from the filemap
  * Expand any sub-templates appropriately.
  * @param layout
@@ -174,7 +192,9 @@ var createDomTree = function(layout,fileMap,idMap,cb) {
   var sourceKey = '/' + layout.source+'.html'
   if (fileMap[sourceKey]) {
     // expand any leaves within it
-    expandVars(fileMap,idMap,fileMap[sourceKey],layout.templates,function(domTree) {
+    var srcFile = clone(fileMap[sourceKey])
+    //var srcFile = fileMap[sourceKey]
+    expandVars(fileMap,idMap,srcFile,layout.templates,function(domTree) {
       cb(domTree)
     })
   } else {
@@ -284,7 +304,7 @@ tagHandlers['makomi-include'] = function(fileMap,templates,element,cb) {
 
   var sourceKey = '/' + element.attribs.src + '.html'
   if (fileMap[sourceKey]) {
-    element.children = fileMap[sourceKey]
+    element.children = clone(fileMap[sourceKey])
     cb(element)
     return;
   }
