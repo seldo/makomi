@@ -33,6 +33,7 @@ module.exports = function (req, res) {
         // pass the data to the app in general
         fileMap = newFileMap
         idMap = newIdMap
+        sourceDirty = false
         console.log("Working copy generated")
       },true) // means dev-mode
     })

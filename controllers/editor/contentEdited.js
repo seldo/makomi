@@ -33,6 +33,7 @@ module.exports = function(session,data) {
       //console.log(util.inspect(strippedDom,{depth:null}))
       var writePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,mkId)
       mkSrc.writeHtml(writePath,strippedDom,function(html) {
+        sourceDirty = true
         console.log("Wrote to " + writePath + ": " + html)
       })
     })

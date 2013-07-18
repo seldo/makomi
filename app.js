@@ -28,6 +28,7 @@ var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
 // these are app-wide data structures
 appConfig = {}
 socketServer = null
+sourceDirty = true
 fileMap = null
 idMap = null
 

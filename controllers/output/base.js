@@ -18,7 +18,8 @@ module.exports = function (req, res) {
   }
 
   // if the app's not generated yet, wait until it is
-  if(!fileMap || !idMap) {
+  if(sourceDirty) {
+    console.log("Output not ready; try again")
     var layout = {
       source: "layouts/default",
       templates: {
