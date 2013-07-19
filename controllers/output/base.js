@@ -1,5 +1,4 @@
-var mkUtil = require('makomi-source-util'),
-  mkRun = require('makomi-express-runtime'),
+var mkRun = require('makomi-express-runtime'),
   fs = require('fs-extra'),
   util = require('util'),
   core = require('../../core.js');

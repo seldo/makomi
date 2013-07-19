@@ -1,0 +1,17 @@
+ul.toolbar {
+  width: 140px;
+}
+ul.toolbar li {
+  display: block;
+  width: 50px;
+  height: 50px;
+  float: left;
+  font-size: 11px;
+  font-color: grey;
+  border: 1px solid #555;
+  margin: 3px;
+  padding: 5px;
+}
+ul.toolbar li:hover {
+  background-color: #eaf2c2;
+}

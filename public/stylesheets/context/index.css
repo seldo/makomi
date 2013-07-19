@@ -20,7 +20,7 @@ html, body {
 }
 iframe.tab-frame {
   border: none;
-  width: 280px;
+  width: 250px;
   height: calc(100% - 50px);
   position: absolute;
   top: 50px;
