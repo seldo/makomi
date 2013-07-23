@@ -202,12 +202,32 @@ toolHandlers['tag-h1'] = function() {
       console.log("select was " + selection.css('width') + " by " + selection.css('height'))
       console.log("to be inserted into ")
       console.log(insertTarget)
+      var insertEl = $('<h1>')
+      insertEl.css('width',selection.css('width'))
+      insertEl.css('height',selection.css('height'))
+      insertEl.css('background-color','#fafafa')
+      insertEl.html('woo')
+      insertEl.appendTo(insertTarget);
+      insertEl.get(0).contentEditable = true
+
       endInProgress();
+
+      /*
+      var s = window.getSelection(),
+        r = document.createRange();
+      insertEl.html('here')
+      r.selectNodeContents(insertEl.get(0));
+      s.removeAllRanges();
+      s.addRange(r);
+      document.execCommand('delete', false, null);
+      */
+
     }
     container.on('mousemove',mouseMoveHandler)
     container.on('mouseup', mouseUpHandler)
 
     inProgress.push(function() {
+      console.log("Stopping drag")
       // stop listening to mousemove, resume highlighting
       container.off('mousemove',mouseMoveHandler);
       container.off('mouseup',mouseUpHandler);
