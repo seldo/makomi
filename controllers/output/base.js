@@ -75,10 +75,9 @@ module.exports = function (req, res) {
       // TODO: we should probably parse this and insert it
       // rather than generating crappy HTML.
       var modifiedBody = response.body +
-        '<script src="/javascripts/jquery-1.10.1.min.js"></script>' +
         '<script src="/socket.io/socket.io.js"></script>' +
         '<script src="/socket.io/socket.io-sessions.js"></script>' +
-        '<script src="/javascripts/editor.js"></script>';
+        '<script src="/js/editor.js"></script>';
 
       res.send(modifiedBody)
 

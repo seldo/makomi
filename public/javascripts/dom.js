@@ -1,7 +1,18 @@
+var $ = require('jquery-browserify');
+  // io = require('socket.io-client') // not until we fix sessions
+
 /**
  * Connect websockets and listen for events
  * @type {*}
  */
+io.connectWithSession = function(){
+  var socket = io.connect.apply(io, arguments);
+  socket.on('connect', function(){
+    this.emit('connect_with_session', {__sid:CONNECT_SID});
+  });
+  return socket;
+};
+
 var socket = io.connectWithSession('http://local.dev');
 socket.on('routechange-out',function(data) {
   console.log("DOM saw route change: " + data.route)

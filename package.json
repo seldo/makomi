@@ -15,7 +15,11 @@
     "socket.io": "*",
     "connect": "*",
     "socket.io-sessions": "*",
-    "fs-extra": "*"
+    "fs-extra": "*",
+    "browserify-middleware": "*",
+    "browserify": "*",
+    "jquery-browserify": "*",
+    "short-id": "*"
   },
   "devDependencies": {
     "mocha": "*"

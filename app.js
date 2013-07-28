@@ -10,7 +10,8 @@ var express = require('express'),
   path = require('path'),
   Cookies = require('cookies'),
   mkEx = require('makomi-express-runtime'),
-  MemoryStore = require('connect/lib/middleware/session/memory');
+  MemoryStore = require('connect/lib/middleware/session/memory'),
+  browserify = require('browserify-middleware');
 
 var app = express();
 
@@ -25,7 +26,8 @@ app.use(express.methodOverride());
 
 // app-wide config loaded once per thread
 var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
-// these are app-wide data structures. Shut up, I know.
+// these are app-wide, read-only data structures
+// TODO: is it rational to want to wrap these in something? Is that not node-y?
 appConfig = {}
 sourceDir = null
 scratchDir = null
@@ -54,6 +56,11 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
   // define routes in their own file because that seems better
   app.use(app.router);
   require('./router.js')(app);
+
+  // browserified consolidated scripts. TODO: generalize, refactor this.
+  app.use('/js', browserify('./public/javascripts'));
+  app.get('/js/dom.js', browserify('./public/javascripts/dom.js'));
+  app.get('/js/editor.js', browserify('./public/javascripts/editor.js'));
 
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));

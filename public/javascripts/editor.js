@@ -1,4 +1,6 @@
-console.log("I'm in UR code, editing UR stuff");
+var $ = require('jquery-browserify'),
+  shortid = require('short-id'),
+  htmlparser = require('htmlparser');
 
 // make socket connection
 var socket = io.connectWithSession('http://local.dev');
@@ -45,6 +47,7 @@ var toolHandlers = {}
 
 /**
  * Selects an element (reflected in the structure pane) for further changes.
+ * Once selected, you can move or resize an element.
  * While in select mode, double-clicking a text element will allow you to
  * edit it.
  */
@@ -58,11 +61,11 @@ toolHandlers['select'] = function() {
     // ignore whatever else was gonna happen
     e.preventDefault();
     // capture the previous border state and apply our own
-    var oldStyle = $(e.target).css('border');
-    $(e.target).css('border','1px solid blue');
+    var oldStyle = $(e.target).css('background-color');
+    $(e.target).css('background-color','#eeffff');
     // when they mouse out again, restore the previous border
     var outHandler = function(e2) {
-      $(e.target).css('border',oldStyle)
+      $(e.target).css('background-color',oldStyle)
       // and stop listening
       $(this).off(e2)
     }
@@ -84,6 +87,7 @@ toolHandlers['select'] = function() {
       "makomi-id": el.attributes['makomi-id'].value
     })
     console.log("Emitting element-selected for " + el.attributes['makomi-id'].value)
+    console.log(el)
     lastSelected = el
   }
   $('html').on('click',clickHandler)
@@ -132,6 +136,15 @@ toolHandlers['select'] = function() {
  * Inserts an H1 tag of the requested size at the specified insertion point.
  */
 toolHandlers['tag-h1'] = function() {
+  toolHandlers['tag']('h1')
+}
+toolHandlers['tag-div'] = function() {
+  toolHandlers['tag']('div')
+}
+toolHandlers['tag-span'] = function() {
+  toolHandlers['tag']('span')
+}
+toolHandlers['tag'] = function(tag) {
 
   // cursor is crosshair
   $('html').css('cursor','crosshair')
@@ -140,11 +153,11 @@ toolHandlers['tag-h1'] = function() {
   var lastHovered = null
   var hoverHandler = function(e) {
     var el = e.target
-    var lastBorder = $(el).css('border')
-    $(el).css('border','1px solid #ccc')
+    var lastBackground = $(el).css('background-color')
+    $(el).css('background-color','#dee')
     lastHovered = el
     var outHandler = function(e2) {
-      $(lastHovered).css('border',lastBorder)
+      $(lastHovered).css('background-color',lastBackground)
       $(this).off(e2)
     }
     $(el).on('mouseout',outHandler)
@@ -156,9 +169,8 @@ toolHandlers['tag-h1'] = function() {
 
   // credit to http://stackoverflow.com/questions/8884803/jquery-drag-and-draw
   var container = $('html');
-  var selection = $('<div>')
+  var selection = $('<'+tag+'>')
   selection.css('border','1px solid #00d6b2');
-  selection.css('position','absolute')
   var insertTarget = null;
 
   var mouseDownHandler = function(e) {
@@ -169,59 +181,47 @@ toolHandlers['tag-h1'] = function() {
 
     insertTarget = e.target;
 
-    var click_y = e.pageY;
-    var click_x = e.pageX;
-
     selection.css({
-      'top':    click_y,
-      'left':   click_x,
       'width':  0,
       'height': 0
     });
-    selection.appendTo(container);
+    selection.insertBefore(insertTarget);
 
+    console.log("to be inserted before ")
+    console.log(insertTarget)
+
+    var selectionOffsets = $(selection).offset()
+    console.log(selectionOffsets)
     var mouseMoveHandler = function(e) {
-      var move_x = e.pageX,
-        move_y = e.pageY,
-        width  = Math.abs(move_x - click_x),
-        height = Math.abs(move_y - click_y),
-        new_x, new_y;
-
-      new_x = (move_x < click_x) ? (click_x - width) : click_x;
-      new_y = (move_y < click_y) ? (click_y - height) : click_y;
+      var width = e.pageX - selectionOffsets.left,
+        height = e.pageY - selectionOffsets.top;
 
       selection.css({
         'width': width,
-        'height': height,
-        'top': new_y,
-        'left': new_x
+        'height': height
       });
 
     }
     var mouseUpHandler = function(e) {
       console.log("select was " + selection.css('width') + " by " + selection.css('height'))
-      console.log("to be inserted into ")
-      console.log(insertTarget)
-      var insertEl = $('<h1>')
+      var insertEl = $('<'+tag+'>')
+      // give it a makomi-id
+      insertEl.attr('makomi-id','c'+shortid.generate()) // prefix to avoid collisions between client and server
       insertEl.css('width',selection.css('width'))
       insertEl.css('height',selection.css('height'))
-      insertEl.css('background-color','#fafafa')
-      insertEl.html('woo')
-      insertEl.appendTo(insertTarget);
-      insertEl.get(0).contentEditable = true
-
+      insertEl.html('New Element')
+      insertEl.prependTo(insertTarget);
+      // send it to the server to insert into the DOM
+      serializeDom(insertEl,function(domString) {
+        socket.emit('controller-action-in',{
+          controller: 'editor',
+          action: 'domModified',
+          'insert-target-id': $(insertTarget).attr('makomi-id'),
+          'dom-action': 'prepend',
+          'content': domString
+        })
+      })
       endInProgress();
-
-      /*
-      var s = window.getSelection(),
-        r = document.createRange();
-      insertEl.html('here')
-      r.selectNodeContents(insertEl.get(0));
-      s.removeAllRanges();
-      s.addRange(r);
-      document.execCommand('delete', false, null);
-      */
-
     }
     container.on('mousemove',mouseMoveHandler)
     container.on('mouseup', mouseUpHandler)
@@ -243,6 +243,14 @@ toolHandlers['tag-h1'] = function() {
     $('html').off('mousedown',mouseDownHandler)
   })
 
+}
+
+var serializeDom = function(element,cb) {
+  var handler = new htmlparser.DefaultHandler(function (error, dom) {
+    cb(JSON.stringify(dom))
+  });
+  var parser = new htmlparser.Parser(handler);
+  parser.parseComplete(element);
 }
 
 // tracker of currently ongoing events.

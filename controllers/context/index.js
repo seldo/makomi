@@ -1,5 +1,5 @@
 /*
- * What am I looking at right now?
+ * Context pane: what am I looking at right now?
  */
 
 var MC = require('emcee'),
