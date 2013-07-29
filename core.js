@@ -41,7 +41,7 @@ exports.generateApp = function() {
 /**
  * Update a single file in the working copy
  */
-exports.updateView = function(mkId,newDom) {
+exports.updateView = function(mkId,newDom,cb) {
   if (generating) return;
   generating = true
 
@@ -57,6 +57,7 @@ exports.updateView = function(mkId,newDom) {
       sourceDirty = false
       generating = false
       console.log("Working copy of view updated")
+      cb()
     })
   })
 }

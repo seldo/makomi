@@ -20,7 +20,14 @@ module.exports = function(session,data) {
         mkSrc.writeStrippedHtml(writePath,domCopy,function(html) {
           console.log("Inserted new content before " + mkId)
           sourceDirty = true  // set flag
-          core.updateView(mkId,newDom); // update internal representation
+          // update internal representation
+          core.updateView(mkId,newDom,function() {
+            console.log("Sending controller action out")
+            socketServer.sockets.emit('controller-action-out',{
+              controller: "dom",
+              action: "treeModified"
+            })
+          });
         })
       })
       break;

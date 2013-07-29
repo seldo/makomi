@@ -20,7 +20,10 @@ module.exports = function(session,data) {
     mkSrc.writeStrippedHtml(writePath,domCopy,function(html) {
       sourceDirty = true  // set flag
       console.log("Updated source in " + writePath + ": " + html)
-      core.updateView(mkId,newDom); // update internal representation
+      // update internal representation
+      core.updateView(mkId,newDom,function() {
+        // anything?
+      });
     })
   })
 }

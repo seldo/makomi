@@ -1,7 +1,6 @@
 var $ = require('jquery-browserify');
   // io = require('socket.io-client') // not until we fix sessions
 var handlers = {}
-handlers['editor'] = {}
 
 var socket = io.connectWithSession('http://local.dev');
 socket.on('controller-action-out',function(data) {
@@ -16,9 +15,15 @@ socket.on('controller-action-out',function(data) {
  * If they look at a different route, change with them
  * @param data
  */
+handlers['editor'] = {}
 handlers['editor']['routeSelected'] = function(data) {
   console.log("DOM saw route change: " + data.route)
   location.href = '/' + data.project + '/context/dom?route=' + data.route
+}
+handlers['dom'] = {}
+handlers['dom']['treeModified'] = function(data) {
+  console.log("Refresh tree?")
+  location.reload()
 }
 
 /**
