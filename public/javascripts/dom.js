@@ -1,37 +1,39 @@
 var $ = require('jquery-browserify');
   // io = require('socket.io-client') // not until we fix sessions
-
-/**
- * Connect websockets and listen for events
- * @type {*}
- */
-io.connectWithSession = function(){
-  var socket = io.connect.apply(io, arguments);
-  socket.on('connect', function(){
-    this.emit('connect_with_session', {__sid:CONNECT_SID});
-  });
-  return socket;
-};
+var handlers = {}
+handlers['editor'] = {}
 
 var socket = io.connectWithSession('http://local.dev');
-socket.on('routechange-out',function(data) {
+socket.on('controller-action-out',function(data) {
+  var controller = data.controller
+  var action = data.action
+  if (handlers[controller] && handlers[controller][action]) {
+    handlers[controller][action](data)
+  }
+})
+
+/**
+ * If they look at a different route, change with them
+ * @param data
+ */
+handlers['editor']['routeSelected'] = function(data) {
   console.log("DOM saw route change: " + data.route)
   location.href = '/' + data.project + '/context/dom?route=' + data.route
-})
+}
 
 /**
  * Reflect changes to editor in our view
  */
 
+// when a new element is selected, unselect the previous one and select a new one
 var selectedId = null
 var lastBorder = null
-// when a new element is selected, unselect the previous one and select a new one
-socket.on('element-selected-out',function(data) {
+handlers['editor']['elementSelected'] = function(data) {
   var mkId = data['makomi-id']
   console.log("Element to select in DOM: " + mkId)
   unSelect(selectedId)
   select(mkId)
-})
+}
 
 var unSelect = function(mkId) {
   if (mkId) {
@@ -47,4 +49,9 @@ var select = function(mkId) {
 }
 var findByMkId = function(mkId) {
   return $("[makomi-id='" + mkId + "']")
+}
+
+// when the dom is modified, represent those changes in our tree
+handlers['editor']['domModifiedComplete'] = function(data) {
+  console.log("Server modified DOM; it looks different now:")
 }

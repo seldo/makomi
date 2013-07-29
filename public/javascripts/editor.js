@@ -83,10 +83,12 @@ toolHandlers['select'] = function() {
       endInProgress();
     }
     // emit a message so the other panes know what we did
-    socket.emit('element-selected-in',{
+    socket.emit('controller-action-in',{
+      "controller": "editor",
+      "action": "elementSelected",
       "makomi-id": el.attributes['makomi-id'].value
     })
-    console.log("Emitting element-selected for " + el.attributes['makomi-id'].value)
+    console.log("Emitting editor/elementSelected for " + el.attributes['makomi-id'].value)
     console.log(el)
     lastSelected = el
   }
@@ -113,7 +115,7 @@ toolHandlers['select'] = function() {
         socket.emit('controller-action-in',{
           "controller": "editor",
           "action": "contentEdited",
-          "makomi-id": editableElement.attributes['makomi-id'].value,
+          "target-makomi-id": editableElement.attributes['makomi-id'].value,
           "tagName": editableElement.tagName,
           "content": editableElement.childNodes[0].nodeValue
         })
@@ -144,6 +146,8 @@ toolHandlers['tag-div'] = function() {
 toolHandlers['tag-span'] = function() {
   toolHandlers['tag']('span')
 }
+// TODO: more refactoring
+//
 toolHandlers['tag'] = function(tag) {
 
   // cursor is crosshair
@@ -210,15 +214,15 @@ toolHandlers['tag'] = function(tag) {
       insertEl.css('width',selection.css('width'))
       insertEl.css('height',selection.css('height'))
       insertEl.html('New Element')
-      insertEl.prependTo(insertTarget);
+      insertEl.insertBefore(insertTarget);
       // send it to the server to insert into the DOM
-      serializeDom(insertEl,function(domString) {
+      serializeDom(insertEl,function(dom) {
         socket.emit('controller-action-in',{
           controller: 'editor',
           action: 'domModified',
-          'insert-target-id': $(insertTarget).attr('makomi-id'),
-          'dom-action': 'prepend',
-          'content': domString
+          'target-makomi-id': $(insertTarget).attr('makomi-id'),
+          'dom-action': 'insert-before',
+          'content': dom
         })
       })
       endInProgress();
@@ -247,7 +251,7 @@ toolHandlers['tag'] = function(tag) {
 
 var serializeDom = function(element,cb) {
   var handler = new htmlparser.DefaultHandler(function (error, dom) {
-    cb(JSON.stringify(dom))
+    cb(dom)
   });
   var parser = new htmlparser.Parser(handler);
   parser.parseComplete(element);

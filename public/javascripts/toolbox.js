@@ -32,3 +32,10 @@ var selectTool = function(toolName) {
 
 // start with select tool
 selectTool('select');
+
+// the escape key will end the current tool and switch back to select
+$('html').keyup(function(e) {
+  if (e.keyCode == 27) { // esc
+    selectTool('select')
+  }
+});
