@@ -16,11 +16,11 @@ module.exports = function(session,data) {
     case 'insert-before':
       var newContent = data['content'] // htmlparser-style DOM tree
       mkSrc.insertBefore(domTree,mkId,newContent,function(newDom) {
-        mkSrc.writeStrippedHtml(writePath,newDom,function(html) {
+        var domCopy = core.deepClone(newDom) // otherwise it strips stuff!
+        mkSrc.writeStrippedHtml(writePath,domCopy,function(html) {
           console.log("Inserted new content before " + mkId)
           sourceDirty = true  // set flag
-          core.generateApp(); // trigger regeneration
-          console.log("Wrote to " + writePath + ": " + html)
+          core.updateView(mkId,newDom); // update internal representation
         })
       })
       break;

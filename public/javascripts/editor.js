@@ -14,11 +14,20 @@ socket.on('controller-action-out',function(data) {
     case "toolSelected":
       applyToolHandlers(data.toolName)
       break;
+    case "routeSelected":
+      changeRoute(data)
+      break;
     default:
       // nothing
   }
 
 })
+
+var changeRoute = function(data) {
+  console.log("Saw a route change: " + data.route)
+  location.href = '/' + data.project + '/output?route=' + data.route
+}
+
 
 var currentTool = null
 var unbinders = []
@@ -53,8 +62,8 @@ var toolHandlers = {}
  */
 toolHandlers['select'] = function() {
 
-  // cursor should be default
-  $('html').css('cursor','auto')
+  // cursor should be a pointer
+  $('html').css('cursor','pointer')
 
   // highlight elements as we go over them
   var hoverHandler = function(e) {
@@ -211,6 +220,7 @@ toolHandlers['tag'] = function(tag) {
       var insertEl = $('<'+tag+'>')
       // give it a makomi-id
       insertEl.attr('makomi-id','c'+shortid.generate()) // prefix to avoid collisions between client and server
+      // TODO: move these into a CSS file separate from the element
       insertEl.css('width',selection.css('width'))
       insertEl.css('height',selection.css('height'))
       insertEl.html('New Element')
@@ -249,12 +259,18 @@ toolHandlers['tag'] = function(tag) {
 
 }
 
+jQuery.fn.outerHTML = function(s) {
+  return (s)
+    ? this.before(s).remove()
+    : jQuery("<p>").append(this.eq(0).clone()).html();
+}
+
 var serializeDom = function(element,cb) {
   var handler = new htmlparser.DefaultHandler(function (error, dom) {
     cb(dom)
   });
   var parser = new htmlparser.Parser(handler);
-  parser.parseComplete(element);
+  parser.parseComplete($(element).outerHTML());
 }
 
 // tracker of currently ongoing events.
@@ -276,13 +292,6 @@ $('html').keyup(function(e) {
     applyToolHandlers('select')
   }
 });
-
-// old style: when user selects a new route, render that route
-// FIXME: refactor into general method
-socket.on('routechange-out',function(data) {
-  console.log("Saw a route change: " + data.route)
-  location.href = '/' + data.project + '/output?route=' + data.route
-})
 
 // select is the default tool
 applyToolHandlers('select')

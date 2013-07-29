@@ -12,6 +12,7 @@ module.exports = function (req, res) {
   scratchDir = appConfig.scratchpad + project + '/'
 
   // load app definition, make it available to the rest of the app before rendering UI
+  console.log("From controller/index: sourceDir sent as " + sourceDir)
   mkUtil.loadDefinition(sourceDir,function(appDefinition) {
     // give it to everybody else
     req.session['definition'] = appDefinition
@@ -25,6 +26,7 @@ module.exports = function (req, res) {
       project: project });
   });
 
+  console.log("Defined sourceDir as " + sourceDir)
   core.generateApp();
 
 };

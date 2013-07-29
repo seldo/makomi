@@ -16,10 +16,11 @@ module.exports = function(session,data) {
   console.log("Editing element " + mkId + " which is a " + data.tagName)
 
   mkSrc.setTextContent(domTree,mkId,newContent,function(newDom) {
-    mkSrc.writeStrippedHtml(writePath,newDom,function(html) {
+    var domCopy = core.deepClone(newDom) // otherwise it strips stuff!
+    mkSrc.writeStrippedHtml(writePath,domCopy,function(html) {
       sourceDirty = true  // set flag
-      core.generateApp(); // trigger regeneration
-      console.log("Wrote to " + writePath + ": " + html)
+      console.log("Updated source in " + writePath + ": " + html)
+      core.updateView(mkId,newDom); // update internal representation
     })
   })
 }
