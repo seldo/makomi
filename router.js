@@ -9,7 +9,7 @@ module.exports = function(app){
   app.get('/:project/context', context.index);
   app.get('/:project/context/routes', context.routes);
   app.get('/:project/context/dom', context.dom);
-  app.get('/:project/output',  output.base);
+  app.get('/:project/output',  output.editor);
   app.get('/:project/toolbox', toolbox.base);
 
 }

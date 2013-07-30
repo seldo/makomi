@@ -27,6 +27,8 @@ module.exports = function (req, res) {
   });
 
   console.log("Defined sourceDir as " + sourceDir)
-  core.generateApp();
+  if (sourceDirty) {
+    core.generateApp();
+  }
 
 };

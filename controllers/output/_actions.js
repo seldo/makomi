@@ -1,1 +1,1 @@
-exports.base = require('./base')
+exports.editor = require('./editor')

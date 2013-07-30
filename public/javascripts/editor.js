@@ -28,11 +28,29 @@ var changeRoute = function(data) {
   location.href = '/' + data.project + '/output?route=' + data.route
 }
 
+/**
+ * Inprogress is a set of commands to release any listeners created within
+ * the course of using a tool. It is called when a tool switches focus.
+ */
+var inProgress = []
+var endInProgress = function() {
+  var f = inProgress.pop()
+  while(f) {
+    f()
+    f = inProgress.pop()
+  }
+}
 
-var currentTool = null
+/**
+ * Unbinders are a set of commands to release any listeners activated by
+ * the previous tool. They are called when switching tools. endInProgress is
+ * also called to end anything the tool was doing at the time of switch.
+ */
 var unbinders = []
+var currentTool = null
 var applyToolHandlers = function(toolName) {
   console.log("Tool selected: " + toolName)
+  endInProgress();
   // is this a valid tool, and not the tool we're currently using?
   if (toolHandlers[toolName] && currentTool != toolName) {
     // call the un-binders for the previous tool
@@ -72,6 +90,7 @@ toolHandlers['select'] = function() {
     // capture the previous bg color and apply our own
     var oldBg = $(e.target).css('background-color');
     $(e.target).css('background-color','#eeffff');
+
     // when they mouse out again, restore the previous background color
     var outHandler = function(e2) {
       // remove the highlight
@@ -89,20 +108,100 @@ toolHandlers['select'] = function() {
   var clickHandler = function(e) {
     e.preventDefault();
     var el = e.target
+
     // if it's already selected, don't do anything new
     if (el == lastSelected) {
-      return; // already selected
+      return;
     }
     // cancel anything in-progress on other elements
     endInProgress();
+
     // change border of selected element, and tell it how to revert later
     oldBorder = $(el).css('border');
-    console.log("Captured border of " + oldBorder)
     $(el).css('border','1px solid #00f');
     inProgress.push(function() {
-      console.log("Select is being cancelled, reverting to " + oldBorder)
       $(el).css('border',oldBorder)
     })
+
+    // bind the delete key to removing elements
+    var deleteHandler = function(e) {
+      if (e.keyCode == 46) { // delete
+        // delete the element!
+        var deletedId = $(el).attr('makomi-id')
+        $(el).remove()
+        console.log("Element to delete: " + deletedId)
+
+        // un-select everything, cause it doesn't exist
+        endInProgress();
+
+        // emit a message so the other panes know what we did
+        socket.emit('controller-action-in',{
+          "controller": "editor",
+          "action": "elementDeleted",
+          "target-makomi-id": deletedId
+        })
+
+      }
+    }
+    $('html').on('keyup',deleteHandler)
+    inProgress.push(function() {
+      $('html').off('keyup',deleteHandler)
+    })
+
+    // once selected, the element has additional hover functions that show
+    // the user how they can move and resize the element
+    var selectedHoverHandler = function(e) {
+      e.preventDefault();
+      var el = e.target
+      console.log(e)
+
+      // start listening to mousemove while they remain within the element
+      var boundaryWidth = 10
+      var mouseMoveHandler = function(e) {
+        var elHeight = parseInt($(el).css('height'))
+        var elWidth = parseInt($(el).css('width'))
+        var pointerX = e.offsetX;
+        var pointerY = e.offsetY;
+
+        if(elWidth - pointerX < boundaryWidth) {
+          $(el).css('cursor','ew-resize')
+        } else if (pointerX < boundaryWidth) {
+          $(el).css('cursor','ew-resize')
+        } else {
+          $(el).css('cursor','move')
+        }
+
+        //
+      }
+      $(el).on('mousemove',mouseMoveHandler)
+
+      // return the cursor to normal when they leave
+      var selectedOutHandler = function(e3) {
+        $(el).css('cursor','auto')
+        $(el).off('mousemove',mouseMoveHandler)
+      }
+      $(el).on('mouseout',selectedOutHandler)
+
+      // when complete, stop these handlers
+      inProgress.push(function() {
+        $(el).off('mouseout',selectedOutHandler)
+        $(el).off('mouseover',selectedHoverHandler)
+        $(el).css('cursor','auto')
+      })
+    }
+    $(el).on('mouseover',selectedHoverHandler)
+    // we're already over it, so activate it immediately
+    selectedHoverHandler(e)
+
+    // the selected element has dragdrop handlers to allow moving and resizing
+    el.draggable = true
+    var dragHandler = function(e) {
+      console.log("jQuery knows about dragstart")
+      inProgress.push(function() {
+        $(el).off('dragstart')
+      })
+    }
+    $(el).on('dragstart',dragHandler)
 
     // emit a message so the other panes know what we did
     socket.emit('controller-action-in',{
@@ -110,8 +209,11 @@ toolHandlers['select'] = function() {
       "action": "elementSelected",
       "makomi-id": el.attributes['makomi-id'].value
     })
-    console.log("Emitting editor/elementSelected for " + el.attributes['makomi-id'].value)
-    console.log(el)
+
+    // mark this as the selected element, until it's not
+    inProgress.push(function() {
+      lastSelected = null
+    })
     lastSelected = el
   }
   $('html').on('click',clickHandler)
@@ -149,7 +251,6 @@ toolHandlers['select'] = function() {
     $('html').off('mouseover',hoverHandler)
     $('html').off('click',clickHandler)
     $('html').off('dblclick',dblClickHandler)
-    endInProgress();
   })
 }
 
@@ -281,17 +382,6 @@ var serializeDom = function(element,cb) {
   });
   var parser = new htmlparser.Parser(handler);
   parser.parseComplete($(element).outerHTML());
-}
-
-// tracker of currently ongoing events.
-// tools add callbacks to this array that safely end whatever they're doing.
-var inProgress = []
-var endInProgress = function() {
-  var f = inProgress.pop()
-  while(f) {
-    f()
-    f = inProgress.pop()
-  }
 }
 
 // the escape key will end the current tool and switch back to select
