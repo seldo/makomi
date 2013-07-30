@@ -36,6 +36,7 @@ selectTool('select');
 // the escape key will end the current tool and switch back to select
 $('html').keyup(function(e) {
   if (e.keyCode == 27) { // esc
+    console.log("Keyup called from toolbox")
     selectTool('select')
   }
 });

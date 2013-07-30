@@ -62,7 +62,7 @@ var toolHandlers = {}
  */
 toolHandlers['select'] = function() {
 
-  // cursor should be a pointer
+  // cursor should be a pointer for most elements
   $('html').css('cursor','default')
 
   // highlight elements as we go over them
@@ -72,7 +72,7 @@ toolHandlers['select'] = function() {
     // capture the previous bg color and apply our own
     var oldBg = $(e.target).css('background-color');
     $(e.target).css('background-color','#eeffff');
-    // when they mouse out again, restore the previous border
+    // when they mouse out again, restore the previous background color
     var outHandler = function(e2) {
       // remove the highlight
       $(e.target).css('background-color',oldBg)
@@ -88,15 +88,19 @@ toolHandlers['select'] = function() {
   var oldBorder;
   var clickHandler = function(e) {
     e.preventDefault();
-    // change border
     var el = e.target
-    oldBorder = $(el).css('border');
-    $(el).css('border','1px solid #00f');
-    // if we select an element, we cancel anything in-progress on other elements
-    if (el != lastSelected) {
-      endInProgress();
+    // if it's already selected, don't do anything new
+    if (el == lastSelected) {
+      return; // already selected
     }
+    // cancel anything in-progress on other elements
+    endInProgress();
+    // change border of selected element, and tell it how to revert later
+    oldBorder = $(el).css('border');
+    console.log("Captured border of " + oldBorder)
+    $(el).css('border','1px solid #00f');
     inProgress.push(function() {
+      console.log("Select is being cancelled, reverting to " + oldBorder)
       $(el).css('border',oldBorder)
     })
 
@@ -115,11 +119,8 @@ toolHandlers['select'] = function() {
   // double-click to edit. Action taken depends on node type. Only not yet.
   var editableElement = null
   var dblClickHandler = function(e) {
-    e.preventDefault(); // whatever that is
+    e.preventDefault();
     var el = e.target;
-    if (el != lastSelected) {
-      endInProgress();
-    }
     // TODO: if the element doesn't have text, don't let us edit
     el.contentEditable = true;
     editableElement = el
@@ -297,6 +298,7 @@ var endInProgress = function() {
 // if you're in select already, it will also end any editing event
 $('html').keyup(function(e) {
   if (e.keyCode == 27) { // esc
+    console.log("Keyup called from editor")
     endInProgress();
     applyToolHandlers('select')
   }
