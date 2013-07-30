@@ -63,18 +63,19 @@ var toolHandlers = {}
 toolHandlers['select'] = function() {
 
   // cursor should be a pointer
-  $('html').css('cursor','pointer')
+  $('html').css('cursor','default')
 
   // highlight elements as we go over them
   var hoverHandler = function(e) {
     // ignore whatever else was gonna happen
     e.preventDefault();
-    // capture the previous border state and apply our own
-    var oldStyle = $(e.target).css('background-color');
+    // capture the previous bg color and apply our own
+    var oldBg = $(e.target).css('background-color');
     $(e.target).css('background-color','#eeffff');
     // when they mouse out again, restore the previous border
     var outHandler = function(e2) {
-      $(e.target).css('background-color',oldStyle)
+      // remove the highlight
+      $(e.target).css('background-color',oldBg)
       // and stop listening
       $(this).off(e2)
     }
@@ -84,13 +85,21 @@ toolHandlers['select'] = function() {
 
   // click to select an element.
   var lastSelected = null
+  var oldBorder;
   var clickHandler = function(e) {
     e.preventDefault();
+    // change border
     var el = e.target
+    oldBorder = $(el).css('border');
+    $(el).css('border','1px solid #00f');
     // if we select an element, we cancel anything in-progress on other elements
     if (el != lastSelected) {
       endInProgress();
     }
+    inProgress.push(function() {
+      $(el).css('border',oldBorder)
+    })
+
     // emit a message so the other panes know what we did
     socket.emit('controller-action-in',{
       "controller": "editor",
