@@ -46,18 +46,28 @@ exports.updateView = function(mkId,newDom,cb) {
   generating = true
 
   var fileToUpdate = mkUtil.getSrc(idMap,mkId)
+  // FIXME: hard-coding location
+  var scratchSource = scratchDir + '.makomi/'
+  var scratchApp = scratchDir + 'app/'
 
-  mkUtil.updateViewFile(scratchDir,fileToUpdate,newDom,function() {
+  mkUtil.loadDefinition(sourceDir,function(appDefinition) {
+    mkUtil.updateViewFile(scratchDir,fileToUpdate,newDom,function() {
 
-    // update the ID map
-    mkUtil.createIdMap(fileToUpdate,newDom,function(idMapFragment) {
-      // update the global structures
-      fileMap[fileToUpdate] = newDom
-      _.extend(idMap,idMapFragment)
-      sourceDirty = false
-      generating = false
-      console.log("Working copy of view updated")
-      cb()
+      // update the ID map
+      mkUtil.createIdMap(fileToUpdate,newDom,function(idMapFragment) {
+        // update the global structures
+        fileMap[fileToUpdate] = newDom
+        _.extend(idMap,idMapFragment)
+
+        // call the view generator to update the templates from the source
+        var viewEngine = require(appDefinition.generators.views)
+        viewEngine.generate(scratchSource,scratchApp,"views",true,function() {
+          sourceDirty = false
+          generating = false
+          console.log("Working copy of view updated; templated regenerated")
+          cb()
+        })
+      })
     })
   })
 }
