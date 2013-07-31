@@ -34,6 +34,7 @@ var changeRoute = function(data) {
  */
 var inProgress = []
 var endInProgress = function() {
+  console.log("ending in-progress")
   var f = inProgress.pop()
   while(f) {
     f()
@@ -102,6 +103,76 @@ toolHandlers['select'] = function() {
   }
   $('html').on('mouseover',hoverHandler);
 
+  var selectedMouseMoveHandler = function(e) {
+    var el = e.data.el
+    var boundaryWidth = 10
+    var elHeight = parseInt($(el).css('height'))
+    var elWidth = parseInt($(el).css('width'))
+    var pointerX = e.offsetX;
+    var pointerY = e.offsetY;
+
+    if(elWidth - pointerX < boundaryWidth) {
+      $(el).css('cursor','ew-resize')
+    } else if (pointerX < boundaryWidth) {
+      $(el).css('cursor','ew-resize')
+    } else {
+      $(el).css('cursor','move')
+    }
+
+    //
+  }
+
+  // bind the delete key to removing elements
+  var selectedDeleteHandler = function(e) {
+    var el = e.data.el
+    if (e.keyCode == 46) { // delete
+      // delete the element!
+      var deletedId = $(el).attr('makomi-id')
+      $(el).remove()
+      console.log("Element to delete: " + deletedId)
+
+      // un-select everything, cause it doesn't exist
+      endInProgress();
+
+      // emit a message so the other panes know what we did
+      socket.emit('controller-action-in',{
+        "controller": "editor",
+        "action": "elementDeleted",
+        "target-makomi-id": deletedId
+      })
+    }
+  }
+
+  // once selected, the element has additional hover functions that show
+  // the user how they can move and resize the element
+  var selectedHoverHandler = function(e) {
+    e.preventDefault();
+    var el = e.target
+    console.log(e)
+
+    // start listening to mousemove while they remain within the element
+    $(el).on('mousemove',{"el": el},selectedMouseMoveHandler)
+    $(el).on('mouseout',{"el": el},selectedOutHandler)
+  }
+
+  // while selected, the element should remove the listeners it applies on hover
+  var selectedOutHandler = function(e) {
+    var el = e.data.el
+    $(el).css('cursor','default')
+    $(el).off('mousemove',selectedMouseMoveHandler)
+  }
+
+  // while selected, dragging the element around shows where a move op would go
+  var selectedDragHandler = function(e) {
+    var el = e.data.el
+    console.log("jQuery knows about dragstart")
+    inProgress.push(function() {
+      $(el).off('dragstart')
+    })
+
+    // TODO: complete
+  }
+
   // click to select an element.
   var lastSelected = null
   var oldBorder;
@@ -119,89 +190,18 @@ toolHandlers['select'] = function() {
     // change border of selected element, and tell it how to revert later
     oldBorder = $(el).css('border');
     $(el).css('border','1px solid #00f');
-    inProgress.push(function() {
-      $(el).css('border',oldBorder)
-    })
 
-    // bind the delete key to removing elements
-    var deleteHandler = function(e) {
-      if (e.keyCode == 46) { // delete
-        // delete the element!
-        var deletedId = $(el).attr('makomi-id')
-        $(el).remove()
-        console.log("Element to delete: " + deletedId)
+    // listen for the delete key
+    $('html').on('keyup',{"el": el},selectedDeleteHandler)
 
-        // un-select everything, cause it doesn't exist
-        endInProgress();
-
-        // emit a message so the other panes know what we did
-        socket.emit('controller-action-in',{
-          "controller": "editor",
-          "action": "elementDeleted",
-          "target-makomi-id": deletedId
-        })
-
-      }
-    }
-    $('html').on('keyup',deleteHandler)
-    inProgress.push(function() {
-      $('html').off('keyup',deleteHandler)
-    })
-
-    // once selected, the element has additional hover functions that show
-    // the user how they can move and resize the element
-    var selectedHoverHandler = function(e) {
-      e.preventDefault();
-      var el = e.target
-      console.log(e)
-
-      // start listening to mousemove while they remain within the element
-      var boundaryWidth = 10
-      var mouseMoveHandler = function(e) {
-        var elHeight = parseInt($(el).css('height'))
-        var elWidth = parseInt($(el).css('width'))
-        var pointerX = e.offsetX;
-        var pointerY = e.offsetY;
-
-        if(elWidth - pointerX < boundaryWidth) {
-          $(el).css('cursor','ew-resize')
-        } else if (pointerX < boundaryWidth) {
-          $(el).css('cursor','ew-resize')
-        } else {
-          $(el).css('cursor','move')
-        }
-
-        //
-      }
-      $(el).on('mousemove',mouseMoveHandler)
-
-      // return the cursor to normal when they leave
-      var selectedOutHandler = function(e3) {
-        $(el).css('cursor','auto')
-        $(el).off('mousemove',mouseMoveHandler)
-      }
-      $(el).on('mouseout',selectedOutHandler)
-
-      // when complete, stop these handlers
-      inProgress.push(function() {
-        $(el).off('mouseout',selectedOutHandler)
-        $(el).off('mouseover',selectedHoverHandler)
-        $(el).css('cursor','auto')
-      })
-    }
-    $(el).on('mouseover',selectedHoverHandler)
+    // change the cursor when we hover over this element
+    $(el).on('mouseover',{"el": el},selectedHoverHandler)
     // we're already over it, so activate it immediately
     selectedHoverHandler(e)
 
     // the selected element has dragdrop handlers to allow moving and resizing
     el.draggable = true
-    var dragHandler = function(e) {
-      console.log("jQuery knows about dragstart")
-      inProgress.push(function() {
-        $(el).off('dragstart')
-      })
-    }
-    $(el).on('dragstart',dragHandler)
+    $(el).on('dragstart',{"el": el},selectedDragHandler)
 
     // emit a message so the other panes know what we did
     socket.emit('controller-action-in',{
@@ -210,11 +210,20 @@ toolHandlers['select'] = function() {
       "makomi-id": el.attributes['makomi-id'].value
     })
 
-    // mark this as the selected element, until it's not
+    // mark this as the selected element
+    lastSelected = el
+
+    // explain how to undo all of this stuff
     inProgress.push(function() {
+      $(el).css('border',oldBorder)
+      $('html').off('keyup',selectedDeleteHandler)
+      $(el).off('mouseover',selectedHoverHandler)
+      $(el).off('dragstart',selectedDragHandler)
+      $(el).off('mouseout',selectedOutHandler)
+      el.draggable = false
       lastSelected = null
     })
-    lastSelected = el
+
   }
   $('html').on('click',clickHandler)
 
@@ -223,7 +232,26 @@ toolHandlers['select'] = function() {
   var dblClickHandler = function(e) {
     e.preventDefault();
     var el = e.target;
+
+    // intercept single-clicks to prevent re-selection
+    var editClickHandler = function(e) {
+      e.stopPropagation();
+      console.log("Click received during edit mode")
+    }
+    $(el).on('click',editClickHandler)
+
+    // turn off the other handlers that usually apply to this element
+    $('html').off('keyup',selectedDeleteHandler)
+    $(el).off('mouseover',selectedHoverHandler)
+    $(el).off('mousemove',selectedMouseMoveHandler)
+    $(el).off('dragstart',selectedDragHandler)
+
+    // cursor to text editor
+    $(el).css('cursor','text')
+
+    // now set the element to be editable
     // TODO: if the element doesn't have text, don't let us edit
+    el.draggable = false // this confuses shit mightily
     el.contentEditable = true;
     editableElement = el
 
@@ -242,6 +270,8 @@ toolHandlers['select'] = function() {
         })
         editableElement = null
       }
+      $(el).off('click',editClickHandler)
+      $(el).css('cursor','default')
     })
   }
   $('html').on('dblclick',dblClickHandler)
