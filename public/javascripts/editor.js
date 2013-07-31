@@ -103,6 +103,7 @@ toolHandlers['select'] = function() {
   }
   $('html').on('mouseover',hoverHandler);
 
+  // change the cursor as we hover over this element
   var selectedMouseMoveHandler = function(e) {
     var el = e.data.el
     var boundaryWidth = 10
@@ -120,6 +121,10 @@ toolHandlers['select'] = function() {
     }
 
     //
+  }
+
+  var selectedMouseDownHandler = function(e) {
+
   }
 
   // bind the delete key to removing elements
@@ -143,23 +148,10 @@ toolHandlers['select'] = function() {
     }
   }
 
-  // once selected, the element has additional hover functions that show
-  // the user how they can move and resize the element
-  var selectedHoverHandler = function(e) {
-    e.preventDefault();
-    var el = e.target
-    console.log(e)
-
-    // start listening to mousemove while they remain within the element
-    $(el).on('mousemove',{"el": el},selectedMouseMoveHandler)
-    $(el).on('mouseout',{"el": el},selectedOutHandler)
-  }
-
   // while selected, the element should remove the listeners it applies on hover
   var selectedOutHandler = function(e) {
     var el = e.data.el
     $(el).css('cursor','default')
-    $(el).off('mousemove',selectedMouseMoveHandler)
   }
 
   // while selected, dragging the element around shows where a move op would go
@@ -174,11 +166,11 @@ toolHandlers['select'] = function() {
   }
 
   // click to select an element.
-  var lastSelected = null
-  var oldBorder;
   var clickHandler = function(e) {
     e.preventDefault();
     var el = e.target
+    var oldBorder;
+    var lastSelected = null
 
     // if it's already selected, don't do anything new
     if (el == lastSelected) {
@@ -194,10 +186,13 @@ toolHandlers['select'] = function() {
     // listen for the delete key
     $('html').on('keyup',{"el": el},selectedDeleteHandler)
 
-    // change the cursor when we hover over this element
-    $(el).on('mouseover',{"el": el},selectedHoverHandler)
-    // we're already over it, so activate it immediately
-    selectedHoverHandler(e)
+    // once selected, the element has additional hover functions that show
+    // the user how they can move and resize the element
+    $(el).on('mousemove',{"el": el},selectedMouseMoveHandler)
+    $(el).on('mouseout',{"el": el},selectedOutHandler)
+    // we're already over the element, so trigger the move handler
+    e.data={}; e.data.el = el
+    selectedMouseMoveHandler(e)
 
     // the selected element has dragdrop handlers to allow moving and resizing
     el.draggable = true
@@ -217,10 +212,11 @@ toolHandlers['select'] = function() {
     inProgress.push(function() {
       $(el).css('border',oldBorder)
       $('html').off('keyup',selectedDeleteHandler)
-      $(el).off('mouseover',selectedHoverHandler)
+      $(el).off('mousemove',selectedMouseMoveHandler)
       $(el).off('dragstart',selectedDragHandler)
       $(el).off('mouseout',selectedOutHandler)
       el.draggable = false
+      selectedOutHandler({data:{el:el}})
       lastSelected = null
     })
 
