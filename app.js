@@ -86,9 +86,6 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
     store:  sessionStore,                // Your session store
     parser: connect.cookieParser()  // Cookie parser
   });
-  // TODO: socket actions should be handled by regular controllers
-  var socketController = require('./controllers/sockets.js')
-  socketController.start(socketServer)
-  //mkEx.misc.socketController.start(socketServer)
+  mkEx.sockets.start(socketServer,__dirname)
 
 })
