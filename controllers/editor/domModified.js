@@ -31,6 +31,43 @@ module.exports = function(session,data) {
         })
       })
       break;
+    case 'move':
+      var content = data['content']; // easier than cloning
+      // we have *two* potential dom trees, because the target and
+      // destination are not necessarily in the same file
+      var targetMkId = mkId;
+      var targetDomTree = domTree;
+      var targetWritePath = writePath;
+      var destMkId = data['destination-makomi-id'];
+      var destDomTree = mkSrc.getTree(idMap,fileMap,destMkId)
+      var destWritePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,destMkId)
+      // insert new content
+      mkSrc.insertBefore(destDomTree,destMkId,content,function(newDestDom) {
+        var newDestDomCopy = core.deepClone(newDestDom)
+        // remove previous location
+        mkSrc.remove(targetDomTree,targetMkId,function(newTargetDom) {
+          var newTargetDomCopy = core.deepClone(newTargetDom)
+          // write to the destination file
+          mkSrc.writeStrippedHtml(destWritePath,newDestDomCopy,function(destHtml) {
+            // write to the target file
+            mkSrc.writeStrippedHtml(targetWritePath,newTargetDomCopy,function(targetHtml) {
+              console.log("Moved content")
+              sourceDirty = true
+              // update internal reps of both files
+              core.updateView(targetMkId,newTargetDom,function() {
+                core.updateView(destMkId,newDestDom,function() {
+                  // tell the DOM pane to refresh
+                  socketServer.sockets.emit('controller-action-out',{
+                    controller: "dom",
+                    action: "treeModified"
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+      break;
     default:
       console.log("DomModified: Unknown DOM action " + domAction)
   }

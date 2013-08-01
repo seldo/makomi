@@ -194,7 +194,6 @@ toolHandlers['select'] = function() {
   var selectedDragOverHandler = function(e) {
     // target is the thing I am currently over
     // if you stop handling this, drop and end events stop working(?)
-    console.log("dragging over")
     e.preventDefault()
     e.stopPropagation()
   }
@@ -205,13 +204,33 @@ toolHandlers['select'] = function() {
     e.stopPropagation()
     $(insertProxy).detach()
     $(el).insertBefore(e.target)
+
+    endInProgress();
+    $(el).removeAttr('contentEditable')
+    $(el).removeAttr('draggable')
+    $(el).css('border','')
+    $(el).css('background-color','')
+    $(el).css('cursor','')
+
+    // emit a message so the other app knows what we did
+    serializeDom(el,function(dom) {
+      socket.emit('controller-action-in',{
+        "controller": "editor",
+        "action": "domModified",
+        "dom-action": "move",
+        "target-makomi-id": $(el).attr('makomi-id'),
+        "destination-makomi-id": $(e.target).attr('makomi-id'),
+        "content": dom
+      })
+    })
+
   }
 
   var selectedDragEndHandler = function(e) {
     // target is the thing I dropped
+    // if you don't stop these all sorts of random browser shit happens
     e.preventDefault()
     e.stopPropagation()
-    console.log("Drag ended")
   }
 
   // start a resize/move operation
@@ -222,6 +241,8 @@ toolHandlers['select'] = function() {
     var el = e.data.el
     // obey this movement mode until we complete it
     moveModeLock = true
+
+    // moving is fucking complicated and involves a shit-ton of handlers
     if (moveMode == 'move') {
       el.draggable = true
       $(el).on('dragstart',{"el": el},selectedDragStartHandler)
@@ -268,7 +289,7 @@ toolHandlers['select'] = function() {
   // while selected, the element should remove the listeners it applies on hover
   var selectedOutHandler = function(e) {
     var el = e.data.el
-    $(el).css('cursor','default')
+    $(el).css('cursor','')
   }
 
   // click to select an element.
@@ -379,7 +400,7 @@ toolHandlers['select'] = function() {
         editableElement = null
       }
       $(el).off('click',editClickHandler)
-      $(el).css('cursor','default')
+      $(el).css('cursor','')
     })
   }
   $('html').on('dblclick',dblClickHandler)
