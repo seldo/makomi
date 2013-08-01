@@ -104,27 +104,144 @@ toolHandlers['select'] = function() {
   $('html').on('mouseover',hoverHandler);
 
   // change the cursor as we hover over this element
+  var moveMode = false;
+  var moveModeLock = false
   var selectedMouseMoveHandler = function(e) {
     var el = e.data.el
     var boundaryWidth = 10
     var elHeight = parseInt($(el).css('height'))
     var elWidth = parseInt($(el).css('width'))
-    var pointerX = e.offsetX;
-    var pointerY = e.offsetY;
+    var offsets = $(el).offset()
+    var pointerX = e.pageX - offsets['left'];
+    var pointerY = e.pageY - offsets['top'];
 
-    if(elWidth - pointerX < boundaryWidth) {
-      $(el).css('cursor','ew-resize')
-    } else if (pointerX < boundaryWidth) {
-      $(el).css('cursor','ew-resize')
+    if (moveModeLock) {
+      switch(moveMode) {
+        case "ew-right":
+          $(el).css('width',pointerX)
+          break;
+        case "ns-bottom":
+          $(el).css('height',pointerY)
+          break;
+        case "bottom-right-resize":
+          $(el).css('width',pointerX)
+          $(el).css('height',pointerY)
+          break;
+        case "move":
+          break;
+        default:
+          console.log("Move mode: " + moveMode);
+      }
     } else {
-      $(el).css('cursor','move')
+      if(elWidth - pointerX < boundaryWidth && elHeight - pointerY < boundaryWidth) {
+        moveMode = "bottom-right-resize"
+        $(el).css('cursor','nwse-resize')
+      } else if(elWidth - pointerX < boundaryWidth) {
+        moveMode = "ew-right"
+        $(el).css('cursor','ew-resize')
+      // FIXME: need to distinguish flow direction for left-right resizes
+      //} else if (pointerX < boundaryWidth) {
+      //  moveMode = "ew-left"
+      //  $(el).css('cursor','ew-resize')
+      } else if (elHeight - pointerY < boundaryWidth) {
+        moveMode = "ns-bottom"
+        $(el).css('cursor','ns-resize')
+      // FIXME: almost never makes sense to resize from top
+      //} else if (pointerY < boundaryWidth) {
+      //  moveMode = "ns-top"
+      //  $(el).css('cursor','ns-resize')
+      } else {
+        moveMode = "move"
+        $(el).css('cursor','move')
+      }
     }
 
-    //
+    if (moveMode != "move") {
+      e.preventDefault()
+    }
+
   }
 
-  var selectedMouseDownHandler = function(e) {
+  // while selected, dragging the element around shows where a move op would go
+  var selectedDragStartHandler = function(e) {
+    var el = e.data.el
+    console.log("jQuery knows about dragstart")
+    // TODO: complete
+  }
 
+  var selectedDragHandler = function(e) {
+    // target is the original copy of the thing I'm dragging around
+    //$(e.target).css('border','1px solid yellow')
+  }
+
+  var insertProxy = $('<div>');
+  insertProxy.css('width','100px')
+  insertProxy.css('height','4px')
+  insertProxy.css('border-radius','4px')
+  insertProxy.css('background-color','#9f9')
+  insertProxy.css('position','absolute')
+  var selectedDragEnterHandler = function(e) {
+    // target is the thing I have dragged over
+    var el = e.target
+    $(insertProxy).insertBefore(el);
+  }
+
+  var selectedDragLeaveHandler = function(e) {
+    // target is the thing I just dragged out of
+  }
+
+
+  var selectedDragOverHandler = function(e) {
+    // target is the thing I am currently over
+    // if you stop handling this, drop and end events stop working(?)
+    console.log("dragging over")
+    e.preventDefault()
+    e.stopPropagation()
+  }
+
+  var selectedDropHandler = function(e) {
+    // target is the thing I have dropped on
+    var el = e.data.el
+    e.stopPropagation()
+    $(insertProxy).detach()
+    $(el).insertBefore(e.target)
+  }
+
+  var selectedDragEndHandler = function(e) {
+    // target is the thing I dropped
+    e.preventDefault()
+    e.stopPropagation()
+    console.log("Drag ended")
+  }
+
+  // start a resize/move operation
+  var selectedMouseDownHandler = function(e) {
+    if (moveMode != "move") {
+      e.preventDefault()
+    }
+    var el = e.data.el
+    // obey this movement mode until we complete it
+    moveModeLock = true
+    if (moveMode == 'move') {
+      el.draggable = true
+      $(el).on('dragstart',{"el": el},selectedDragStartHandler)
+      $(el).on('drag',{"el": el},selectedDragHandler)
+      $('html').on('dragenter',{"el": el},selectedDragEnterHandler)
+      $('html').on('dragleave',{"el": el},selectedDragLeaveHandler)
+      $('html').on('dragover',{"el": el},selectedDragOverHandler)
+      $('html').on('drop',{"el": el},selectedDropHandler)
+      $('html').on('dragend',{"el": el},selectedDragEndHandler)
+    }
+  }
+
+  // end a resize/move op
+  var selectedMouseUpHandler = function(e) {
+    if (moveMode != "move") {
+      e.preventDefault()
+    }
+    console.log("Mouseup detected")
+    moveModeLock = false
+    $('html').css('cursor','default')
   }
 
   // bind the delete key to removing elements
@@ -154,17 +271,6 @@ toolHandlers['select'] = function() {
     $(el).css('cursor','default')
   }
 
-  // while selected, dragging the element around shows where a move op would go
-  var selectedDragHandler = function(e) {
-    var el = e.data.el
-    console.log("jQuery knows about dragstart")
-    inProgress.push(function() {
-      $(el).off('dragstart')
-    })
-
-    // TODO: complete
-  }
-
   // click to select an element.
   var clickHandler = function(e) {
     e.preventDefault();
@@ -188,15 +294,14 @@ toolHandlers['select'] = function() {
 
     // once selected, the element has additional hover functions that show
     // the user how they can move and resize the element
-    $(el).on('mousemove',{"el": el},selectedMouseMoveHandler)
+    $('html').on('mousemove',{"el": el},selectedMouseMoveHandler)
     $(el).on('mouseout',{"el": el},selectedOutHandler)
+    $(el).on('mousedown',{"el": el},selectedMouseDownHandler);
+    $('html').on('mouseup',selectedMouseUpHandler);
     // we're already over the element, so trigger the move handler
     e.data={}; e.data.el = el
     selectedMouseMoveHandler(e)
 
-    // the selected element has dragdrop handlers to allow moving and resizing
-    el.draggable = true
-    $(el).on('dragstart',{"el": el},selectedDragHandler)
 
     // emit a message so the other panes know what we did
     socket.emit('controller-action-in',{
@@ -212,9 +317,17 @@ toolHandlers['select'] = function() {
     inProgress.push(function() {
       $(el).css('border',oldBorder)
       $('html').off('keyup',selectedDeleteHandler)
-      $(el).off('mousemove',selectedMouseMoveHandler)
-      $(el).off('dragstart',selectedDragHandler)
+      $('html').off('mousemove',selectedMouseMoveHandler)
+      $(el).off('dragstart',selectedDragStartHandler)
+      $(el).off('drag',selectedDragHandler)
+      $('html').off('dragover',selectedDragOverHandler)
+      $('html').off('dragenter',selectedDragEnterHandler)
+      $('html').off('dragleave',selectedDragEnterHandler)
+      $('html').off('drop',selectedDropHandler)
+      $('html').off('dragend',selectedDragEndHandler)
       $(el).off('mouseout',selectedOutHandler)
+      $(el).off('mousedown',selectedMouseDownHandler);
+      $('html').off('mouseup',selectedMouseUpHandler);
       el.draggable = false
       selectedOutHandler({data:{el:el}})
       lastSelected = null
@@ -238,7 +351,6 @@ toolHandlers['select'] = function() {
 
     // turn off the other handlers that usually apply to this element
     $('html').off('keyup',selectedDeleteHandler)
-    $(el).off('mouseover',selectedHoverHandler)
     $(el).off('mousemove',selectedMouseMoveHandler)
     $(el).off('dragstart',selectedDragHandler)
 
