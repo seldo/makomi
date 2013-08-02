@@ -11,7 +11,8 @@ var express = require('express'),
   Cookies = require('cookies'),
   mkEx = require('makomi-express-runtime'),
   MemoryStore = require('connect/lib/middleware/session/memory'),
-  browserify = require('browserify-middleware');
+  browserify = require('browserify-middleware')
+  //refrouter = require('referrer-router');
 
 var app = express();
 
@@ -52,6 +53,9 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
     secret: appConfig.sessions.secret,
     store: sessionStore
   }));
+
+  // this catches requests intended for the app being edited
+  //app.use(refrouter('/*/output?route=',require('./editorrouter.js')))
 
   // define routes in their own file because that seems better
   app.use(app.router);

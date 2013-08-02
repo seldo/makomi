@@ -18,6 +18,7 @@ exports.generateApp = function() {
   mkUtil.loadDefinition(sourceDir,function(appDefinition) {
     fs.mkdirs(scratchSource,function() {
       mkUtil.generateWorkingCopy(sourceDir,scratchSource, function(newFileMap,newIdMap) {
+        console.log("working copy generated")
 
         // we now have an id-ified version of the source, so call the engine
         // in dev mode to generate the actual app

@@ -1,6 +1,7 @@
 var $ = require('jquery-browserify'),
   shortid = require('short-id'),
-  htmlparser = require('htmlparser');
+  htmlparser = require('htmlparser'),
+  _ = require('underscore');
 
 // make socket connection
 var socket = io.connectWithSession('http://local.dev');
@@ -257,12 +258,42 @@ toolHandlers['select'] = function() {
 
   // end a resize/move op
   var selectedMouseUpHandler = function(e) {
+    var el = e.data.el
     if (moveMode != "move") {
       e.preventDefault()
     }
     console.log("Mouseup detected")
     moveModeLock = false
     $('html').css('cursor','default')
+
+    var resizeModes = ["bottom-right-resize","ns-bottom","ew-right"]
+    if (_.contains(resizeModes,moveMode)) {
+      // give it an ID if it doesn't already have one
+      if (!$(el).attr('id')) {
+        $(el).attr('id','auto-' + shortid.generate())
+      }
+      // extract height/width from the tag; leave it there so it still works
+      var newHeight = $(el).css('height');
+      var newWidth = $(el).css('width');
+      serializeDom(el,function(dom) {
+        socket.emit('controller-action-in',{
+          "controller": "editor",
+          "action": "domModified",
+          "target-makomi-id": $(el).attr('makomi-id'),
+          "dom-action": "replace",
+          "content": dom
+        })
+        socket.emit('controller-action-in',{
+          "controller": "editor",
+          "action": "cssModified",
+          "target-dom-id": $(el).attr('id'),
+          "properties": {
+            "height": newHeight + 'px',
+            "width": newWidth + 'px'
+          }
+        })
+      })
+    }
   }
 
   // bind the delete key to removing elements
@@ -318,7 +349,7 @@ toolHandlers['select'] = function() {
     $('html').on('mousemove',{"el": el},selectedMouseMoveHandler)
     $(el).on('mouseout',{"el": el},selectedOutHandler)
     $(el).on('mousedown',{"el": el},selectedMouseDownHandler);
-    $('html').on('mouseup',selectedMouseUpHandler);
+    $('html').on('mouseup',{"el": el},selectedMouseUpHandler);
     // we're already over the element, so trigger the move handler
     e.data={}; e.data.el = el
     selectedMouseMoveHandler(e)

@@ -31,6 +31,24 @@ module.exports = function(session,data) {
         })
       })
       break;
+    case 'replace':
+      var newContent = data['content'] // htmlparser-style DOM tree
+      mkSrc.replace(domTree,mkId,newContent,function(newDom) {
+        var domCopy = core.deepClone(newDom) // otherwise it strips stuff!
+        mkSrc.writeStrippedHtml(writePath,domCopy,function(html) {
+          console.log("Replaced content of " + mkId)
+          sourceDirty = true  // set flag
+          // update internal representation
+          core.updateView(mkId,newDom,function() {
+            console.log("Sending controller action out")
+            socketServer.sockets.emit('controller-action-out',{
+              controller: "dom",
+              action: "treeModified"
+            })
+          });
+        })
+      })
+      break;
     case 'move':
       var content = data['content']; // easier than cloning
       // we have *two* potential dom trees, because the target and

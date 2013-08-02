@@ -19,7 +19,8 @@
     "browserify-middleware": "*",
     "browserify": "*",
     "jquery-browserify": "*",
-    "short-id": "*"
+    "short-id": "*",
+    "css": "*"
   },
   "devDependencies": {
     "mocha": "*"
