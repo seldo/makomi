@@ -11,8 +11,8 @@ var express = require('express'),
   Cookies = require('cookies'),
   mkEx = require('makomi-express-runtime'),
   MemoryStore = require('connect/lib/middleware/session/memory'),
-  browserify = require('browserify-middleware')
-  //refrouter = require('referrer-router');
+  browserify = require('browserify-middleware'),
+  refrouter = require('referrer-router');
 
 var app = express();
 
@@ -54,8 +54,9 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
     store: sessionStore
   }));
 
-  // this catches requests intended for the app being edited
-  //app.use(refrouter('/*/output?route=',require('./editorrouter.js')))
+  // this regex catches requests intended for the app being edited
+  var refrouterHandler = require('./editorrouter.js')
+  app.use(refrouter(/\/\/.*\/(.*)\/output\?route=/,refrouterHandler))
 
   // define routes in their own file because that seems better
   app.use(app.router);
@@ -66,7 +67,6 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
   app.get('/js/dom.js', browserify('./public/javascripts/dom.js'));
   app.get('/js/editor.js', browserify('./public/javascripts/editor.js'));
 
-  app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
 
   // development only
