@@ -6,7 +6,7 @@ module.exports = function(req,res,next,matches) {
 
   var projectName = matches[1];
 
-  var filePath = scratchDir + 'app' + req.path;
+  var filePath = scratchDir + 'app/public' + req.path;
 
   console.log("Looking for file " + filePath)
 
