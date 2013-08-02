@@ -7,6 +7,7 @@ var mkSrc = require('makomi-source-util'),
  * @param data
  */
 module.exports = function(session,data) {
+  /*
   var mkId = data['target-makomi-id'];
   var newContent = data['content']
   var domTree = mkSrc.getTree(idMap,fileMap,mkId);
@@ -25,4 +26,5 @@ module.exports = function(session,data) {
       });
     })
   })
+  */
 }

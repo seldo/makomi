@@ -54,21 +54,24 @@ module.exports = function(session,data) {
       // we have *two* potential dom trees, because the target and
       // destination are not necessarily in the same file
       var targetMkId = mkId;
-      var targetDomTree = domTree;
+      var targetDomTree = mkSrc.getTree(idMap,fileMap,targetMkId)
       var targetWritePath = writePath;
       var destMkId = data['destination-makomi-id'];
-      var destDomTree = mkSrc.getTree(idMap,fileMap,destMkId)
+      var destDomTree; // need to wait until remove op is complete
       var destWritePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,destMkId)
-      // insert new content
-      mkSrc.insertBefore(destDomTree,destMkId,content,function(newDestDom) {
-        var newDestDomCopy = core.deepClone(newDestDom)
-        // remove previous location
-        mkSrc.remove(targetDomTree,targetMkId,function(newTargetDom) {
-          var newTargetDomCopy = core.deepClone(newTargetDom)
-          // write to the destination file
-          mkSrc.writeStrippedHtml(destWritePath,newDestDomCopy,function(destHtml) {
-            // write to the target file
-            mkSrc.writeStrippedHtml(targetWritePath,newTargetDomCopy,function(targetHtml) {
+      // remove previous location
+      mkSrc.remove(targetDomTree,targetMkId,function(newTargetDom) {
+        var newTargetDomCopy = core.deepClone(newTargetDom)
+        // write to the target file
+        mkSrc.writeStrippedHtml(targetWritePath,newTargetDomCopy,function(targetHtml) {
+          console.log("Removed element: " + targetHtml)
+          // insert new content
+          destDomTree = mkSrc.getTree(idMap,fileMap,destMkId)
+          mkSrc.insertBefore(destDomTree,destMkId,content,function(newDestDom) {
+            var newDestDomCopy = core.deepClone(newDestDom)
+            // write to the destination file
+            mkSrc.writeStrippedHtml(destWritePath,newDestDomCopy,function(destHtml) {
+              console.log("Inserted element: " + destHtml)
               console.log("Moved content")
               sourceDirty = true
               // update internal reps of both files
