@@ -86,11 +86,12 @@ toolHandlers['select'] = function() {
   $('html').css('cursor','default')
 
   // highlight elements as we go over them
+  var oldBg;
   var hoverHandler = function(e) {
     // ignore whatever else was gonna happen
     e.preventDefault();
     // capture the previous bg color and apply our own
-    var oldBg = $(e.target).css('background-color');
+    oldBg = $(e.target).css('background-color');
     $(e.target).css('background-color','#eeffff');
 
     // when they mouse out again, restore the previous background color
@@ -272,10 +273,23 @@ toolHandlers['select'] = function() {
       if (!$(el).attr('id')) {
         $(el).attr('id','auto-' + shortid.generate())
       }
+
+      // clear things we don't want anymore
+      endInProgress();
+      $(el).removeAttr('contentEditable')
+      $(el).removeAttr('draggable')
+      $(el).css('border','')
+      $(el).css('background-color','')
+      $(el).css('cursor','')
+
       // extract height/width from the tag; leave it there so it still works
       var newHeight = $(el).css('height');
       var newWidth = $(el).css('width');
       serializeDom(el,function(dom) {
+
+        console.log("Serialized element: ")
+        console.log(dom)
+
         socket.emit('controller-action-in',{
           "controller": "editor",
           "action": "domModified",
@@ -368,6 +382,7 @@ toolHandlers['select'] = function() {
     // explain how to undo all of this stuff
     inProgress.push(function() {
       $(el).css('border',oldBorder)
+      $(el).css('background-color',oldBg)
       $('html').off('keyup',selectedDeleteHandler)
       $('html').off('mousemove',selectedMouseMoveHandler)
       $(el).off('dragstart',selectedDragStartHandler)

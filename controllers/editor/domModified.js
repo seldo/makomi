@@ -64,14 +64,12 @@ module.exports = function(session,data) {
         var newTargetDomCopy = core.deepClone(newTargetDom)
         // write to the target file
         mkSrc.writeStrippedHtml(targetWritePath,newTargetDomCopy,function(targetHtml) {
-          console.log("Removed element: " + targetHtml)
           // insert new content
           destDomTree = mkSrc.getTree(idMap,fileMap,destMkId)
           mkSrc.insertBefore(destDomTree,destMkId,content,function(newDestDom) {
             var newDestDomCopy = core.deepClone(newDestDom)
             // write to the destination file
             mkSrc.writeStrippedHtml(destWritePath,newDestDomCopy,function(destHtml) {
-              console.log("Inserted element: " + destHtml)
               console.log("Moved content")
               sourceDirty = true
               // update internal reps of both files
