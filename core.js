@@ -40,6 +40,27 @@ exports.generateApp = function() {
 }
 
 /**
+ * Update the CSS files in the working copy
+ */
+exports.updateCss = function(newCss,cb) {
+
+  // FIXME: hard-coding location
+  var scratchSource = scratchDir + '.makomi/'
+  var scratchApp = scratchDir + 'app/'
+  var cssPath = scratchSource + 'public/stylesheets/layout.css'
+  var workingPath = scratchApp + 'public/stylesheets/layout.css'
+
+  // write to the working copy source
+  mkUtil.css.write(cssPath,newCss,function(rawCss) {
+    // copy the CSS over to the generated app too
+    fs.copy(cssPath,workingPath,function() {
+      console.log("Working copy of CSS updated")
+      cb(rawCss)
+    })
+  })
+}
+
+/**
  * Update a single file in the working copy
  */
 exports.updateView = function(mkId,newDom,cb) {

@@ -7,24 +7,19 @@ var mkSrc = require('makomi-source-util'),
  * @param data
  */
 module.exports = function(session,data) {
-  /*
-  var mkId = data['target-makomi-id'];
-  var newContent = data['content']
-  var domTree = mkSrc.getTree(idMap,fileMap,mkId);
-  var writePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,mkId)
-
-  console.log("Editing element " + mkId + " which is a " + data.tagName)
-
-  mkSrc.setTextContent(domTree,mkId,newContent,function(newDom) {
-    var domCopy = core.deepClone(newDom) // otherwise it strips stuff!
-    mkSrc.writeStrippedHtml(writePath,domCopy,function(html) {
-      sourceDirty = true  // set flag
-      console.log("Updated source in " + writePath + ": " + html)
-      // update internal representation
-      core.updateView(mkId,newDom,function() {
-        // anything?
-      });
+  var cssPath = session['sourceDir'] + 'public/stylesheets/layout.css'
+  var id = data['target-dom-id'];
+  var properties = data['properties']
+  mkSrc.css.parse(cssPath,function(css) {
+    console.log("Updating rule for " + id + " with properties ")
+    console.log(properties)
+    var newCss = mkSrc.css.insertOrModifyId(css,id,properties)
+    mkSrc.css.write(cssPath,newCss,function(rawCss) {
+      console.log("Updated CSS file successfully")
+      console.log(rawCss)
+      core.updateCss(newCss,function() {
+        // eh?
+      })
     })
   })
-  */
 }

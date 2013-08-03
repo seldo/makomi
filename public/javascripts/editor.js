@@ -269,6 +269,7 @@ toolHandlers['select'] = function() {
 
     var resizeModes = ["bottom-right-resize","ns-bottom","ew-right"]
     if (_.contains(resizeModes,moveMode)) {
+      console.log("Resize happened")
       // give it an ID if it doesn't already have one
       if (!$(el).attr('id')) {
         $(el).attr('id','auto-' + shortid.generate())
@@ -282,14 +283,14 @@ toolHandlers['select'] = function() {
       $(el).css('background-color','')
       $(el).css('cursor','')
 
-      // extract height/width from the tag; leave it there so it still works
+      // extract height/width from the tag
+      // we leave these attached to the element so it renders correctly
       var newHeight = $(el).css('height');
       var newWidth = $(el).css('width');
       serializeDom(el,function(dom) {
 
-        console.log("Serialized element: ")
-        console.log(dom)
-
+        // but the saved HTML should not have a style attribute
+        delete(dom[0].attribs['style'])
         socket.emit('controller-action-in',{
           "controller": "editor",
           "action": "domModified",
@@ -302,8 +303,8 @@ toolHandlers['select'] = function() {
           "action": "cssModified",
           "target-dom-id": $(el).attr('id'),
           "properties": {
-            "height": newHeight + 'px',
-            "width": newWidth + 'px'
+            "height": newHeight,
+            "width": newWidth
           }
         })
       })
@@ -396,6 +397,8 @@ toolHandlers['select'] = function() {
       $(el).off('mousedown',selectedMouseDownHandler);
       $('html').off('mouseup',selectedMouseUpHandler);
       el.draggable = false
+      moveModeLock = false
+      moveMode = false
       selectedOutHandler({data:{el:el}})
       lastSelected = null
     })
