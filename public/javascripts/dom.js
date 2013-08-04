@@ -22,7 +22,6 @@ handlers['editor']['routeSelected'] = function(data) {
 }
 handlers['dom'] = {}
 handlers['dom']['treeModified'] = function(data) {
-  console.log("Refresh tree?")
   location.reload()
 }
 
@@ -35,7 +34,7 @@ var selectedId = null
 var lastBorder = null
 handlers['editor']['elementSelected'] = function(data) {
   var mkId = data['makomi-id']
-  console.log("Element to select in DOM: " + mkId)
+  console.log("Element to select in structure: " + mkId)
   unSelect(selectedId)
   select(mkId)
 }

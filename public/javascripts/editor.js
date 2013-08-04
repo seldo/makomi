@@ -235,12 +235,19 @@ toolHandlers['select'] = function() {
     e.stopPropagation()
   }
 
-  // start a resize/move operation
+  // start a resize/move operation.
+  var originalWidth;
+  var originalHeight;
   var selectedMouseDownHandler = function(e) {
     if (moveMode != "move") {
       e.preventDefault()
     }
     var el = e.data.el
+
+    // record the size so we can tell if resizing actually happened
+    originalWidth = $(el).css('width')
+    originalHeight = $(el).css('height')
+
     // obey this movement mode until we complete it
     moveModeLock = true
 
@@ -263,51 +270,57 @@ toolHandlers['select'] = function() {
     if (moveMode != "move") {
       e.preventDefault()
     }
-    console.log("Mouseup detected")
     moveModeLock = false
     $('html').css('cursor','default')
 
     var resizeModes = ["bottom-right-resize","ns-bottom","ew-right"]
     if (_.contains(resizeModes,moveMode)) {
-      console.log("Resize happened")
-      // give it an ID if it doesn't already have one
-      if (!$(el).attr('id')) {
-        $(el).attr('id','auto-' + shortid.generate())
-      }
-
-      // clear things we don't want anymore
-      endInProgress();
-      $(el).removeAttr('contentEditable')
-      $(el).removeAttr('draggable')
-      $(el).css('border','')
-      $(el).css('background-color','')
-      $(el).css('cursor','')
 
       // extract height/width from the tag
       // we leave these attached to the element so it renders correctly
       var newHeight = $(el).css('height');
       var newWidth = $(el).css('width');
-      serializeDom(el,function(dom) {
 
-        // but the saved HTML should not have a style attribute
-        delete(dom[0].attribs['style'])
-        socket.emit('controller-action-in',{
-          "controller": "editor",
-          "action": "domModified",
-          "target-makomi-id": $(el).attr('makomi-id'),
-          "dom-action": "replace",
-          "content": dom
+      if (el == e.target &&
+        (newHeight != originalHeight || newWidth != originalWidth)) {
+        console.log("Resize happened:")
+        console.log("width was/is: " + originalWidth + " vs " + newWidth)
+        console.log("height was/is: " + originalHeight + " vs " + newHeight)
+        // give it an ID if it doesn't already have one
+        if (!$(el).attr('id')) {
+          $(el).attr('id','auto-' + shortid.generate())
+        }
+
+        // clear things we don't want anymore
+        endInProgress();
+        $(el).removeAttr('contentEditable')
+        $(el).removeAttr('draggable')
+        $(el).css('border','')
+        $(el).css('background-color','')
+        $(el).css('cursor','')
+
+        serializeDom(el,function(dom) {
+
+          // but the saved HTML should not have a style attribute
+          delete(dom[0].attribs['style'])
+          socket.emit('controller-action-in',{
+            "controller": "editor",
+            "action": "domModified",
+            "target-makomi-id": $(el).attr('makomi-id'),
+            "dom-action": "replace",
+            "content": dom
+          })
+          socket.emit('controller-action-in',{
+            "controller": "editor",
+            "action": "cssModified",
+            "target-dom-id": $(el).attr('id'),
+            "properties": {
+              "height": newHeight,
+              "width": newWidth
+            }
+          })
         })
-        socket.emit('controller-action-in',{
-          "controller": "editor",
-          "action": "cssModified",
-          "target-dom-id": $(el).attr('id'),
-          "properties": {
-            "height": newHeight,
-            "width": newWidth
-          }
-        })
-      })
+      }
     }
   }
 
