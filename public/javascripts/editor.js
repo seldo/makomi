@@ -243,6 +243,8 @@ toolHandlers['select'] = function() {
       e.preventDefault()
     }
     var el = e.data.el
+    console.log("Mousedown el is")
+    console.log(el)
 
     // record the size so we can tell if resizing actually happened
     originalWidth = $(el).css('width')
@@ -272,6 +274,8 @@ toolHandlers['select'] = function() {
     }
     moveModeLock = false
     $('html').css('cursor','default')
+    console.log("Mouseup el is ")
+    console.log(el)
 
     var resizeModes = ["bottom-right-resize","ns-bottom","ew-right"]
     if (_.contains(resizeModes,moveMode)) {
@@ -281,8 +285,7 @@ toolHandlers['select'] = function() {
       var newHeight = $(el).css('height');
       var newWidth = $(el).css('width');
 
-      if (el == e.target &&
-        (newHeight != originalHeight || newWidth != originalWidth)) {
+      if (newHeight != originalHeight || newWidth != originalWidth) {
         console.log("Resize happened:")
         console.log("width was/is: " + originalWidth + " vs " + newWidth)
         console.log("height was/is: " + originalHeight + " vs " + newHeight)
@@ -381,7 +384,6 @@ toolHandlers['select'] = function() {
     // we're already over the element, so trigger the move handler
     e.data={}; e.data.el = el
     selectedMouseMoveHandler(e)
-
 
     // emit a message so the other panes know what we did
     socket.emit('controller-action-in',{
@@ -487,8 +489,10 @@ toolHandlers['tag-div'] = function() {
 toolHandlers['tag-span'] = function() {
   toolHandlers['tag']('span')
 }
-// TODO: more refactoring
-//
+/**
+ * Inserts a single instance of the specified tag before the specified target.
+ * @param tag
+ */
 toolHandlers['tag'] = function(tag) {
 
   // cursor is crosshair
@@ -587,6 +591,72 @@ toolHandlers['tag'] = function(tag) {
   unbinders.push(function() {
     $('html').off('mouseover',hoverHandler)
     $('html').off('mousedown',mouseDownHandler)
+  })
+
+}
+
+/**
+ * Inserts a Foundation "row" at the insertion point.
+ */
+toolHandlers['layout-row'] = function() {
+
+  var insertEl = $('<div>')
+  $(insertEl).addClass("row")
+
+  var domAction;
+  var targetId;
+  insertionPointProxy(function(insertTarget,method) {
+    domAction = 'insert-' + method;
+    targetId = $(insertTarget).attr('makomi-id')
+    // send it to the server to insert into the DOM
+    serializeDom(insertEl,function(dom) {
+      socket.emit('controller-action-in',{
+        controller: 'editor',
+        action: 'domModified',
+        'target-makomi-id': targetId,
+        'dom-action': domAction,
+        'content': dom
+      })
+    })
+    console.log(inProgress)
+    endInProgress();
+
+  })
+
+}
+
+/**
+ * Creates a marker of where an insert operation will happen; attaches
+ * mouseover and mouseout events to manage the operation. Provides a
+ * callback that specifies the final target and insertion method.
+ * Insertion method can be "before" or "append".
+ */
+var insertionPointProxy = function(cb) {
+
+  var insertProxy = $('<div>');
+  insertProxy.css('width','100px')
+  insertProxy.css('height','4px')
+  insertProxy.css('border-radius','4px')
+  insertProxy.css('background-color','#9f9')
+  insertProxy.css('position','absolute')
+
+  var ippMouseoverHandler = function(e) {
+    var el = e.target
+    $(insertProxy).insertBefore(el);
+  }
+
+  var ippMouseoutHandler = function(e) {
+    var el = e.target
+    $(insertProxy).detach()
+    cb(el,'before')
+  }
+
+  $('html').on('mouseover',ippMouseoverHandler)
+  $('html').on('mouseout',ippMouseoutHandler)
+
+  unbinders.push(function() {
+    $('html').off('mouseover',ippMouseoverHandler)
+    $('html').off('mouseout',ippMouseoutHandler)
   })
 
 }

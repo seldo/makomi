@@ -9,14 +9,16 @@ body {
   border: 0px;
 }
 #context {
-  width: 300px;
+  background-color: #fafafa;
+  width: 250px;
 }
 #output {
-  width: calc(100% - 600px);
-  margin-left: 300px;
-  margin-right: 300px;
+  width: calc(100% - 400px);
+  margin-left: 250px;
+  margin-right: 150px;
 }
 #toolbox {
+  background-color: #fafafa;
   right: 0px;
-  width: 300px;
+  width: 150px;
 }

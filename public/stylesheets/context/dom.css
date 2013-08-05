@@ -2,6 +2,7 @@ body {
   font-size: 12px;
 }
 ul {
+  padding-left: 0px;
   margin-left: 10px;
   padding-left: 0px;
 }
