@@ -205,6 +205,13 @@ toolHandlers['select'] = function() {
     var el = e.data.el
     e.stopPropagation()
     $(insertProxy).detach()
+
+    // if we are dragging back onto ourselves, ignore the op
+    if (el == e.target) {
+      endInProgress();
+      return;
+    }
+
     $(el).insertBefore(e.target)
 
     endInProgress();
@@ -239,12 +246,19 @@ toolHandlers['select'] = function() {
   var originalWidth;
   var originalHeight;
   var selectedMouseDownHandler = function(e) {
-    if (moveMode != "move") {
-      e.preventDefault()
-    }
     var el = e.data.el
     console.log("Mousedown el is")
     console.log(el)
+
+    if (e.target != el) {
+      // they are clicking on some other element, so this is not a resize/move
+      moveMode = false
+      return;
+    }
+
+    if (moveMode != "move") {
+      e.preventDefault()
+    }
 
     // record the size so we can tell if resizing actually happened
     originalWidth = $(el).css('width')
@@ -269,6 +283,12 @@ toolHandlers['select'] = function() {
   // end a resize/move op
   var selectedMouseUpHandler = function(e) {
     var el = e.data.el
+
+    if (moveMode == false) {
+      // not a move/resize op, so stop handling
+      return;
+    }
+
     if (moveMode != "move") {
       e.preventDefault()
     }
@@ -379,7 +399,7 @@ toolHandlers['select'] = function() {
     // the user how they can move and resize the element
     $('html').on('mousemove',{"el": el},selectedMouseMoveHandler)
     $(el).on('mouseout',{"el": el},selectedOutHandler)
-    $(el).on('mousedown',{"el": el},selectedMouseDownHandler);
+    $('html').on('mousedown',{"el": el},selectedMouseDownHandler);
     $('html').on('mouseup',{"el": el},selectedMouseUpHandler);
     // we're already over the element, so trigger the move handler
     e.data={}; e.data.el = el
@@ -409,7 +429,7 @@ toolHandlers['select'] = function() {
       $('html').off('drop',selectedDropHandler)
       $('html').off('dragend',selectedDragEndHandler)
       $(el).off('mouseout',selectedOutHandler)
-      $(el).off('mousedown',selectedMouseDownHandler);
+      $('html').off('mousedown',selectedMouseDownHandler);
       $('html').off('mouseup',selectedMouseUpHandler);
       el.draggable = false
       moveModeLock = false
@@ -571,7 +591,8 @@ toolHandlers['tag'] = function(tag) {
           'content': dom
         })
       })
-      endInProgress();
+      // now switch back to select, because double-inserting is weird.
+      applyToolHandlers('select')
     }
     container.on('mousemove',mouseMoveHandler)
     container.on('mouseup', mouseUpHandler)
