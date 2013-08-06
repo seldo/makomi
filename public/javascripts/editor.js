@@ -166,14 +166,13 @@ toolHandlers['select'] = function() {
 
   // while selected, dragging the element around shows where a move op would go
   var selectedDragStartHandler = function(e) {
-    var el = e.data.el
-    console.log("jQuery knows about dragstart")
-    // TODO: complete
+    // target = the thing I'm dragging
+    // nothing needs to happen
   }
 
   var selectedDragHandler = function(e) {
-    // target is the original copy of the thing I'm dragging around
-    //$(e.target).css('border','1px solid yellow')
+    // target = the original copy of the thing I'm dragging around
+    // nothing needs to happen
   }
 
   var insertProxy = $('<div>');
@@ -189,7 +188,8 @@ toolHandlers['select'] = function() {
   }
 
   var selectedDragLeaveHandler = function(e) {
-    // target is the thing I just dragged out of
+    // target = the thing I just dragged out of
+    // nothing needs to happen
   }
 
 
@@ -624,24 +624,42 @@ toolHandlers['layout-row'] = function() {
   var insertEl = $('<div>')
   $(insertEl).addClass("row")
 
-  var domAction;
-  var targetId;
-  insertionPointProxy(function(insertTarget,method) {
-    domAction = 'insert-' + method;
-    targetId = $(insertTarget).attr('makomi-id')
-    // send it to the server to insert into the DOM
+  // our insertion proxy will tell us where to put things if we get a click
+  var insertTarget;
+  var insertMethod;
+  insertionPointProxy(function(target,method) {
+    insertTarget = target
+    insertMethod = method
+  })
+  // apply dropmask, and give the undo function to inProgress
+  inProgress.push(applyDropMask())
+
+  // If we get a click, insert a new row at that point
+  var rowClickHandler = function(e) {
+
+    // insert it into the local dom
+    if (insertMethod == 'before') {
+      insertEl.insertBefore(insertTarget)
+    } else {
+      insertEl.appendTo(insertTarget);
+    }
+
+    // send it to the server to insert into the DOM on disk
     serializeDom(insertEl,function(dom) {
       socket.emit('controller-action-in',{
         controller: 'editor',
         action: 'domModified',
-        'target-makomi-id': targetId,
-        'dom-action': domAction,
+        'target-makomi-id': $(insertTarget).attr('makomi-id'),
+        'dom-action': 'insert-' + insertMethod,
         'content': dom
       })
     })
-    console.log(inProgress)
     endInProgress();
+  }
+  $('html').on('click',rowClickHandler)
 
+  unbinders.push(function() {
+    $('html').off('click',rowClickHandler)
   })
 
 }
@@ -657,6 +675,7 @@ var insertionPointProxy = function(cb) {
   var insertProxy = $('<div>');
   insertProxy.css('width','100px')
   insertProxy.css('height','4px')
+  insertProxy.css('border','1px solid black')
   insertProxy.css('border-radius','4px')
   insertProxy.css('background-color','#9f9')
   insertProxy.css('position','absolute')
@@ -672,13 +691,71 @@ var insertionPointProxy = function(cb) {
     cb(el,'before')
   }
 
+  var shouldAppend = false
+  var ippMousemoveHandler = function(e) {
+    var el = e.target
+    var elHeight = parseInt($(el).css('height'))
+    var elWidth = parseInt($(el).css('width'))
+    var offsets = $(el).offset()
+    var pointerX = e.pageX - offsets['left'];
+    var pointerY = e.pageY - offsets['top'];
+
+
+    if (
+      // middle third of height
+      ((elHeight/3) < pointerY && (elHeight*2/3) > pointerY )
+      // middle third of width
+      //((elWidth/3) < pointerX && (elWidth*2/3) > pointerX)
+    ) {
+      // in the middle, but not already appending
+      if (shouldAppend == false) {
+        shouldAppend = true
+        $(insertProxy).appendTo(el)
+      }
+    } else {
+      // not in the middle but currently appending
+      if (shouldAppend == true) {
+        shouldAppend = false
+        $(insertProxy).insertBefore(el)
+      }
+    }
+  }
+
   $('html').on('mouseover',ippMouseoverHandler)
   $('html').on('mouseout',ippMouseoutHandler)
+  $('html').on('mousemove',ippMousemoveHandler)
 
   unbinders.push(function() {
     $('html').off('mouseover',ippMouseoverHandler)
     $('html').off('mouseout',ippMouseoutHandler)
+    $('html').off('mousemove',ippMousemoveHandler)
   })
+
+}
+
+/**
+ * Temporarily adjusts styles of all content-holding elements so that
+ * they can be valid drop targets during a insert/move operation.
+ * Returns its undo function to be applied at will.
+ */
+var applyDropMask = function() {
+  $('div').css('min-width','100px')
+  $('div').css('min-height','10px')
+  $('div').css('border','1px solid #ccc')
+  $('div.row').css('background-color','#afa')
+
+  return function() {
+    $('div').css('min-width','')
+    $('div').css('min-height','')
+    $('div').css('border','')
+    $('div.row').css('background-color','')
+  }
+}
+
+/**
+ * Draws a grid outlining where insertion snap points are.
+ */
+var applyColumnGrid = function() {
 
 }
 
