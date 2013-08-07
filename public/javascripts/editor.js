@@ -638,6 +638,7 @@ toolHandlers['layout-row'] = function() {
   var rowClickHandler = function(e) {
 
     // insert it into the local dom
+    console.log("insert method: " + insertMethod)
     if (insertMethod == 'before') {
       insertEl.insertBefore(insertTarget)
     } else {
@@ -711,12 +712,14 @@ var insertionPointProxy = function(cb) {
       if (shouldAppend == false) {
         shouldAppend = true
         $(insertProxy).appendTo(el)
+        cb(el,'append')
       }
     } else {
       // not in the middle but currently appending
       if (shouldAppend == true) {
         shouldAppend = false
         $(insertProxy).insertBefore(el)
+        cb(el,'before')
       }
     }
   }
