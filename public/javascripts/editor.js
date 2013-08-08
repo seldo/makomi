@@ -1,7 +1,8 @@
 var $ = require('jquery-browserify'),
   shortid = require('short-id'),
   htmlparser = require('htmlparser'),
-  _ = require('underscore');
+  _ = require('underscore'),
+  jcanvas = require('./jcanvas.min.js');
 
 // make socket connection
 var socket = io.connectWithSession('http://local.dev');
@@ -662,6 +663,99 @@ toolHandlers['layout-row'] = function() {
   unbinders.push(function() {
     $('html').off('click',rowClickHandler)
   })
+
+}
+
+/**
+ * Inserts a Foundation "column" at the insertion point
+ */
+toolHandlers['layout-column'] = function() {
+  var insertEl = $('<div>')
+  $(insertEl).addClass("column")
+
+  // apply dropmask, and give the undo function to inProgress
+  inProgress.push(applyDropMask())
+
+  var createColumnMask = function(el) {
+    // add the column mask too
+    var canvas = $('<canvas>');
+    var offsets = $(el).offset()
+    var elWidth = parseInt($(el).css('width'))
+    var elHeight = parseInt($(el).css('height'))
+    $(canvas)
+      .attr('width',elWidth)
+      .attr('height',elHeight)
+      .css('position','absolute')
+      .css('top',offsets['top'])
+      .css('left',offsets['left'])
+      .css('pointer-events','none')
+
+    var xStep = elWidth / 12
+    var xOffset = 0
+    for(var i = 0; i < 12; i++) {
+      $(canvas).drawLine({
+        strokeStyle: '#000',
+        strokeWidth: '2',
+        x1: xOffset, y1: 0,
+        x2: xOffset, y2: elHeight
+      })
+      xOffset += xStep
+    }
+    $(canvas).appendTo(el)
+    var unbind = function() {
+      $(canvas).remove()
+    }
+    return {
+      'canvas': canvas,
+      'unbind': unbind
+    }
+  }
+
+  var columnMouseoverHandler = function(e) {
+
+    var el = e.target;
+
+    // create a column mask on this element
+    var columnMask = createColumnMask(el)
+    inProgress.push(columnMask.unbind)
+    var mask = columnMask.canvas
+
+    // remove the mask when we mouse out of the element
+    $(el).on('mouseout',columnMask.unbind)
+
+  }
+  $('html').on('mouseover',columnMouseoverHandler)
+
+  /*
+  // If we get a click, insert a new row at that point
+  var rowClickHandler = function(e) {
+
+    // insert it into the local dom
+    console.log("insert method: " + insertMethod)
+    if (insertMethod == 'before') {
+      insertEl.insertBefore(insertTarget)
+    } else {
+      insertEl.appendTo(insertTarget);
+    }
+
+    // send it to the server to insert into the DOM on disk
+    serializeDom(insertEl,function(dom) {
+      socket.emit('controller-action-in',{
+        controller: 'editor',
+        action: 'domModified',
+        'target-makomi-id': $(insertTarget).attr('makomi-id'),
+        'dom-action': 'insert-' + insertMethod,
+        'content': dom
+      })
+    })
+    endInProgress();
+  }
+  $('html').on('click',rowClickHandler)
+
+  unbinders.push(function() {
+    $('html').off('click',rowClickHandler)
+  })
+  */
 
 }
 
