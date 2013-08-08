@@ -638,6 +638,9 @@ toolHandlers['layout-row'] = function() {
   // If we get a click, insert a new row at that point
   var rowClickHandler = function(e) {
 
+    // give it a makomi-id
+    insertEl.attr('makomi-id','c'+shortid.generate())
+
     // insert it into the local dom
     console.log("insert method: " + insertMethod)
     if (insertMethod == 'before') {
@@ -656,7 +659,9 @@ toolHandlers['layout-row'] = function() {
         'content': dom
       })
     })
-    endInProgress();
+
+    // switch back to select
+    applyToolHandlers('select')
   }
   $('html').on('click',rowClickHandler)
 
@@ -670,6 +675,7 @@ toolHandlers['layout-row'] = function() {
  * Inserts a Foundation "column" at the insertion point
  */
 toolHandlers['layout-column'] = function() {
+  var numberOfColumns = 12
   var insertEl = $('<div>')
   $(insertEl).addClass("column")
 
@@ -690,11 +696,11 @@ toolHandlers['layout-column'] = function() {
       .css('left',offsets['left'])
       .css('pointer-events','none')
 
-    var xStep = elWidth / 12
+    var xStep = elWidth / numberOfColumns
     var xOffset = 0
-    for(var i = 0; i < 12; i++) {
+    for(var i = 0; i < numberOfColumns; i++) {
       $(canvas).drawLine({
-        strokeStyle: '#000',
+        strokeStyle: 'rgba(200,200,255,0.5)',
         strokeWidth: '2',
         x1: xOffset, y1: 0,
         x2: xOffset, y2: elHeight
@@ -711,9 +717,17 @@ toolHandlers['layout-column'] = function() {
     }
   }
 
+  // we only let you insert columns into rows, where it makes sense to do so
+  var isRow = function(el) {
+    return $(el).hasClass('row');
+  }
+
+  // if we mouseover a row, display the column guides
   var columnMouseoverHandler = function(e) {
 
     var el = e.target;
+
+    if(!isRow(el)) return;
 
     // create a column mask on this element
     var columnMask = createColumnMask(el)
@@ -724,38 +738,139 @@ toolHandlers['layout-column'] = function() {
     $(el).on('mouseout',columnMask.unbind)
 
   }
-  $('html').on('mouseover',columnMouseoverHandler)
 
-  /*
-  // If we get a click, insert a new row at that point
-  var rowClickHandler = function(e) {
+  // Snap to the nearest column
+  var getNearestColumn = function(el,pageX) {
+    var elWidth = parseInt($(el).css('width'))
+    var columnWidth = elWidth / numberOfColumns
 
-    // insert it into the local dom
-    console.log("insert method: " + insertMethod)
-    if (insertMethod == 'before') {
-      insertEl.insertBefore(insertTarget)
-    } else {
-      insertEl.appendTo(insertTarget);
+    var offsets = $(el).offset()
+    var elementX = pageX - offsets['left']
+
+    var columnNumber = Math.round(elementX/columnWidth)
+    var columnX = columnWidth * columnNumber
+    var absoluteX = columnX + offsets['left']
+    var absoluteY = offsets['top']
+
+    return {
+      elementX: offsets['left'],
+      elementY: offsets['top'],
+      width: columnWidth,
+      number: columnNumber,
+      relativeX: columnX,
+      relativeY: 0,
+      absoluteX: absoluteX,
+      absoluteY: absoluteY
     }
+  }
 
-    // send it to the server to insert into the DOM on disk
-    serializeDom(insertEl,function(dom) {
+  // On mousedown of a row, snap to nearest column and begin sizing op
+  var columnMousedownHandler = function(e) {
+
+    e.preventDefault()
+    var el = e.target;
+
+    if(!isRow(el)) return;
+
+    // create selection
+    var selection = $('<div>')
+    $(selection).css({
+      'border': '1px solid #00d6b2',
+      'position': 'absolute'
+    })
+
+    // set initial position and size
+    var columnValues = getNearestColumn(el, e.pageX)
+    var selectionTop = columnValues.absoluteY
+    var selectionLeft = columnValues.absoluteX
+    $(selection).css({
+      'top': selectionTop,
+      'left': selectionLeft,
+      'width': e.pageX - columnValues.absoluteX,
+      'height': e.pageY - columnValues.absoluteY
+    })
+    // attach to dom
+    $(selection).appendTo('body')
+
+    var selectionData = {
+      el:el,
+      selection:selection,
+      startX: selectionLeft,
+      startY: selectionTop,
+      startNumber: columnValues.number
+    }
+    $('html').on('mousemove',selectionData,columnMousemoveHandler)
+    $('html').on('mouseup',selectionData,columnMouseupHandler)
+
+  }
+
+  // as the mouse moves, resize selection, snapping to columns
+  var columnMousemoveHandler = function(e) {
+
+    e.preventDefault()
+    var el = e.data.el
+    var selection = e.data.selection
+
+    var columnValues = getNearestColumn(el, e.pageX)
+    // width snaps to columns
+    var selectionWidth = columnValues.absoluteX - e.data.startX
+    // height follows mouse, as we don't specify height anywhere
+    var selectionHeight = e.pageY - e.data.startY
+    $(selection).css({
+      'width': selectionWidth,
+      'height': selectionHeight
+    })
+
+  }
+
+  // when the mouse comes up, capture the size of the column and insert
+  var columnMouseupHandler = function(e) {
+
+    e.preventDefault()
+    var el = e.data.el
+    var selection = e.data.selection
+
+    endInProgress();
+
+    var columnValues = getNearestColumn(el, e.pageX)
+    var size = Math.abs(columnValues.number - e.data.startNumber)
+
+    if (size == 0) return;
+
+    // create column
+    var column = $('<div>')
+    column.addClass('columns')
+    column.addClass('large-'+size)
+    column.appendTo(el)
+
+    // give it a makomi-id
+    column.attr('makomi-id','c'+shortid.generate())
+
+    // send this change back to the server to save to disk
+    /*
+    serializeDom(column,function(dom) {
       socket.emit('controller-action-in',{
         controller: 'editor',
         action: 'domModified',
-        'target-makomi-id': $(insertTarget).attr('makomi-id'),
-        'dom-action': 'insert-' + insertMethod,
+        'target-makomi-id': $(el).attr('makomi-id'),
+        'dom-action': 'insert-append',
         'content': dom
       })
     })
-    endInProgress();
-  }
-  $('html').on('click',rowClickHandler)
+    */
 
-  unbinders.push(function() {
-    $('html').off('click',rowClickHandler)
+    // switch back to select
+    applyToolHandlers('select')
+  }
+
+  $('html').on('mouseover',columnMouseoverHandler)
+  $('html').on('mousedown',columnMousedownHandler)
+  inProgress.push(function() {
+    $('html').off('mouseover',columnMouseoverHandler)
+    $('html').off('mousedown',columnMousedownHandler)
+    $('html').off('mousemove',columnMousemoveHandler)
+    $('html').off('mouseup',columnMouseupHandler)
   })
-  */
 
 }
 
@@ -823,6 +938,7 @@ var insertionPointProxy = function(cb) {
   $('html').on('mousemove',ippMousemoveHandler)
 
   unbinders.push(function() {
+    $(insertProxy).detach();
     $('html').off('mouseover',ippMouseoverHandler)
     $('html').off('mouseout',ippMouseoutHandler)
     $('html').off('mousemove',ippMousemoveHandler)
@@ -837,7 +953,7 @@ var insertionPointProxy = function(cb) {
  */
 var applyDropMask = function() {
   $('div').css('min-width','100px')
-  $('div').css('min-height','10px')
+  $('div').css('min-height','40px')
   $('div').css('border','1px solid #ccc')
   $('div.row').css('background-color','#afa')
 
@@ -847,13 +963,6 @@ var applyDropMask = function() {
     $('div').css('border','')
     $('div.row').css('background-color','')
   }
-}
-
-/**
- * Draws a grid outlining where insertion snap points are.
- */
-var applyColumnGrid = function() {
-
 }
 
 jQuery.fn.outerHTML = function(s) {
