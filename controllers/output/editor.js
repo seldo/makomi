@@ -70,39 +70,20 @@ module.exports = function (req, res) {
         })
       })
 
-      // parse the HTML, add our tags, and re-output
-      mkSrc.parse(response.body,function(er,dom) {
+      var modifiedBody = response.body.replace(
+        '</head>',
+        '<link rel="stylesheet" href="/output/editorcss"/></head>'
+      )
 
-        console.log(util.inspect(dom,{depth:null}))
-        var htmlTag = findTagByName(dom,'html')
-        if (htmlTag) {
-          var headTag = findTagByName(htmlTag.children,'head')
-          if (headTag) {
-            headTag.children.push({
-              'type': 'tag',
-              'name': 'link',
-              'raw': '/', // means "self-closing"
-              'attribs': {
-                'rel': 'stylesheet',
-                'href': '/output/editorcss'
-              }
-            })
-          }
-          var bodyTag = findTagByName(htmlTag.children,'body')
-        }
+      modifiedBody = modifiedBody.replace(
+        '</body>',
+        '<script src="/socket.io/socket.io.js"></script>' +
+        '<script src="/socket.io/socket.io-sessions.js"></script>' +
+        '<script src="/js/editor.js"></script>' +
+        '</body>'
+      );
 
-        mkSrc.toHtml(dom,function(er,modifiedBody) {
-          res.send(modifiedBody)
-        })
-        /*
-        var modifiedBody = response.body +
-          '<script src="/socket.io/socket.io.js"></script>' +
-          '<script src="/socket.io/socket.io-sessions.js"></script>' +
-          '<script src="/js/editor.js"></script>';
-        */
-
-
-      })
+      res.send(modifiedBody)
 
     }
   )
