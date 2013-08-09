@@ -1,4 +1,5 @@
 var mkRun = require('makomi-express-runtime'),
+  mkSrc = require('makomi-source-util'),
   fs = require('fs-extra'),
   util = require('util'),
   core = require('../../core.js');
@@ -42,16 +43,11 @@ module.exports = function (req, res) {
   var scratchDir = req.session['scratchDir']
   var appLocation = req.session['applocation']
 
-  console.log("Rendering route " + route + " method " + method + " data " + data);
-
-  // chrome caches this shit and that's annoying
-  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-  res.header("Pragma", "no-cache");
-  res.header("Expires", 0);
+  console.log("Editor: rendering route " + route + " method " + method + " data " + data);
 
   // call the rendering engine's render method
   // insert the editor JS into the output
-  var rendered = renderer.render(
+  var rendered = renderer.render(res,
     sourceDir,
     appLocation,
     route,
@@ -60,28 +56,67 @@ module.exports = function (req, res) {
     data,
     function (response) {
 
-      // give the controller to the app
+      // send headers and prevent caching
+      res.status(response.statusCode)
+      res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.header("Pragma", "no-cache");
+      res.header("Expires", 0);
+      res.header('Content-type',response.headers['Content-type'])
+
+      // tell the client the controller is ready
       socketServer.on('sconnection', function (client,session) {
-        console.log("Controller sent")
         socketServer.sockets.emit('controller-ready', {
           controller: response.controller
         })
       })
 
-      // TODO: send status code and headers correctly too
-      // response.statusCode, 200
-      // response.headers['content-type'], "text/html"
+      // parse the HTML, add our tags, and re-output
+      mkSrc.parse(response.body,function(er,dom) {
 
-      // TODO: we should probably parse this and insert it
-      // rather than generating crappy HTML.
-      var modifiedBody = response.body +
-        '<script src="/socket.io/socket.io.js"></script>' +
-        '<script src="/socket.io/socket.io-sessions.js"></script>' +
-        '<script src="/js/editor.js"></script>';
+        console.log(util.inspect(dom,{depth:null}))
+        var htmlTag = findTagByName(dom,'html')
+        if (htmlTag) {
+          var headTag = findTagByName(htmlTag.children,'head')
+          if (headTag) {
+            headTag.children.push({
+              'type': 'tag',
+              'name': 'link',
+              'raw': '/', // means "self-closing"
+              'attribs': {
+                'rel': 'stylesheet',
+                'href': '/output/editorcss'
+              }
+            })
+          }
+          var bodyTag = findTagByName(htmlTag.children,'body')
+        }
 
-      res.send(modifiedBody)
+        mkSrc.toHtml(dom,function(er,modifiedBody) {
+          res.send(modifiedBody)
+        })
+        /*
+        var modifiedBody = response.body +
+          '<script src="/socket.io/socket.io.js"></script>' +
+          '<script src="/socket.io/socket.io-sessions.js"></script>' +
+          '<script src="/js/editor.js"></script>';
+        */
+
+
+      })
 
     }
   )
+
+  var findTagByName = function(dom,name) {
+    var tagToFind = false;
+    dom.every(function(element,index) {
+      if (element.type == 'tag' && element.name == name) {
+        tagToFind = element
+        return false;
+      }
+      return true;
+    })
+    return tagToFind;
+  }
 
 };
