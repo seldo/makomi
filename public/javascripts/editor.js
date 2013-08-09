@@ -19,6 +19,13 @@ socket.on('controller-action-out',function(data) {
     case "routeSelected":
       changeRoute(data)
       break;
+    case "keyPressed":
+      if (data.pressType == 'down') {
+        globalKeydownHandler(data)
+      } else {
+        globalKeyupHandler(data)
+      }
+      break;
     default:
       // nothing
   }
@@ -87,18 +94,16 @@ toolHandlers['select'] = function() {
   $('html').css('cursor','default')
 
   // highlight elements as we go over them
-  var oldBg;
   var hoverHandler = function(e) {
     // ignore whatever else was gonna happen
     e.preventDefault();
     // capture the previous bg color and apply our own
-    oldBg = $(e.target).css('background-color');
-    $(e.target).css('background-color','#eeffff');
+    $(e.target).addClass('hovered')
 
     // when they mouse out again, restore the previous background color
     var outHandler = function(e2) {
       // remove the highlight
-      $(e.target).css('background-color',oldBg)
+      $(e.target).removeClass('hovered')
       // and stop listening
       $(this).off(e2)
     }
@@ -177,11 +182,7 @@ toolHandlers['select'] = function() {
   }
 
   var insertProxy = $('<div>');
-  insertProxy.css('width','100px')
-  insertProxy.css('height','4px')
-  insertProxy.css('border-radius','4px')
-  insertProxy.css('background-color','#9f9')
-  insertProxy.css('position','absolute')
+  insertProxy.addClass('insertProxy')
   var selectedDragEnterHandler = function(e) {
     // target is the thing I have dragged over
     var el = e.target
@@ -218,8 +219,8 @@ toolHandlers['select'] = function() {
     endInProgress();
     $(el).removeAttr('contentEditable')
     $(el).removeAttr('draggable')
-    $(el).css('border','')
-    $(el).css('background-color','')
+    $(el).removeClass('selected')
+    $(el).removeClass('hovered')
     $(el).css('cursor','')
 
     // emit a message so the other app knows what we did
@@ -319,8 +320,8 @@ toolHandlers['select'] = function() {
         endInProgress();
         $(el).removeAttr('contentEditable')
         $(el).removeAttr('draggable')
-        $(el).css('border','')
-        $(el).css('background-color','')
+        $(el).removeClass('selected')
+        $(el).removeClass('hovered')
         $(el).css('cursor','')
 
         serializeDom(el,function(dom) {
@@ -379,7 +380,6 @@ toolHandlers['select'] = function() {
   var clickHandler = function(e) {
     e.preventDefault();
     var el = e.target
-    var oldBorder;
     var lastSelected = null
 
     // if it's already selected, don't do anything new
@@ -390,8 +390,7 @@ toolHandlers['select'] = function() {
     endInProgress();
 
     // change border of selected element, and tell it how to revert later
-    oldBorder = $(el).css('border');
-    $(el).css('border','1px solid #00f');
+    $(el).addClass('selected')
 
     // listen for the delete key
     $('html').on('keyup',{"el": el},selectedDeleteHandler)
@@ -418,8 +417,8 @@ toolHandlers['select'] = function() {
 
     // explain how to undo all of this stuff
     inProgress.push(function() {
-      $(el).css('border',oldBorder)
-      $(el).css('background-color',oldBg)
+      $(el).removeClass('selected')
+      $(el).removeClass('hovered')
       $('html').off('keyup',selectedDeleteHandler)
       $('html').off('mousemove',selectedMouseMoveHandler)
       $(el).off('dragstart',selectedDragStartHandler)
@@ -519,49 +518,40 @@ toolHandlers['tag'] = function(tag) {
   // cursor is crosshair
   $('html').css('cursor','crosshair')
 
-  // lightly highlight potential insertion points as we hover
-  var lastHovered = null
-  var hoverHandler = function(e) {
-    var el = e.target
-    var lastBackground = $(el).css('background-color')
-    $(el).css('background-color','#dee')
-    lastHovered = el
-    var outHandler = function(e2) {
-      $(lastHovered).css('background-color',lastBackground)
-      $(this).off(e2)
-    }
-    $(el).on('mouseout',outHandler)
-  }
-  $('html').on('mouseover',hoverHandler)
-  unbinders.push(function() {
-    $('html').off('mouseover',hoverHandler)
+  // our insertion proxy will tell us where to put things if we get a click
+  var insertTarget;
+  var insertMethod;
+  insertionPointProxy(function(target,method) {
+    insertTarget = target
+    insertMethod = method
   })
+  // apply dropmask, and give the undo function to inProgress
+  inProgress.push(applyDropMask())
 
   // credit to http://stackoverflow.com/questions/8884803/jquery-drag-and-draw
   var container = $('html');
   var selection = $('<'+tag+'>')
   selection.css('border','1px solid #00d6b2');
-  var insertTarget = null;
 
   var mouseDownHandler = function(e) {
 
-    // prevent other drag events, and stop highlighting stuff
+    // prevent other drag events
     e.preventDefault();
-    $('html').off('mouseover',hoverHandler);
-
-    insertTarget = e.target;
 
     selection.css({
       'width':  0,
       'height': 0
     });
-    selection.insertBefore(insertTarget);
-
-    console.log("to be inserted before ")
+    if (insertMethod == 'before') {
+      console.log("inserting selection before ")
+      selection.insertBefore(insertTarget);
+    } else {
+      console.log("appending selection to ")
+      selection.appendTo(insertTarget);
+    }
     console.log(insertTarget)
 
     var selectionOffsets = $(selection).offset()
-    console.log(selectionOffsets)
     var mouseMoveHandler = function(e) {
       var width = e.pageX - selectionOffsets.left,
         height = e.pageY - selectionOffsets.top;
@@ -581,14 +571,19 @@ toolHandlers['tag'] = function(tag) {
       insertEl.css('width',selection.css('width'))
       insertEl.css('height',selection.css('height'))
       insertEl.html('New Element')
-      insertEl.insertBefore(insertTarget);
+      if (insertMethod == 'before') {
+        insertEl.insertBefore(insertTarget);
+      } else {
+        insertEl.appendTo(insertTarget)
+      }
+
       // send it to the server to insert into the DOM
       serializeDom(insertEl,function(dom) {
         socket.emit('controller-action-in',{
           controller: 'editor',
           action: 'domModified',
           'target-makomi-id': $(insertTarget).attr('makomi-id'),
-          'dom-action': 'insert-before',
+          'dom-action': 'insert-' + insertMethod,
           'content': dom
         })
       })
@@ -883,12 +878,7 @@ toolHandlers['layout-column'] = function() {
 var insertionPointProxy = function(cb) {
 
   var insertProxy = $('<div>');
-  insertProxy.css('width','100px')
-  insertProxy.css('height','4px')
-  insertProxy.css('border','1px solid black')
-  insertProxy.css('border-radius','4px')
-  insertProxy.css('background-color','#9f9')
-  insertProxy.css('position','absolute')
+  insertProxy.addClass('insertProxy')
 
   var ippMouseoverHandler = function(e) {
     var el = e.target
@@ -952,17 +942,13 @@ var insertionPointProxy = function(cb) {
  * Returns its undo function to be applied at will.
  */
 var applyDropMask = function() {
-  $('div').css('min-width','100px')
-  $('div').css('min-height','40px')
-  $('div').css('border','1px solid #ccc')
-  $('div.row').css('background-color','#afa')
-
-  return function() {
-    $('div').css('min-width','')
-    $('div').css('min-height','')
-    $('div').css('border','')
-    $('div.row').css('background-color','')
-  }
+  $('div').addClass('dropmask')
+  $('div.row').addClass('dropmask')
+  return removeDropMask;
+}
+var removeDropMask = function() {
+  $('div').removeClass('dropmask')
+  $('div.row').removeClass('dropmask')
 }
 
 jQuery.fn.outerHTML = function(s) {
@@ -979,15 +965,24 @@ var serializeDom = function(element,cb) {
   parser.parseComplete($(element).outerHTML());
 }
 
-// the escape key will end the current tool and switch back to select
-// if you're in select already, it will also end any editing event
-$('html').keyup(function(e) {
-  if (e.keyCode == 27) { // esc
-    console.log("Keyup called from editor")
-    endInProgress();
+var globalKeydownHandler = function(e) {
+  // alt at any time applies the dropmask
+  if (e.altKey) {
+    if (e.preventDefault) e.preventDefault(); // remote keypresses don't have this
+    inProgress.push(applyDropMask())
+  }
+}
+var globalKeyupHandler = function(e) {
+  // the escape key will end the current tool and switch back to select
+  // if you're in select already, it will also end any editing event
+  if(e.keyCode == 27) { // esc
     applyToolHandlers('select')
   }
-});
+  // if the dropmask was applied, we remove it on... any keyup? Weird.
+  removeDropMask();
+}
+$('html').on('keydown',globalKeydownHandler)
+$('html').on('keyup',globalKeyupHandler);
 
 // select is the default tool
 applyToolHandlers('select')

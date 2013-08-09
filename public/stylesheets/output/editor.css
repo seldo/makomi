@@ -1,3 +1,30 @@
-body {
-  color: red;
+/* dropmask */
+div.dropmask {
+  min-height: 50px;
+  min-width: 200px;
+  border: 1px solid #ccc;
+}
+div.row.dropmask {
+  background-color: #afa;
+  opacity: 0.5;
+}
+
+/* select tool */
+.hovered, div.row.dropmask.hovered {
+  background-color: #eeffff
+}
+.selected {
+  border: 1px solid #00f
+}
+
+/* tag tool */
+
+/* insertion proxy */
+.insertProxy {
+  width: 100px;
+  height: 4px;
+  border: 1px solid black;
+  border-radius: 4px;
+  background-color: #9f9;
+  position: absolute;
 }

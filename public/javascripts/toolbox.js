@@ -30,13 +30,40 @@ var selectTool = function(toolName) {
   })
 }
 
-// start with select tool
-selectTool('select');
-
-// the escape key will end the current tool and switch back to select
-$('html').keyup(function(e) {
-  if (e.keyCode == 27) { // esc
-    console.log("Keyup called from toolbox")
+/**
+ * Listen for keyboard events. Mostly only the editor cares about these,
+ * but key focus can be on any frame so we have to transmit them.
+ * @param e
+ */
+var globalKeydownHandler = function(e) {
+  socket.emit('controller-action-in',{
+    "controller": "editor",
+    "action": "keyPressed",
+    "pressType": "down",
+    "keyCode": e.keyCode,
+    "ctrlKey": e.ctrlKey,
+    "shiftKey": e.shiftKey,
+    "altKey": e.altKey
+  })
+}
+var globalKeyupHandler = function(e) {
+  // the escape key will end the current tool and switch back to select
+  if (e.keyCode == 27) {
     selectTool('select')
   }
-});
+  // tell the editor what happened
+  socket.emit('controller-action-in',{
+    "controller": "editor",
+    "action": "keyPressed",
+    "pressType": "up",
+    "keyCode": e.keyCode,
+    "ctrlKey": e.ctrlKey,
+    "shiftKey": e.shiftKey,
+    "altKey": e.altKey
+  })
+}
+$('html').on('keydown',globalKeydownHandler)
+$('html').on('keyup',globalKeyupHandler)
+
+// start with select tool
+selectTool('select');
