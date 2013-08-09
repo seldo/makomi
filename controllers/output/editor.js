@@ -47,7 +47,7 @@ module.exports = function (req, res) {
 
   // call the rendering engine's render method
   // insert the editor JS into the output
-  var rendered = renderer.render(res,
+  var rendered = renderer.render(
     sourceDir,
     appLocation,
     route,
