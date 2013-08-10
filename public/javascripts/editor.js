@@ -521,10 +521,12 @@ toolHandlers['tag'] = function(tag) {
   // our insertion proxy will tell us where to put things if we get a click
   var insertTarget;
   var insertMethod;
-  insertionPointProxy(function(target,method) {
-    insertTarget = target
-    insertMethod = method
-  })
+  var insertionUnbinder = insertionPointProxy(
+    function(target,method) {
+      insertTarget = target
+      insertMethod = method
+    }
+  )
   // apply dropmask, and give the undo function to inProgress
   inProgress.push(applyDropMask())
 
@@ -533,6 +535,7 @@ toolHandlers['tag'] = function(tag) {
   var selection = $('<'+tag+'>')
   selection.css('border','1px solid #00d6b2');
 
+  var finalInsertTarget;
   var mouseDownHandler = function(e) {
 
     // prevent other drag events
@@ -542,6 +545,8 @@ toolHandlers['tag'] = function(tag) {
       'width':  0,
       'height': 0
     });
+    // stop capturing the insertion point, we know what it is
+    insertionUnbinder();
     if (insertMethod == 'before') {
       console.log("inserting selection before ")
       selection.insertBefore(insertTarget);
@@ -563,7 +568,6 @@ toolHandlers['tag'] = function(tag) {
 
     }
     var mouseUpHandler = function(e) {
-      console.log("select was " + selection.css('width') + " by " + selection.css('height'))
       var insertEl = $('<'+tag+'>')
       // give it a makomi-id
       insertEl.attr('makomi-id','c'+shortid.generate()) // prefix to avoid collisions between client and server
@@ -598,7 +602,6 @@ toolHandlers['tag'] = function(tag) {
       // stop listening to mousemove, resume highlighting
       container.off('mousemove',mouseMoveHandler);
       container.off('mouseup',mouseUpHandler);
-      $('html').on('mouseover',hoverHandler);
       selection.remove();
     })
 
@@ -606,7 +609,6 @@ toolHandlers['tag'] = function(tag) {
   $('html').on('mousedown',mouseDownHandler)
 
   unbinders.push(function() {
-    $('html').off('mouseover',hoverHandler)
     $('html').off('mousedown',mouseDownHandler)
   })
 
@@ -927,12 +929,14 @@ var insertionPointProxy = function(cb) {
   $('html').on('mouseout',ippMouseoutHandler)
   $('html').on('mousemove',ippMousemoveHandler)
 
-  unbinders.push(function() {
+  var unbind = function() {
     $(insertProxy).detach();
     $('html').off('mouseover',ippMouseoverHandler)
     $('html').off('mouseout',ippMouseoutHandler)
     $('html').off('mousemove',ippMousemoveHandler)
-  })
+  }
+  unbinders.push(unbind)
+  return unbind;
 
 }
 

@@ -14,7 +14,7 @@ module.exports = function(session,data) {
   var domTree = mkSrc.getTree(idMap,fileMap,mkId);
   var writePath = session['sourceDir'] + 'views' + mkSrc.getSrc(idMap,mkId)
 
-  console.log("Removing element " + mkId + " which is a " + data.tagName)
+  console.log("Removing element " + mkId)
 
   mkSrc.remove(domTree,mkId,function(newDom) {
     var domCopy = core.deepClone(newDom) // otherwise it strips stuff!
