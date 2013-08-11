@@ -844,7 +844,6 @@ toolHandlers['layout-column'] = function() {
     column.attr('makomi-id','c'+shortid.generate())
 
     // send this change back to the server to save to disk
-    /*
     serializeDom(column,function(dom) {
       socket.emit('controller-action-in',{
         controller: 'editor',
@@ -854,7 +853,6 @@ toolHandlers['layout-column'] = function() {
         'content': dom
       })
     })
-    */
 
     // switch back to select
     applyToolHandlers('select')
