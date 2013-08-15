@@ -1,0 +1,13 @@
+<h2>Connections</h2>
+<ul id="connections">
+  {{#key_value adapters}}
+  <li>
+    <a href="putfallbackhere" data-route="{{key}}">{{key}}</a>
+  </li>
+  {{/key_value}}
+</ul>
+<button id="create-connection">Create new connection</button>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io-sessions.js"></script>
+<script src="/javascripts/jquery-1.10.1.min.js"></script>
+<script src="/javascripts/datasources.js"></script>

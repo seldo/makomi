@@ -9,6 +9,7 @@ module.exports = function(app){
   app.get('/:project/context', context.index);
   app.get('/:project/context/routes', context.routes);
   app.get('/:project/context/dom', context.dom);
+  app.get('/:project/context/datasources', context.datasources);
   app.get('/:project/output',  output.editor);
   app.get('/output/editorcss',  output.editorcss);
   app.get('/:project/toolbox', toolbox.base);

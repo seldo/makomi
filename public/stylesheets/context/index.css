@@ -26,6 +26,6 @@ iframe.tab-frame {
   top: 50px;
   left: 0px;
 }
-#frame-routes {
+#frame-routes, #frame-datasources {
   visibility: hidden;
 }
