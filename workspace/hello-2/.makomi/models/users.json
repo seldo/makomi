@@ -1,0 +1,38 @@
+{
+  "description": "Users",
+  "connections": {
+    "userdb": {
+      "adapter": "postgresql",
+      "config": {
+        "host": "_CONFIG:postgres.host",
+        "username": "_CONFIG:postgres.user",
+        "password": "_CONFIG:postgres.pass",
+        "port": "5432"
+      }
+    },
+    "userstats": {
+      "adapter": "mongodb",
+      "config": {
+        "host": "_CONFIG:mongo.host"
+      }
+    }
+  },
+  "queries": {
+    "list all users": {
+      "connection": "userdb",
+      "type": "read",
+      "query": "select * from users limit :pagesize,:offset",
+      "params": {
+        ":pagesize": {
+          "validation": "page_size"
+        },
+        ":offset": {
+          "validation": "offset"
+        }
+      }
+    },
+    "create user": {
+      "connection": "userdb"
+    }
+  }
+}

@@ -1,16 +1,26 @@
 {
   "description": "User list",
-  "models": {},
+  "queries": [
+    {
+      "query": "users/list",
+      "params": {
+        "page": ":page | 1"
+      }
+    }
+  ],
   "layout": {
     "source": "layout",
     "context": {
-      "title": "(Fake) List of users"
+      "title": "List of users"
     },
     "templates": {
       "col2": {
         "source": "users/list",
         "context": {
-          "users": []
+          "users": {
+            "type": "query",
+            "value": "users/list"
+          }
         }
       }
     }
