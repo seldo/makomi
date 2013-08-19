@@ -1,11 +1,12 @@
 {
   "description": "Users",
   "connection": {
-    "adapter": "postgresql",
+    "adapter": "mysql",
     "config": {
-      "host": "_CONFIG:postgres.host",
-      "username": "_CONFIG:postgres.user",
-      "password": "_CONFIG:postgres.pass",
+      "host": "_CONFIG:mysql.host",
+      "username": "_CONFIG:mysql.user",
+      "password": "_CONFIG:mysql.pass",
+      "dbname": "_CONFIG:mysql.dbname",
       "port": "5432"
     }
   },
