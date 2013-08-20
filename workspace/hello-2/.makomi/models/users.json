@@ -1,15 +1,6 @@
 {
   "description": "Users",
-  "connection": {
-    "adapter": "mysql",
-    "config": {
-      "host": "_CONFIG:mysql.host",
-      "username": "_CONFIG:mysql.user",
-      "password": "_CONFIG:mysql.pass",
-      "dbname": "_CONFIG:mysql.dbname",
-      "port": "5432"
-    }
-  },
+  "datasource": "maindb",
   "queries": {
     "get user by id": {
       "type": "read",

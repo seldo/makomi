@@ -1,0 +1,26 @@
+{
+  "description": "Most of our data",
+  "adapter": "makomi-adapter-mysql",
+  "params": {
+    "host": {
+      "type": "configdata",
+      "source": "mysql.host"
+    },
+    "username": {
+      "type": "configdata",
+      "source": "mysql.user"
+    },
+    "password": {
+      "type": "configdata",
+      "source": "mysql.pass"
+    },
+    "dbname": {
+      "type": "configdata",
+      "source": "mysql.dbname"
+    },
+    "port": {
+      "type": "string",
+      "value": "3306"
+    }
+  }
+}
