@@ -10,8 +10,8 @@ var MC = require('emcee'),
 module.exports = function(req, res) {
 
   var m = new MC();
-  m.load('makomi-routes', req, appConfig)
-  m.load('sessions', req, appConfig)
+  m.load('makomi-routes', req)
+  m.load('sessions', req)
   m.end(function(er,models) {
 
     var layout = {

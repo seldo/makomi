@@ -10,6 +10,7 @@ var express = require('express'),
   path = require('path'),
   Cookies = require('cookies'),
   mkEx = require('makomi-express-runtime'),
+  mkSrc = require('makomi-source-util'),
   MemoryStore = require('connect/lib/middleware/session/memory'),
   browserify = require('browserify-middleware'),
   refrouter = require('referrer-router');
@@ -29,7 +30,6 @@ app.use(express.methodOverride());
 var appConfigFile = process.env.MAKOMICONF || '/etc/makomi/makomi.conf'
 // these are app-wide, read-only data structures
 // TODO: is it rational to want to wrap these in something? Is that not node-y?
-appConfig = {}
 sourceDir = null
 scratchDir = null
 socketServer = null
@@ -38,9 +38,9 @@ generating = false
 fileMap = null
 idMap = null
 
-mkEx.util.loadConfig(appConfigFile,function(config) {
-
-  appConfig = config;
+mkSrc.config.setConfigFileLocation(appConfigFile)
+mkSrc.config.setEnv('makomi')
+mkSrc.config.loadConfig(function(config) {
 
   app.use(express.cookieParser());
 
@@ -50,7 +50,7 @@ mkEx.util.loadConfig(appConfigFile,function(config) {
   // FIXME: is this actually sufficient to set a secret?
   // Does it also need to be passed to the cookieParser?
   app.use(express.session({
-    secret: appConfig.sessions.secret,
+    secret: mkSrc.config.getSync('sessions.secret'),
     store: sessionStore
   }));
 

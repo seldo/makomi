@@ -19,7 +19,7 @@ module.exports = function(req, res) {
   var params = req.query.params;
 
   var m = new MC();
-  m.load('sessions', req, appConfig)
+  m.load('sessions', req)
   m.end(function(er,models) {
 
     // if the app's not generated yet, wait until it is

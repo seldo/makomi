@@ -11,7 +11,7 @@ var MC = require('emcee'),
 module.exports = function(req, res) {
 
   var m = new MC();
-  m.load('sessions', req, appConfig)
+  m.load('sessions', req)
   m.end(function(er,models) {
 
     var layout = {

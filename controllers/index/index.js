@@ -1,4 +1,4 @@
-var mkUtil = require('makomi-source-util'),
+var mkSrc = require('makomi-source-util'),
   fs = require('fs-extra'),
   core = require('./../../core.js');
 
@@ -8,12 +8,12 @@ var mkUtil = require('makomi-source-util'),
 module.exports = function (req, res) {
 
   var project = req.params.project
-  sourceDir = appConfig.workspace+project+'/.makomi/';
-  scratchDir = appConfig.scratchpad + project + '/'
+  sourceDir = mkSrc.config.getSync('workspace') + project + '/.makomi/';
+  scratchDir = mkSrc.config.getSync('scratchpad') + project + '/'
 
   // load app definition, make it available to the rest of the app before rendering UI
   console.log("From controller/index: sourceDir sent as " + sourceDir)
-  mkUtil.loadDefinition(sourceDir,function(appDefinition) {
+  mkSrc.loadDefinition(sourceDir,function(appDefinition) {
     // give it to everybody else
     req.session['definition'] = appDefinition
     req.session['project'] = project
