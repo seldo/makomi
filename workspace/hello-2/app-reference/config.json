@@ -1,0 +1,17 @@
+{
+  "production": {
+
+  },
+  "makomi": {
+    "sessions": {
+      "key": "sess",
+      "secret": "not so secret"
+    },
+    "mysql": {
+      "host": "makomi-host.local",
+      "user": "hello2",
+      "pass": "dev",
+      "dbname": "hello2"
+    }
+  }
+}

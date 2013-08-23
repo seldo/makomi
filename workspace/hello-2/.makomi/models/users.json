@@ -16,19 +16,21 @@
       "query": "select * from users limit :pagesize,:offset",
       "params": {
         ":pagesize": {
+          "source": "req.query",
           "default": "10",
           "validation": "page_size"
         },
         ":pagenumber": {
+          "source": "req.query",
           "default": "1",
           "validation": "page_number"
         },
         ":offset": {
           "generate": {
-            "generator": "_ADAPTER:generate_page_offset",
+            "source": "_ADAPTER:generate_page_offset",
             "params": {
-              "pagenumber": ":pagenumber",
-              "pagesize": ":pagesize"
+              "pagenumber": "req.query.pagenumber",
+              "pagesize": "req.query.pagesize"
             }
           }
         }

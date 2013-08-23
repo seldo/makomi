@@ -58,7 +58,7 @@ mkSrc.config.loadConfig(function(config) {
   }
 
   // set up persistent connections to datasources, if required
-  mkEx.datasources.load(function() {
+  mkEx.datasources.load(function(datasources) {
 
     // start the server
     var server = http.createServer(app).listen(app.get('port'), function(){
