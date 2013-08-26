@@ -39,14 +39,13 @@ exports.queries['list all users'] = function(req,cb) {
     ":pagesize": req.params.pagesize || 10, // TODO: validation
     ":pagenumber": req.params.pagenumber || 1, // TODO: validation
     ":offset": adapter.generate
-
   }
 
   adapter.begin(function(transaction) {
 
     transaction.query(
       "select * from users limit :pagesize,:offset",
-      translatedParams
+      params
     )
 
   })
